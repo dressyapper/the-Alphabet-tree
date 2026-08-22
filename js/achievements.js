@@ -335,7 +335,7 @@ addLayer("Ach", {
             },
             tooltip: "Realise that Upgrade 33 on C makes C grow exponentially and try to beat the game using this<br>or just get to the cap in general."
         },
-        42: {
+        43: {
             name: "nuh uh",
             done() {
                 return player.D.nuhuh == true
