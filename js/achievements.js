@@ -265,7 +265,7 @@ addLayer("Ach", {
             },
             tooltip() {
                 if (hasAchievement(this.layer, this.id)) {
-                    let desc = "Buy an ampersand upgrade in Creatorless challenge"
+                    let desc = "Buy an ampersand upgrade in Creatorless challenge... or just enter creatorless challenge with it"
                     let effectdesc = "Add 1 ampersand to A reset... what"
                     return desc+"<br>Reward: "+effectdesc+"<br>Currently: +"+new Decimal(1)
                 }

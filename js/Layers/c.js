@@ -36,7 +36,7 @@ addLayer("C", {
     branches: ["B", "C"],
     row: 2, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
-        {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "c", description: "C: Reset for C", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){
         if (player.B.points.gte(5e8)) {
@@ -334,7 +334,7 @@ addLayer("C", {
         14: {
             name: "Creatorless Challenge",
             challengeDescription() { 
-                let x = "Remember all that automation we gave you? Yeah well we're taking it away now. <br> You dont generate A or B and & no longer works"
+                let x = "Remember all that automation we gave you? Yeah well we're taking it away now. <br> You dont generate A or B and & no longer works (you can still use keybinds)"
                 return x
             },
             goalDescription() {
