@@ -204,7 +204,7 @@ addLayer("Ach", {
             }
         },
         25: {
-            name: "'&&&&&&' * 1e5",
+            name: "'&' * 1e6",
             done() {
                 return player["&"].points.gte(1e6)
             },
@@ -296,7 +296,7 @@ addLayer("Ach", {
                     return desc+"<br>Reward: "+effectdesc
                 }
                 else {
-                    let desc = "Buy the first two rows of & upgrades"
+                    let desc = "Buy two & upgrades"
                     return desc
                 }
             },
