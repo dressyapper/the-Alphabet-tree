@@ -240,7 +240,7 @@ addLayer("C", {
         11: {
             name: "Chopped Point Count",
             challengeDescription() { 
-                let x = "LP is divided by /"+this.inChallengeEffect()+" and more upgrades"
+                let x = "LP is divided by /"+this.inChallengeEffect()
                 return x
             },
             goalDescription() {
@@ -261,7 +261,7 @@ addLayer("C", {
             currencyDisplayName: "points",
             completionLimit: 1,
             rewardDescription() {
-                let x = "Boost points by "+this.rewardEffect()+"x"
+                let x = "Boost points by "+this.rewardEffect()+"x and more upgrades"
                 return x
             },
             onEnter() {

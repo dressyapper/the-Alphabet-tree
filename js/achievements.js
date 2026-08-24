@@ -204,11 +204,11 @@ addLayer("Ach", {
             }
         },
         25: {
-            name: "Very normal cost jump",
+            name: "'&&&&&&' * 1e5",
             done() {
-                return hasUpgrade("&", 12)
+                return player["&"].gte(1e6)
             },
-            tooltip: "Get the second ampersand upgrade"
+            tooltip: "Get 1e6 &"
         },
         26: {
             name: "C",

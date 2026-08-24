@@ -52,7 +52,7 @@ addLayer("D", {
         return new Decimal(1e6)
     },
     effect() {
-        let effect = player.D.total.add(1)
+        let effect = new Decimal(10).pow(player.D.total)
         if (effect.gte(tmp.D.cap)) {
             return tmp.D.cap
         }
