@@ -99,7 +99,7 @@ addLayer("D", {
             title: "Time",
             canClick() {return true},
             onClick() {
-                if (player.offTime && player.D.mode == "Dawn") {
+                if (player.offTime && player.D.mode != "Dusk") {
                     player.D.nuhuh = true
                 }
                 else {
@@ -115,7 +115,7 @@ addLayer("D", {
                 return "<h3>"+player.D.mode+"<h3>"
             },
             onHold() {
-                if (player.offTime && player.D.mode == "Dawn") {
+                if (player.offTime && player.D.mode != "Dusk") {
                     player.D.nuhuh = true
                 }
                 else {
