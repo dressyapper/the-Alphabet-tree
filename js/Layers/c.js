@@ -256,7 +256,7 @@ addLayer("C", {
                 return new Decimal(1.1).pow(new Decimal(challengeCompletions(this.layer, this.id))).add(1).floor()
             },
             inChallengeEffect() {
-                return new Decimal(4).pow(new Decimal(challengeCompletions(this.layer, this.id)).add(1))
+                return new Decimal(4)
             },
             currencyDisplayName: "points",
             completionLimit: 1,
@@ -318,7 +318,7 @@ addLayer("C", {
                 return new Decimal(16)
             },
             inChallengeEffect() {
-                return new Decimal(1024).pow(new Decimal(challengeCompletions("C", 13)).add(1))
+                return new Decimal(1024)
             },
             currencyDisplayName: "points",
             completionLimit: 1,
