@@ -94,6 +94,7 @@ function getPointGen() {
 	if (inChallenge("C", 15)) gain = gain.pow(0.25)
 	if (hasChallenge("C", 15)) gain = gain.pow(1.1)
 	gain = gain.times(layerEffect("D"))
+	if (hasUpgrade("$", 13)) gain = gain.times(tmp.Ach.pointeff)
 
 
 

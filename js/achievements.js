@@ -6,6 +6,7 @@ addLayer("Ach", {
         unlocked: true,
 		points: new Decimal(0),
     }},
+    resource: "Achievement Points",
     color: "rgb(255, 255, 255)",
     row: "side", // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
@@ -343,9 +344,26 @@ addLayer("Ach", {
             tooltip: "Attempt to turn to dusk while offline generation but fail miserably"
         },
     },
+    pointeff() {
+        let pts = player.Ach.points
+
+        return new Decimal(1).add(pts.div(4))
+    },
     tabFormat: {
         "Achievements": {
             content: [
+                () => {
+                    if (hasUpgrade("$", 13)) {
+                        player.Ach.points = new Decimal(player.Ach.achievements.length)
+                        return "main-display"
+                    }
+                },
+                () => {
+                    if (hasUpgrade("$", 13)) {
+                        let x = () => {return "Which is bosting your points by "+tmp.Ach.pointeff+"x"}
+                        return ["display-text", x()]
+                    }
+                },
                 "achievements",
                 "blank",
             ],
