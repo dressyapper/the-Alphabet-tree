@@ -206,7 +206,7 @@ addLayer("Ach", {
         25: {
             name: "'&&&&&&' * 1e5",
             done() {
-                return player["&"].gte(1e6)
+                return player["&"].points.gte(1e6)
             },
             tooltip: "Get 1e6 &"
         },
