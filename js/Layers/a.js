@@ -522,6 +522,7 @@ addLayer("A", {
                 return player[this.layer].points.gte(this.cost())
             },
             buy() {
+                if (player[this.layer].points.sign == -1) return
                 player[this.layer].points = player[this.layer].points.sub(this.cost())
                 setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
             },

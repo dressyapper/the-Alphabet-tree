@@ -356,6 +356,7 @@ addLayer("B", {
                 return player[this.layer].points.gte(this.cost())
             },
             buy() {
+                if (player[this.layer].points.sign == -1) return
                 if (!hasUpgrade("&", 72)) {
                     player[this.layer].points = player[this.layer].points.sub(this.cost())
                 }
@@ -388,6 +389,7 @@ addLayer("B", {
                 return player[this.layer].points.gte(this.cost())
             },
             buy() {
+                if (player[this.layer].points.sign == -1) return
                 if (!hasUpgrade("&", 72)) {
                     player[this.layer].points = player[this.layer].points.sub(this.cost())
                 }
