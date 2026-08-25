@@ -7,6 +7,7 @@ addLayer("D", {
 		points: new Decimal(0),
         mode: "Nil",
         nuhuh: false,
+        ddunlock: false,
     }},
     color: "rgb(0, 255, 0)",
     requires() {
@@ -30,6 +31,7 @@ addLayer("D", {
         return new Decimal(0)
     },
     onPrestige() {
+        player.D.ddunlock = true
         if (player.D.mode == "Nil") {
             player.D.mode == "Dawn"
         }
@@ -84,7 +86,7 @@ addLayer("D", {
             title: "Dawn and Dusk",
             description: "Unlock something...",
             cost: new Decimal(0),
-            unlocked() {return true},
+            unlocked() {return player.D.ddunlock},
         },
         12: {
             title: "AD",
