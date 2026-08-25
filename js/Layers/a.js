@@ -17,7 +17,7 @@ addLayer("A", {
         return req
     },
     autoUpgrade() {
-        return hasUpgrade("&", 11) && !(inChallenge("C", 14) || inChallenge("C", 15))
+        return hasUpgrade("&", 11)
     },
     ampersandformula() {
         let x = tmp[this.layer].resetGain
