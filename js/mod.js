@@ -196,7 +196,7 @@ onkeydown = (ev) => {
 }
 
 function offtime(bool) {
-	if (hasUpgrade("$", 13) && player.D.auto) {
+	if (hasUpgrade("$", 14) && player.D.auto) {
 		if (bool) {
 			if (player.D.mode != "Dusk") {
 				player.D.mode = "Dusk"

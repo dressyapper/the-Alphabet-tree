@@ -147,6 +147,9 @@ addLayer("D", {
                 }
                 return "<h3>"+x+"<h3>"
             },
+            unlocked() {
+                return hasUpgrade("$", 14)
+            }
             
         },
     },
