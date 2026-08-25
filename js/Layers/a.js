@@ -7,7 +7,7 @@ addLayer("A", {
 		points: new Decimal(0),
     }},
     color: "rgb(255, 0, 0)",
-    milestonePopups: false,
+    milestonePopups: true,
     requires() {
         let req = new Decimal(10)
         if (hasUpgrade("A", 23)) req = req.sub(1)
@@ -17,7 +17,7 @@ addLayer("A", {
         return req
     },
     autoUpgrade() {
-        return hasUpgrade("&", 11)
+        return hasUpgrade("&", 11) && !inChallenge("C", 14)
     },
     ampersandformula() {
         let x = tmp[this.layer].resetGain

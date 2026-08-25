@@ -7,7 +7,7 @@ addLayer("B", {
 		points: new Decimal(0),
     }},
     autoUpgrade() {
-        return hasUpgrade("&", 12)
+        return hasUpgrade("&", 12) && !inChallenge("C", 14)
     },
     color: "rgb(255, 106, 0)",
     milestonePopups: true,
