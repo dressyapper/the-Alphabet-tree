@@ -367,7 +367,7 @@ addLayer("D", {
                 "blank",
             ],
     
-            unlocked() {return true}
+            unlocked() {return hasUpgrade("D", 11)}
         },
     },
 
