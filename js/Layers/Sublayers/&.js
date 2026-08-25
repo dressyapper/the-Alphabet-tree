@@ -52,7 +52,7 @@ addLayer("&", {
         return player[this.layer].shown
     },
     constant() {
-        if (hasUpgrade("&", 71) && player.B.autobuyables && !inChallenge("C", 14)) {
+        if (hasUpgrade("&", 71) && player.auto.bbuyables && !inChallenge("C", 14)) {
             buyBuyable("B", 11)
             buyBuyable("B", 12)
         }   
@@ -87,6 +87,9 @@ addLayer("&", {
             description: "Permanently buy both B buyables constantly",
             cost: new Decimal(1e100),
             unlocked() {return true},
+            onPurchase() {
+                player.auto.bbuyables = true
+            }
         },
         72: {
             title: "B Buyable? More like B requirementable! im sorry.",

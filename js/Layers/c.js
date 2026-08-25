@@ -247,7 +247,7 @@ addLayer("C", {
                 return (true) 
             },
             rewardEffect() {
-                return new Decimal(1.1).pow(new Decimal(challengeCompletions(this.layer, this.id))).add(1).floor()
+                return new Decimal(2)
             },
             inChallengeEffect() {
                 return new Decimal(4)
@@ -296,7 +296,7 @@ addLayer("C", {
         13: {
             name: "Catastrophic Challenge",
             challengeDescription() { 
-                let x = "LP, A & B is divided by /1024 <br> Autoupgrading is disabled in this challenge"
+                let x = "LP, A & B is divided by /1024"
                 return x
             },
             goalDescription() {

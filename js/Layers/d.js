@@ -43,7 +43,7 @@ addLayer("D", {
         {key: "d", description: "D: Reset for D", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){
-        if (player.C.points.gte(500)) {
+        if (player.C.points.gte(500) && hasChallenge("C", 15)) {
             player[this.layer].shown = true
         }
         return player[this.layer].shown

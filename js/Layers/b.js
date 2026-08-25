@@ -5,12 +5,12 @@ addLayer("B", {
     startData() { return {
         unlocked: true,
 		points: new Decimal(0),
-        autobuyables: true,
     }},
     autoUpgrade() {
         return hasUpgrade("&", 12) && !(inChallenge("C", 14) || inChallenge("C", 15))
     },
     color: "rgb(255, 106, 0)",
+    milestonePopups: true,
     requires() {
         let req = new Decimal(1000)
 
@@ -407,10 +407,10 @@ addLayer("B", {
             title: "Autobuy",
             canClick() {return true},
             onClick() {
-                player.B.autobuyables = !player.B.autobuyables
+                player.auto.bbuyables = !player.auto.bbuyables
             },
             display() {
-                if (player.B.autobuyables) {
+                if (player.auto.bbuyables) {
                     return "Enabled"
                 }
                 else {
@@ -420,6 +420,22 @@ addLayer("B", {
             unlocked() {
                 return hasUpgrade("&", 71)
             }
+            
+        },
+        12: {
+            title: "Popups",
+            canClick() {return true},
+            onClick() {
+                tmp.B.milestonePopups = !tmp.B.milestonePopups
+            },
+            display() {
+                if (tmp.B.milestonePopups) {
+                    return "Enabled"
+                }
+                else {
+                    return "Disabled"
+                }
+            },
             
         },
     },
@@ -502,6 +518,7 @@ addLayer("B", {
                 "main-display",
                 "prestige-button",
                 "blank",
+                ["clickable", [12]],
                 "milestones",
                 "blank",
             ],

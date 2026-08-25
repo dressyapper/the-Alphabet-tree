@@ -7,7 +7,7 @@ addLayer("A", {
 		points: new Decimal(0),
     }},
     color: "rgb(255, 0, 0)",
-    milestonePopups: true,
+    milestonePopups: false,
     requires() {
         let req = new Decimal(10)
         if (hasUpgrade("A", 23)) req = req.sub(1)

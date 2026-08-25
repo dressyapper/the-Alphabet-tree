@@ -118,6 +118,14 @@ function getPointGen() {
 function addedPlayerData() { return {
 	paused: false,
 	currentChallenge: false,
+
+	hidemilestones: {
+		a: false,
+		b: false,
+	},
+	auto: {
+		bbuyables: false,
+	}
 }}
 
 // Display extra things at the top of the page
