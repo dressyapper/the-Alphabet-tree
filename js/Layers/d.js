@@ -54,6 +54,7 @@ addLayer("D", {
     effect() {
         let effect = new Decimal(10).pow(player.D.total)
         if (effect.gte(tmp.D.cap)) {
+            effect.div()
             return tmp.D.cap
         }
         else {
@@ -91,6 +92,12 @@ addLayer("D", {
             cost: new Decimal(10),
             unlocked() {return true},
         },
+        13: {
+            title: "BD",
+            description: "Add effects relating to B in Daytime",
+            cost: new Decimal(100),
+            unlocked() {return true},
+        },
 
     },
     
@@ -122,6 +129,24 @@ addLayer("D", {
                     player.D.mode = "Day"
                 }
             }
+            
+        },
+        12: {
+            title: "Auto?",
+            canClick() {return true},
+            onClick() {
+                player.D.auto = !player.D.auto
+            },
+            display() {
+                let x
+                if (player.D.auto) {
+                    x = "Enabled"
+                }
+                else {
+                    x = "Disabled"
+                }
+                return "<h3>"+x+"<h3>"
+            },
             
         },
     },
@@ -301,7 +326,8 @@ addLayer("D", {
                 "main-display",
                 "prestige-button",
                 "blank",
-                "clickables",
+                ["clickable", [11]],
+                ["clickable", [12]],
                 "blank",
                 ["display-text", function() {
                     let t = "<h2>Current effects:</h2><br>"

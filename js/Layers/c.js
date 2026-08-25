@@ -170,12 +170,6 @@ addLayer("C", {
             unlocked() {return hasUpgrade("C", 31)},
         },
         33: {
-            title: "And thats all for now folks!",
-            description: "Boost B based on C",
-            cost: new Decimal(25),
-            unlocked() {return hasUpgrade("C", 31)},
-        },
-        33: {
             title: "33BC",
             description: "Boost B based on C",
             cost: new Decimal(25),

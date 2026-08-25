@@ -85,7 +85,7 @@ addLayer("&", {
         71: {
             title: "B Buyable Automator",
             description: "Permanently buy both B buyables constantly",
-            cost: new Decimal(1e130),
+            cost: new Decimal(1e100),
             unlocked() {return true},
         },
         72: {

@@ -73,6 +73,7 @@ addLayer("A", {
         if (hasUpgrade("B", 41)) mult = mult.times(15)
         if (hasUpgrade("D", 12) && player.D.mode == "Dusk") mult = mult.div(3)
         if (hasUpgrade("D", 12) && player.D.mode == "Dawn") mult = mult.times(player.A.resetTime.pow(0.6))
+        if (hasUpgrade("D", 12) && player.D.mode == "Dawn" && player.offTime) mult = mult.times(player.A.resetTime.pow(0.4))
         
         return mult
     },

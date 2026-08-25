@@ -195,3 +195,19 @@ onkeydown = (ev) => {
 	}
 }
 
+function offtime(bool) {
+	if (hasUpgrade("$", 13) && player.D.auto) {
+		if (bool) {
+			if (player.D.mode != "Dusk") {
+				player.D.mode = "Dusk"
+			}
+		}
+		else {
+			if (player.D.mode != "Dawn") {
+				player.D.mode = "Dawn"
+			}
+		}
+	}
+
+}
+

@@ -62,6 +62,12 @@ addLayer("$", {
             cost: new Decimal(2),
             unlocked() {return tmp["&"].layerShown},
         },
+        14: {
+            title: "AutoTime 3000",
+            description: "Unlock AutoTime which changes the Daytime on D automatically",
+            cost: new Decimal(3),
+            unlocked() {return tmp["&"].layerShown && tmp["D"].layerShown},
+        },
         
         
     },
