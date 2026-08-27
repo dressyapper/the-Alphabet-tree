@@ -2,7 +2,7 @@ let modInfo = {
 	name: "The Alphabet Tree",
 	author: "me",
 	pointsName: "Lexiconal Points",
-	modFiles: ["Layers/a.js","Layers/b.js","Layers/c.js","Layers/d.js","Layers/e.js","Layers/f.js","Layers/g.js","Layers/h.js","Layers/i.js","Layers/j.js","Layers/k.js","Layers/l.js","Layers/m.js","Layers/n.js","Layers/o.js","Layers/p.js","Layers/q.js","Layers/r.js","Layers/s.js","Layers/t.js","Layers/u.js","Layers/v.js","Layers/w.js","Layers/x.js","Layers/y.js","Layers/z.js","achievements.js", "tree.js","Layers/Sublayers/&.js", "Layers/Sublayers/$.js", "Layers/Sublayers/QM.js"],
+	modFiles: ["Layers/a.js","Layers/b.js","Layers/c.js","Layers/d.js","Layers/e.js","Layers/f.js","Layers/g.js","Layers/h.js","Layers/i.js","Layers/j.js","Layers/k.js","Layers/l.js","Layers/m.js","Layers/n.js","Layers/o.js","Layers/p.js","Layers/q.js","Layers/r.js","Layers/s.js","Layers/t.js","Layers/u.js","Layers/v.js","Layers/w.js","Layers/x.js","Layers/y.js","Layers/z.js","achievements.js", "tree.js","Layers/Sublayers/&.js", "Layers/Sublayers/$.js", "Layers/Sublayers/QM.js", "Layers/Sublayers/^.js"],
 
 	discordName: "",
 	discordLink: "",
@@ -219,3 +219,21 @@ function offtime(bool) {
 
 }
 
+function validateThemes() {
+	if (!player || !tmp["Ach"]) return
+
+	themes = player.themes
+	let validate = {
+		Alphabet: true,
+		Black: hasAchievement("Ach", 13),
+		Christmas: hasAchievement("Ach", 26),
+		Diamond: hasAchievement("Ach", 41),
+	}
+
+	for (i in validate) {
+		if (validate[i] && !themes.includes(i)) {
+			addTheme(i)
+			doPopup("milestone", "Added "+i, "Theme added", 2, "red")
+		}
+	}
+}

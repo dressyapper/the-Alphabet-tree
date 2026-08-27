@@ -57,6 +57,7 @@ function getStartPlayer() {
 		}
 
 	}
+	validateThemes()
 	return playerdata;
 }
 function getStartLayerData(layer) {
@@ -322,3 +323,4 @@ window.onbeforeunload = () => {
         save();
     }
 };
+

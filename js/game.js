@@ -416,17 +416,17 @@ var interval = setInterval(function() {
 	let diff = (now - player.time) / 1e3
 	let trueDiff = diff
 	if (player.offTime !== undefined) {
-		offtime(true)
+		//offtime(true)
 		if (player.offTime.remain > modInfo.offlineLimit * 3600) player.offTime.remain = modInfo.offlineLimit * 3600
 		if (player.offTime.remain > 0) {
 			let offlineDiff = Math.max(player.offTime.remain / 10, diff)
 			player.offTime.remain -= offlineDiff
 			diff += offlineDiff
 		}
-		if (!options.offlineProd || player.offTime.remain <= 0) {player.offTime = undefined; offtime(false)}
+		if (!options.offlineProd || player.offTime.remain <= 0) {player.offTime = undefined;} //offtime(false)
 	}
 	else {
-		offtime(false)
+		//offtime(false)
 	}
 	if (player.devSpeed) diff *= player.devSpeed
 	player.time = now

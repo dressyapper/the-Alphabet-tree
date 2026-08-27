@@ -240,6 +240,7 @@ function loadVue() {
 		`
 	})
 
+
 	// Displays the base resource for the layer, as well as the best and total values for the layer's currency, if tracked
 	Vue.component('resource-display', {
 		props: ['layer'],
@@ -595,6 +596,14 @@ function loadVue() {
 			<button v-if="tmp[layer].buyables && tmp[layer].buyables[data].sellAll && !(tmp[layer].buyables[data].canSellAll !== undefined && tmp[layer].buyables[data].canSellAll == false)" v-on:click="run(tmp[layer].buyables[data].sellAll, tmp[layer].buyables[data])"
 				v-bind:class="{ longUpg: true, can: player[layer].unlocked, locked: !player[layer].unlocked }">{{tmp[layer].buyables.sellAllText ? tmp[layer].buyables.sellAllText : "Sell All"}}</button>
 	`
+	})
+
+	//L
+	Vue.component('var-display', {
+		props: ['layer', 'data'],
+		template: `
+		<div><span v-if="player[layer][data.variable].lt('1e1000')">You have </span><h2 v-bind:style="{'color': tmp[layer].color, 'text-shadow': '0px 0px 10px ' + tmp[layer].color}">{{formatWhole(player[layer][data.variable])}}</h2><br><br></div>
+		`
 	})
 
 	// SYSTEM COMPONENTS

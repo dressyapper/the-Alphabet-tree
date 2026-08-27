@@ -1,5 +1,5 @@
 // ************ Themes ************
-var themes = ["default", "Alphabet", "Black", "Christmas"]
+var themes =  ["default"]
 
 var colors = {
 	default: {
@@ -41,6 +41,16 @@ var colors = {
 		locked: "rgb(64, 0, 0)",
 		background: "rgb(200, 200, 200)",
 		background_tooltip: " rgba(0, 0, 0, 0.5)",
+	},
+	Diamond: {
+		1: "rgb(255, 255, 255)",
+		2: "rgb(255, 255, 255)",
+		3: "rgb(255, 255, 255)",
+		color: "rgb(255, 255, 255)",
+		points: "rgb(255, 255, 255)",
+		locked: "rgb(0, 99, 112)",
+		background: "rgb(0, 225, 255)",
+		background_tooltip: " rgba(0, 125, 255, 0.5)",
 	},
 }
 function changeTheme() {
