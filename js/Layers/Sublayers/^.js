@@ -3,7 +3,7 @@
 addLayer("^", {
     name: "^", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "^", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: "side", // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: true,
         shown: false,
@@ -173,7 +173,6 @@ addLayer("^", {
         if (layers[reset].row <= this.row) return 
         let keep = []
 
-        layerDataReset(this.layer, keep)
 
     },
     row: "side", // Row the layer is in on the tree (0 is the first row)
@@ -533,16 +532,6 @@ addLayer("^", {
             cost: new Decimal(1e250),
             unlocked() {return hasUpgrade("^", 44)},
         },
-
-
-
-
-        51: {
-            title: "Didnt expect you to come this far",
-            description: "^1.55 earn",
-            cost: new Decimal("1e1250"),
-            unlocked() {return hasUpgrade("^", 45) && hasMilestone("^", 1)},
-        }
         
         
     },
@@ -633,7 +622,7 @@ addLayer("^", {
                     return 'You get a bonus <h2 style="color: ' + tmp[this.layer].color + +'; text-shadow: 0px 0px 10px ' + tmp[this.layer].color + '; display: inline;">' + formatWhole(player[this.layer].modbonus.times(100)) +'%</h2><span> Charged ^</span>';
                 }],
                 ["display-text", function() { 
-                    return 'Your charged ^ boosts ^ by <h2 style="color: ' + tmp[this.layer].color + +'; text-shadow: 0px 0px 10px ' + tmp[this.layer].color + '; display: inline;"> ^' + format(player["^"].chargedpoints.log(1e3).add(1), 3) +'</h2>';
+                    return 'Your charged ^ boosts ^ by <h2 style="color: ' + tmp[this.layer].color + +'; text-shadow: 0px 0px 10px ' + tmp[this.layer].color + '; display: inline;"> ^' + format(player["^"].chargedpoints.add(1).log(1e3).add(1), 3) +'</h2>';
                 }],
                 "blank",
                 ["clickable",[12]],
