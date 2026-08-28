@@ -58,7 +58,7 @@ addLayer("$", {
         },
         13: {
             title: "Achievement Points",
-            description: "Unlock Achievement Points which boost point gain depending on how many you have",
+            description: "Unlock Achievement Points which bost point gain depending on how many you have",
             cost: new Decimal(2),
             unlocked() {return tmp["&"].layerShown},
         },
