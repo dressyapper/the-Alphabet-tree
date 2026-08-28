@@ -79,8 +79,8 @@ addLayer("$", {
                 for (i in player["$"].upgrades) {
                     player["$"].points = player["$"].points.add(tmp['$'].upgrades[player["$"].upgrades[i]].cost)
                 }
-                doReset(Object.values(ROW_LAYERS[getHighestUnlockedRow()])[0], true)
                 player["$"].upgrades = []
+                doReset(Object.values(ROW_LAYERS[getHighestUnlockedRow()])[0], true)
             },
             display() {
                 return "Respec all your upgrades but reset your highest layer without any bonuses"

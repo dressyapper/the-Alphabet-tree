@@ -54,7 +54,9 @@ addLayer("&", {
     constant() {
         if (hasUpgrade("&", 71) && player.auto.bbuyables && !inChallenge("C", 14)) {
             buyBuyable("B", 11)
-            buyBuyable("B", 12)
+            if (hasUpgrade("B", 31)) {
+                buyBuyable("B", 12)
+            }
         }   
     },
     infoboxes: {

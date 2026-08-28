@@ -118,6 +118,7 @@ function getPointGen() {
 function addedPlayerData() { return {
 	paused: false,
 	currentChallenge: false,
+	trueTimePlayed: 0,
 
 	hidemilestones: {
 		a: false,
@@ -141,6 +142,11 @@ var displayThings = [
 		}
 		else {
 			return ""
+		}
+	},
+	()=>{
+		if (document.URL.split("/")[0] == "file:") {
+			return "YOU ARE IN TESTING MODE"
 		}
 	}
 ]

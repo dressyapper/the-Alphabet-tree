@@ -277,7 +277,11 @@ function updateAchievements(layer) {
 	}
 }
 
-function addTime(diff, layer) {
+function addTime(diff, layer, truetime) {
+
+	if (player.timePlayed != 0 && player.trueTimePlayed == 0) {
+		player.trueTimePlayed = player.timePlayed
+	}
 	let data = player
 	let time = data.timePlayed
 	if (layer) {
@@ -295,7 +299,16 @@ function addTime(diff, layer) {
 			if (!layer) player.timePlayedReset = true
 		}
 	}
-	time += toNumber(diff)
+	if (truetime == "both") {
+		time += toNumber(diff)
+		player.trueTimePlayed += toNumber(diff)
+	}
+	else if (truetime) {
+		player.trueTimePlayed += toNumber(diff)
+	}
+	else {
+		time += toNumber(diff)
+	}
 
 	if (layer) data.time = time
 	else data.timePlayed = time

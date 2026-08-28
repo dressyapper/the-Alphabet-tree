@@ -350,7 +350,7 @@ function gameLoop(diff) {
 		if(diff > limit)
 			diff = limit
 	}
-	addTime(diff)
+	addTime(diff, false, "both")
 	player.points = player.points.add(tmp.pointGen.times(diff)).max(0)
 
 	for (let x = 0; x <= maxRow; x++){
