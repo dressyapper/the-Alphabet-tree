@@ -343,7 +343,7 @@ addLayer("D", {
                     }
 
                     if (mode == "Dawn") {
-                        text("LP is boosted by 2x")
+                        text("LP is boosted by 25x")
                         text("Point gen is disabled offline")
                         if (hasUpgrade("D", 12)) {
                             text("Boost A based on reset time<br> currently: "+player.A.resetTime.pow(0.6))
@@ -353,7 +353,7 @@ addLayer("D", {
                     }
                     else if (mode == "Dusk") {
                         text("LP is /5")
-                        text("LP is 7x only when offline")
+                        text("LP is 30x only when offline")
                         if (hasUpgrade("D", 12)) {
                             text("A is divided by 3")
                             text("You can passively generate A offline")

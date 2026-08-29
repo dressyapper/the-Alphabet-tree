@@ -119,11 +119,6 @@ addLayer("^", {
                 desc: "Every upgrade doubles the base",
                 mod: new Decimal(-3)
             },
-            7: {
-                title: "free",
-                desc: "Every upgrade doubles the base",
-                mod: new Decimal(-3)
-            },
         }
     },
     earnformula() {

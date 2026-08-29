@@ -76,6 +76,7 @@ addLayer("$", {
             title: "Respec",
             canClick() {return true},
             onClick() {
+                if (!prompt("Are you REALLY sure you want to do this, "+Object.values(ROW_LAYERS[getHighestUnlockedRow()])[0]+" will be reset!"))
                 for (i in player["$"].upgrades) {
                     player["$"].points = player["$"].points.add(tmp['$'].upgrades[player["$"].upgrades[i]].cost)
                 }

@@ -106,9 +106,9 @@ function getPointGen() {
 
 
 
-	if (player.D.mode == "Dawn") gain = gain.times(2)
+	if (player.D.mode == "Dawn") gain = gain.times(25)
 	if (player.D.mode == "Dusk" && !player.offTime) gain = gain.div(5)
-	if (player.D.mode == "Dusk" && player.offTime) gain = gain.times(7)
+	if (player.D.mode == "Dusk" && player.offTime) gain = gain.times(30)
 	if (player.D.mode == "Dusk" && !player.offTime && hasUpgrade("D", 12)) gain = gain.div(player.A.points.pow(0.4))
 
 	return gain

@@ -72,7 +72,7 @@ addLayer("&", {
             cost: new Decimal(1),
             unlocked() {return true},
             onPurchase() {
-                player.A.keep.upgs.push(11)
+   
             }
         },
         12: {
@@ -81,7 +81,7 @@ addLayer("&", {
             cost: new Decimal(1e60),
             unlocked() {return true},
             onPurchase() {
-                player.B.keep.upgs.push(11)
+  
             }
         },
         71: {
