@@ -347,7 +347,7 @@ addLayer("Ach", {
     pointeff() {
         let pts = player.Ach.points
 
-        return new Decimal(1).add(pts.div(4))
+        return new Decimal(1).add(pts.div(1.5))
     },
     tabFormat: {
         "Achievements": {
