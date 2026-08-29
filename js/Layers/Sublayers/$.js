@@ -54,19 +54,19 @@ addLayer("$", {
             title: "& Nation",
             description: "Keep & upgrades",
             cost: new Decimal(2),
-            unlocked() {return tmp["&"].layerShown},
+            unlocked() {return true},
         },
         13: {
             title: "Achievement Points",
             description: "Unlock Achievement Points which bost point gain depending on how many you have",
             cost: new Decimal(2),
-            unlocked() {return tmp["&"].layerShown},
+            unlocked() {return true},
         },
         14: {
             title: "AutoTime 3000",
             description: "Unlock AutoTime which changes the Daytime on D automatically",
             cost: new Decimal(3),
-            unlocked() {return tmp["&"].layerShown && tmp["D"].layerShown},
+            unlocked() {return tmp["D"].layerShown || hasUpgrade("$", 14)},
         },
         
         

@@ -87,6 +87,10 @@ addLayer("D", {
             description: "Unlock something...",
             cost: new Decimal(0),
             unlocked() {return player.D.ddunlock},
+            onPurchase() {
+                player.D.ddunlock = true
+            }
+            
         },
         12: {
             title: "AD",
