@@ -86,7 +86,7 @@ addLayer("D", {
             title: "Dawn and Dusk",
             description: "Unlock something...",
             cost: new Decimal(0),
-            unlocked() {return player.D.ddunlock},
+            unlocked() {return true},
             onPurchase() {
                 player.D.ddunlock = true
             }
