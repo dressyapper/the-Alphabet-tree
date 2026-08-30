@@ -111,7 +111,7 @@ addLayer("D", {
             title: "Definite convenience",
             description: "Keep C challenges 11 to 15 (dont worry they are counted as completed when buying this upgrade)",
             cost: new Decimal(1),
-            unlocked() {return true},
+            unlocked() {return hasAchievement("Ach", 44)},
             onPurchase() {
                 if (player.C.challenges[11] == 0) {
                     player.C.challenges[11] = 1
