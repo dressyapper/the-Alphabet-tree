@@ -293,7 +293,7 @@ function addTime(diff, layer, truetime) {
 	if (time + 0 !== time) {
 		console.log("Memory leak detected. Trying to fix...")
 		time = toNumber(time)
-		if (isNaN(time) || time == 0) {
+		if (isNaN(time) || time == 0 || time == Infinity) {
 			console.log("Couldn't fix! Resetting...")
 			time = layer ? player.timePlayed : 0
 			if (!layer) player.timePlayedReset = true

@@ -26,13 +26,17 @@ addLayer("C", {
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
-    effect() {
-        let effect = player.B.total.pow(0.1).add(1)
-        return new Decimal(0)
-    },
     /*effectDescription() {
         return ""
     },*/
+    doReset(reset) {
+        if (layers[reset].row <= this.row) return 
+
+        let keep = []
+
+        if (hasUpgrade("D", 21)) keep.push("challenges")
+        layerDataReset(this.layer, keep)
+    },
     branches: ["B", "C"],
     row: 2, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
@@ -428,7 +432,7 @@ addLayer("C", {
                 "blank",
             ],
     
-            unlocked() {return hasUpgrade("C", 11)}
+            unlocked() {return hasUpgrade("C", 11) || hasChallenge("C", 11)}
         },
     }
 })

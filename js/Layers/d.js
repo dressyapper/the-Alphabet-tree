@@ -105,6 +105,32 @@ addLayer("D", {
             unlocked() {return true},
         },
 
+
+
+        21: {
+            title: "Definite convenience",
+            description: "Keep C challenges 11 to 15 (dont worry they are counted as completed when buying this upgrade)",
+            cost: new Decimal(1),
+            unlocked() {return true},
+            onPurchase() {
+                if (player.C.challenges[11] == 0) {
+                    player.C.challenges[11] = 1
+                }
+                if (player.C.challenges[12] == 0) {
+                    player.C.challenges[12] = 1
+                }
+                if (player.C.challenges[13] == 0) {
+                    player.C.challenges[13] = 1
+                }
+                if (player.C.challenges[14] == 0) {
+                    player.C.challenges[14] = 1
+                }
+                if (player.C.challenges[15] == 0) {
+                    player.C.challenges[15] = 1
+                }
+            }
+        }
+
     },
     
     clickables: {
@@ -324,7 +350,8 @@ addLayer("D", {
                 "main-display",
                 "prestige-button",
                 "blank",
-                "upgrades",
+                ["upgrades",[1]],
+                ["upgrades", () => {if (player.D.total.gte(2)) {return [2]} else {return []}}],
                 "blank",
             ],
     
@@ -350,8 +377,8 @@ addLayer("D", {
                         text("LP is boosted by 25x")
                         text("Point gen is disabled offline")
                         if (hasUpgrade("D", 12)) {
-                            text("Boost A based on reset time<br> currently: "+player.A.resetTime.pow(0.6))
-                            text("Divide LP based on A when offline<br> currently: "+player.A.points.pow(0.4))
+                            text("Boost A based on reset time<br> Currently: "+format(new Decimal(player.A.resetTime).pow(0.6))+"x<br>")
+                            text("Divide LP based on A when offline<br> Currently: /"+format(new Decimal(player.A.points).pow(0.4))+"<br>")
                         }
 
                     }

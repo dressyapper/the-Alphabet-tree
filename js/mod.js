@@ -2,7 +2,7 @@ let modInfo = {
 	name: "The Alphabet Tree",
 	author: "me",
 	pointsName: "Lexiconal Points",
-	modFiles: ["Layers/a.js","Layers/b.js","Layers/c.js","Layers/d.js","Layers/e.js","Layers/f.js","Layers/g.js","Layers/h.js","Layers/i.js","Layers/j.js","Layers/k.js","Layers/l.js","Layers/m.js","Layers/n.js","Layers/o.js","Layers/p.js","Layers/q.js","Layers/r.js","Layers/s.js","Layers/t.js","Layers/u.js","Layers/v.js","Layers/w.js","Layers/x.js","Layers/y.js","Layers/z.js","achievements.js", "tree.js","Layers/Sublayers/&.js", "Layers/Sublayers/$.js", "Layers/Sublayers/QM.js", "Layers/Sublayers/^.js"],
+	modFiles: ["Layers/a.js","Layers/b.js","Layers/c.js","Layers/d.js","Layers/e.js","Layers/f.js","Layers/g.js","Layers/h.js","Layers/i.js","Layers/j.js","Layers/k.js","Layers/l.js","Layers/m.js","Layers/n.js","Layers/o.js","Layers/p.js","Layers/q.js","Layers/r.js","Layers/s.js","Layers/t.js","Layers/u.js","Layers/v.js","Layers/w.js","Layers/x.js","Layers/y.js","Layers/z.js","achievements.js", "tree.js","dev.js","Layers/Sublayers/&.js", "Layers/Sublayers/$.js", "Layers/Sublayers/QM.js", "Layers/Sublayers/^.js"],
 
 	discordName: "",
 	discordLink: "",
@@ -109,7 +109,7 @@ function getPointGen() {
 	if (player.D.mode == "Dawn") gain = gain.times(25)
 	if (player.D.mode == "Dusk" && !player.offTime) gain = gain.div(5)
 	if (player.D.mode == "Dusk" && player.offTime) gain = gain.times(30)
-	if (player.D.mode == "Dusk" && !player.offTime && hasUpgrade("D", 12)) gain = gain.div(player.A.points.pow(0.4))
+	if (player.D.mode == "Dusk" && !player.offTime && hasUpgrade("D", 12)) gain = gain.div(new Decimal(player.A.points).pow(0.4))
 
 	return gain
 }
@@ -167,7 +167,7 @@ var backgroundStyle = {
 
 // You can change this if you have things that can be messed up by long tick lengths
 function maxTickLength() {
-	return(3600) // Default is 1 hour which is just arbitrarily large
+	return(Infinity) // Default is 1 hour which is just arbitrarily large
 }
 
 // Use this if you need to undo inflation from an older version. If the version is older than the version that fixed the issue,
@@ -242,4 +242,11 @@ function validateThemes() {
 			doPopup("milestone", "Added "+i, "Theme added", 2, "red")
 		}
 	}
+}
+
+
+function forceImport(text = String, reload) {
+	player = JSON.parse(atob(text))
+	save(true)
+	setTimeout(() => {location.reload()}, 100)
 }

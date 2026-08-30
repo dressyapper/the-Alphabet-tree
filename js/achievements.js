@@ -343,6 +343,29 @@ addLayer("Ach", {
             },
             tooltip: "Attempt to turn to dusk while offline generation but fail miserably"
         },
+        44: {
+            name: "that took an ETERNITY",
+            done() {
+                return player.D.points.gte(2)
+            },
+            tooltip() {
+                if (hasAchievement(this.layer, this.id)) {
+                    let desc = "Reset for D again"
+                    let effectdesc = "10x B"
+                    return desc+"<br>Reward: "+effectdesc
+                }
+                else {
+                    let desc = "Reset for D again"
+                    return desc
+                }
+            },
+            style() {
+                return {
+                    "border-color": "white",
+                    "border-width": "2px"
+                }
+            }
+        },
     },
     pointeff() {
         let pts = player.Ach.points
