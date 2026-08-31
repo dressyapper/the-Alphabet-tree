@@ -79,11 +79,21 @@ addLayer("&", {
             title: "Automator II",
             description: "Automate B upgrades",
             cost: new Decimal(1e60),
-            unlocked() {return true},
+            unlocked() {return player.B.points.gte(10)},
             onPurchase() {
   
             }
         },
+        13: {
+            title: "Automator III",
+            description: "Automate C upgrades",
+            cost: new Decimal(1e180),
+            unlocked() {return player.C.points.gte(500)},
+            onPurchase() {
+  
+            }
+        },
+
         71: {
             title: "B Buyable Automator",
             description: "Permanently buy both B buyables constantly",

@@ -122,6 +122,7 @@ addLayer("A", {
         if (!cangenerate()) {
             pg = new Decimal(0)
         }
+        if (hasUpgrade("D", 12) && player.offTime) pg = pg.neg()
         return pg
     },
     gainExp() { // Calculate the exponent on main currency from bonuses

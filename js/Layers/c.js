@@ -30,6 +30,9 @@ addLayer("C", {
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
+    autoUpgrade() {
+        return hasUpgrade("&", 13) && !inChallenge("C", 14)
+    },
     passiveGeneration() {
         let p = new Decimal(0)
 

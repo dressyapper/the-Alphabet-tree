@@ -36,6 +36,9 @@ addLayer("D", {
             player.D.mode == "Dawn"
         }
     },
+    autoUpgrade() {
+        return hasUpgrade("&", 13)
+    },
     /*effectDescription() {
         return ""
     },*/
@@ -94,15 +97,16 @@ addLayer("D", {
         },
         12: {
             title: "AD",
-            description: "Add effects relating to A in Daytime & more upgrades",
+            description: "Add effects relating to A in Daytime & more upgrades, (you must have all row 2 upgrades to buy)",
             cost: new Decimal(10),
+            canAfford() {return hasUpgrade("D", 21) && hasUpgrade("D", 22) && hasUpgrade("D", 23) && hasUpgrade("D", 24) && hasUpgrade("D", 25) && hasUpgrade("D", 26)},
             unlocked() {return true},
         },
         13: {
             title: "BD",
-            description: "Add effects relating to B in Daytime",
+            description: "Add effects relating to B in Daytime & more upgrades (you must have all row 3 upgrades to buy)",
             cost: new Decimal(100),
-            unlocked() {return true},
+            unlocked() {return hasUpgrade("D", 31) && hasUpgrade("D", 32) && hasUpgrade("D", 33) && hasUpgrade("D", 34) && hasUpgrade("D", 35) && hasUpgrade("D", 36)},
         },
 
 
@@ -211,7 +215,28 @@ addLayer("D", {
             cost: new Decimal(5),
             unlocked() {return hasUpgrade("D", 23)},
         },
+        25: {
+            title: "Dusky",
+            description: "Divide point gain by /250 when online but multiply by 125x when offline",
+            cost: new Decimal(10),
+            unlocked() {return hasUpgrade("D", 24)},
+        },
+        26: {
+            title: "Dawny",
+            description: "Instead of point gen being completely disabled, point gen is divided by 1e4",
+            cost: new Decimal(10),
+            unlocked() {return hasUpgrade("D", 24)},
+        },
 
+       
+
+
+        31: {
+            title: "Dusky",
+            description: "Divide point gain by /250 when online but multiply by 125x when offline",
+            cost: new Decimal(10),
+            unlocked() {return hasUpgrade("D", 24)},
+        },
     },
     
     clickables: {
@@ -456,16 +481,16 @@ addLayer("D", {
 
                     if (mode == "Dawn") {
                         text("LP is boosted by 25x")
-                        text("Point gen is disabled offline")
+                        text(f(() => {if (!hasUpgrade("D", 25)) {return "Point gen is disabled offline"} else {return "LP is /1e4 when offline"}}))
                         if (hasUpgrade("D", 12)) {
                             text("Boost A based on reset time<br> Currently: "+format(new Decimal(player.A.resetTime).pow(0.6))+"x<br>")
-                            text("Divide LP based on A when offline<br> Currently: /"+format(new Decimal(player.A.points).pow(0.4))+"<br>")
+                            text("Lose A the longer your offline<br>")
                         }
 
                     }
                     else if (mode == "Dusk") {
-                        text("LP is /5")
-                        text("LP is 30x only when offline")
+                        text("LP is /"+f(() => {if (!hasUpgrade("D", 25)) {return 5} else {return 250}}))
+                        text("LP is "+f(() => {if (!hasUpgrade("D", 25)) {return 30} else {return 125}})+"x only when offline")
                         if (hasUpgrade("D", 12)) {
                             text("A is divided by 3")
                             text("You can passively generate A offline")

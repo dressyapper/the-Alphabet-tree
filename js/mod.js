@@ -35,10 +35,14 @@ function getStartPoints(){
 function canGenPoints(){
 	let x = true
 
-	if (player.D.mode == "Dawn" && player.offTime) x = false
+	if (player.D.mode == "Dawn" && player.offTime && !hasUpgrade("D", 26)) x = false
 	if (player.paused) x = false
 	
 	return x
+}
+
+function f(x) {
+	return x()
 }
 
 // Calculate points/sec!
@@ -107,9 +111,10 @@ function getPointGen() {
 
 
 	if (player.D.mode == "Dawn") gain = gain.times(25)
-	if (player.D.mode == "Dusk" && !player.offTime) gain = gain.div(5)
-	if (player.D.mode == "Dusk" && player.offTime) gain = gain.times(30)
+	if (player.D.mode == "Dusk" && !player.offTime) gain = gain.div(f(() => {if (!hasUpgrade("D", 25)) {return new Decimal(5)} else {return new Decimal(250)}}))
+	if (player.D.mode == "Dusk" && player.offTime) gain = gain.times(f(() => {if (!hasUpgrade("D", 25)) {return new Decimal(30)} else {return new Decimal(125)}}))
 	if (player.D.mode == "Dusk" && !player.offTime && hasUpgrade("D", 12)) gain = gain.div(new Decimal(player.A.points).pow(0.4))
+	if (player.D.mode == "Dawn" && player.offTime && hasUpgrade("D", 26)) gain = gain.div(1e4)
 
 	return gain
 }
