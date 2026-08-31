@@ -79,7 +79,7 @@ addLayer("&", {
             title: "Automator II",
             description: "Automate B upgrades",
             cost: new Decimal(1e60),
-            unlocked() {return player.B.points.gte(10)},
+            unlocked() {return hasAchievement("Ach", 26)},
             onPurchase() {
   
             }
@@ -88,7 +88,7 @@ addLayer("&", {
             title: "Automator III",
             description: "Automate C upgrades",
             cost: new Decimal(1e180),
-            unlocked() {return player.C.points.gte(500)},
+            unlocked() {return hasAchievement("Ach", 41)},
             onPurchase() {
   
             }
