@@ -54,13 +54,12 @@ addLayer("D", {
         return player[this.layer].shown
     }, 
     cap() {
-        return new Decimal(1e6)
+        return new Decimal(6)
     },
     effect() {
         let effect = new Decimal(10).pow(player.D.total)
-        if (effect.gte(tmp.D.cap)) {
-            effect.div()
-            return tmp.D.cap
+        if (player.D.total.gte(tmp.D.cap)) {
+            return new Decimal(10).pow(tmp.D.cap.add(player.D.total.sub(tmp.D.cap).pow(0.3)))
         }
         else {
             return effect
@@ -68,7 +67,7 @@ addLayer("D", {
     },
     effectDescription() {
         if (tmp.D.effect.gte(tmp.D.cap)) {
-            return "but your total D boosts LP by "+format(this.effect())+"x (CAPPED)"
+            return "but your total D boosts LP by "+format(this.effect())+"x (SOFTCAPPED)"
         }
         else {
             return "but your total D boosts LP by "+format(this.effect())+"x"
