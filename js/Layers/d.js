@@ -94,7 +94,7 @@ addLayer("D", {
         },
         12: {
             title: "AD",
-            description: "Add effects relating to A in Daytime",
+            description: "Add effects relating to A in Daytime & more upgrades",
             cost: new Decimal(10),
             unlocked() {return true},
         },
@@ -204,6 +204,12 @@ addLayer("D", {
             description: "1e5x A and B",
             cost: new Decimal(2),
             unlocked() {return hasUpgrade("D", 22)},
+        },
+        24: {
+            title: "Too little C",
+            description: "Generate 25% of your C",
+            cost: new Decimal(5),
+            unlocked() {return hasUpgrade("D", 23)},
         },
 
     },

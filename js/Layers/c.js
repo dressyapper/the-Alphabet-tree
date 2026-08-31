@@ -30,6 +30,12 @@ addLayer("C", {
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
+    passiveGeneration() {
+        let p = new Decimal(0)
+
+        if (hasUpgrade("D", 24)) p = new Decimal(0.25)
+        return p
+    },
     /*effectDescription() {
         return ""
     },*/

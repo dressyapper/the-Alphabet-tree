@@ -366,6 +366,15 @@ addLayer("Ach", {
                 }
             }
         },
+        45: {
+            name: "Progression pace of the century",
+            done() {
+                return player.C.points.gte(tmp.D.requires) && player.D.resetTime < 20
+            },
+            tooltip() {
+                return "Get the D requirement in less then 20 seconds (I underestimated the upgrades a little)"
+            },
+        },
     },
     pointeff() {
         let pts = player.Ach.points
