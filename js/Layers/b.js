@@ -357,11 +357,12 @@ addLayer("B", {
                 return player[this.layer].points.gte(this.cost())
             },
             buy() {
-                if (player[this.layer].points.sign == -1) return
-                if (!hasUpgrade("&", 72)) {
-                    player[this.layer].points = player[this.layer].points.sub(this.cost())
+                if (player[this.layer].points.sub(this.cost()).gte(0)){
+                    if (!hasUpgrade("&", 72)) {
+                        player[this.layer].points = player[this.layer].points.sub(this.cost())
+                    }
+                    setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
                 }
-                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
             },
             effect(x) {
                 let eff = x.add(1)
@@ -390,11 +391,12 @@ addLayer("B", {
                 return player[this.layer].points.gte(this.cost())
             },
             buy() {
-                if (player[this.layer].points.sign == -1) return
-                if (!hasUpgrade("&", 72)) {
-                    player[this.layer].points = player[this.layer].points.sub(this.cost())
+                if (player[this.layer].points.sub(this.cost()).gte(0)){
+                    if (!hasUpgrade("&", 72)) {
+                        player[this.layer].points = player[this.layer].points.sub(this.cost())
+                    }
+                    setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
                 }
-                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
             },
             effect(x) {
                 let eff = new Decimal(2).times(x.add(1))
