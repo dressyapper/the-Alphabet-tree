@@ -11,6 +11,8 @@ addLayer("C", {
         let req = new Decimal(1e9)
         if (hasUpgrade("C", 26)) req = req.div(2)
         if (hasUpgrade("C", 31)) req = req.div(100)
+        if (hasUpgrade("D", 22) && player.D.mode == "Dusk") req = req.div(upgradeEffect("D", 22))
+        if (hasUpgrade("D", 22) && player.D.mode == "Day") req = req.div(10)
         return req
     }, // Can be a function that takes requirement increases into account
     resource: "C", // Name of prestige currency
@@ -21,6 +23,8 @@ addLayer("C", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasUpgrade("C", 34)) mult = mult.times(upgradeEffect("C", 34))
+        if (hasUpgrade("D", 22) && player.D.mode == "Dawn") mult = mult.times(upgradeEffect("D", 22))
+        if (hasUpgrade("D", 22) && player.D.mode == "Day") mult = mult.times(10)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses

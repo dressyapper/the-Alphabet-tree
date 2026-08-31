@@ -72,6 +72,7 @@ addLayer("B", {
         if (inChallenge("C", 13)) mult = mult.div(tmp.C.challenges["13"].inChallengeEffect)
         if (hasUpgrade("C", 33)) mult = mult.times(upgradeEffect("C", 33))
         if (hasAchievement("Ach", 44)) mult = mult.times(10)
+        if (hasUpgrade("D", 23)) mult = mult.times(1e5)
 
         return mult
     },

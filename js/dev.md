@@ -33,6 +33,75 @@ upgrades: {
             }
         },
     }
+    22: {
+        title() {
+            if (situation1) {
+                return "The cool"
+            }
+            else if (situation2) {
+                return "The second cool"
+            }
+            else {
+                return "Diverse Upgrade"
+            }
+        },
+        description() {
+            if (situation1) {
+                return "Cool"
+            }
+            else if (situation2) {
+                return "Cooler"
+            }
+            else {
+                return "Diverse"
+            }
+        },
+        cost: new Decimal(1),
+        unlocked() {return true},
+        effect() {
+            if (situation1) {
+                return new Decimal(1)
+            }
+            else if (situation2) {
+                return new Decimal(2)
+            }
+            else {
+                return new Decimal(3)
+            }
+        },
+        effectCap() {
+            if (situation1) {
+                return new Decimal(1)
+            }
+            else if (situation2) {
+                return new Decimal(2)
+            }
+            else {
+                return new Decimal(3)
+            }
+        },
+        effectDisplay() {
+            if (situation1) {
+                if (this.effect().gte(this.effectCap())) {
+                    return format(upgradeEffect(this.layer, this.id))+"x (CAPPED)"
+                }
+                else {
+                    return format(upgradeEffect(this.layer, this.id))+"x"
+                }
+            }
+            else if (situation2) {
+                if (this.effect().gte(this.effectCap())) {
+                    return "/"+format(upgradeEffect(this.layer, this.id))+" (CAPPED)"
+                }
+                else {
+                    return "/"+format(upgradeEffect(this.layer, this.id))
+                }
+            }
+            else {
+                return new Decimal(1)
+            }
+        },
+    },
 }
 
 tabFormat: {
@@ -184,6 +253,7 @@ buyables: {
         },
     },
 }
+
 
 
 

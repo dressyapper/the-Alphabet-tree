@@ -129,7 +129,82 @@ addLayer("D", {
                     player.C.challenges[15] = 1
                 }
             }
-        }
+        },
+        22: {
+            title() {
+                if (player.D.mode == "Dawn") {
+                    return "Spectacular Sunrise"
+                }
+                else if (player.D.mode == "Dusk") {
+                    return "Magnificant Moonrise"
+                }
+                else {
+                    return "Diverse Upgrade"
+                }
+            },
+            description() {
+                if (player.D.mode == "Dawn") {
+                    return "Boost C by how fast you take to reset"
+                }
+                else if (player.D.mode == "Dusk") {
+                    return "Divide C requirement the longer you take"
+                }
+                else {
+                    return "Multiply C gain and divide C requirement by 10"
+                }
+            },
+            cost: new Decimal(1),
+            unlocked() {return hasUpgrade("D",21)},
+            effect() {
+                if (player.D.mode == "Dawn") {
+                    return new Decimal(5).div(new Decimal(player.C.resetTime).add(1).log(100).add(1)).add(1)
+                }
+                else if (player.D.mode == "Dusk") {
+                    return new Decimal(player.C.resetTime).add(1).log(2).add(1)
+                }
+                else {
+                    return new Decimal(10)
+                }
+            },
+            effectCap() {
+                if (player.D.mode == "Dawn") {
+                    return new Decimal(100)
+                }
+                else if (player.D.mode == "Dusk") {
+                    return new Decimal(1e6)
+                }
+                else {
+                    return new Decimal(false)
+                }
+            },
+            effectDisplay() {
+                if (player.D.mode == "Dawn") {
+                    if (this.effect().gte(this.effectCap())) {
+                        return format(upgradeEffect(this.layer, this.id))+"x (CAPPED)"
+                    }
+                    else {
+                        return format(upgradeEffect(this.layer, this.id))+"x"
+                    }
+                }
+                else if (player.D.mode == "Dusk") {
+                    if (this.effect().gte(this.effectCap())) {
+                        return "/"+format(upgradeEffect(this.layer, this.id))+" (CAPPED)"
+                    }
+                    else {
+                        return "/"+format(upgradeEffect(this.layer, this.id))
+                    }
+                }
+                else {
+                    return new Decimal(10)
+                }
+            },
+        },
+        23: {
+            title: "Too much LP",
+            description: "1e5x A and B",
+            cost: new Decimal(2),
+            unlocked() {return hasUpgrade("D", 22)},
+        },
 
     },
     
