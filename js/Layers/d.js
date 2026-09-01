@@ -59,14 +59,21 @@ addLayer("D", {
     effect() {
         let effect = new Decimal(10).pow(player.D.total)
         if (player.D.total.gte(tmp.D.cap)) {
-            return new Decimal(10).pow(tmp.D.cap.add(player.D.total.sub(tmp.D.cap).pow(0.3)))
+            let a = new Decimal(10).pow(tmp.D.cap.add(player.D.total.sub(tmp.D.cap).pow(0.3)))
+            if (player.D.total.gt(15)) {
+                a = new Decimal(10).pow((new Decimal(6).add(player.D.total.sub(6).pow(0.3))).add(player.D.total.sub(15).pow(0.01).sub(1)))
+            }
+            return a
         }
         else {
             return effect
         }
     },
     effectDescription() {
-        if (tmp.D.effect.gte(tmp.D.cap)) {
+        if (player.D.total.gt(15)) {
+            return "but your total D boosts LP by "+format(this.effect())+"x (SUPERCAPPED)"
+        }
+        else if (player.D.total.gte(tmp.D.cap)) {
             return "but your total D boosts LP by "+format(this.effect())+"x (SOFTCAPPED)"
         }
         else {
