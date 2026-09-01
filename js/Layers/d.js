@@ -36,9 +36,6 @@ addLayer("D", {
             player.D.mode == "Dawn"
         }
     },
-    autoUpgrade() {
-        return hasUpgrade("&", 13)
-    },
     /*effectDescription() {
         return ""
     },*/
