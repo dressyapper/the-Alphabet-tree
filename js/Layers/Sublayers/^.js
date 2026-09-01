@@ -20,12 +20,18 @@ addLayer("^", {
         enabledmods: [],
         currentmod: [1,2,3],
 
+        highestmod: new Decimal(0),
+
         prestige() {
             player["^"].upgrades = []
             player["^"].buyables[11] = new Decimal(0)
             player["^"].chargedpoints = player["^"].chargedpoints.add(this.prestigeformula())
             player["^"].points = new Decimal(0)
             player["^"].clicks = new Decimal(0)
+
+            if (player["^"].chargedpoints.add(this.prestigeformula()).gte(1) && player["^"].modbonus.gt(player["^"].highestmod)) {
+                player["^"].highestmod = player["^"].modbonus
+            }
 
         },
         reset(layer) {
@@ -37,7 +43,12 @@ addLayer("^", {
                 return new Decimal(0)
             }
             else {
-                return player["^"].points.div("1.8e308").times(player["^"].modbonus.add(1)) 
+                if (hasMilestone("^", 2)) {
+                    return player["^"].points.div("1.8e308").times(player["^"].modbonus.add(1)).times(player["^"].highestmod)
+                }
+                else {
+                    return player["^"].points.div("1.8e308").times(player["^"].modbonus.add(1))
+                }
             }
         },
         rollmods() {
@@ -161,6 +172,8 @@ addLayer("^", {
 
 
         if (player["^"].chargedpoints.gt(0)) {e = e.pow(player["^"].chargedpoints.add(1).log(1e3).add(1))}
+        if (hasMilestone("^", 1)) {e = e.times(10)}
+        if (hasMilestone("^", 3) && player["^"].modbonus.sign == 1) {e = e.pow(player["^"].modbonus)}
         player["^"].earn = e
         return e
     },
@@ -179,13 +192,11 @@ addLayer("^", {
         return player[this.layer].shown
     },
     unbrokeninf() {
-        if (!hasMilestone("^", 1)) {
-            if (player["^"].points.gte("1.8e308")) {
-                player["^"].points = new Decimal("1.8e308")
-            }
-            if (player["^"].earn.gte("1.8e308")) {
-                player["^"].earn = new Decimal("1.8e308")
-            }
+        if (player["^"].points.gte("1.8e308")) {
+            player["^"].points = new Decimal("1.8e308")
+        }
+        if (player["^"].earn.gte("1.8e308")) {
+            player["^"].earn = new Decimal("1.8e308")
         }
     },
     getmodbonus() {
@@ -532,11 +543,23 @@ addLayer("^", {
     },
     milestones: {
         1: {
-            requirementDescription: "Never C^",
-            effectDescription: "This was too broken, your never breaking infinity now",
+            requirementDescription: "25 C^",
+            effectDescription: "10x ^",
             unlocked() {return true},
-            done() {return false},
+            done() {return player["^"].chargedpoints.gte(25)},
         },
+        2: {
+            requirementDescription: "50 C^",
+            effectDescription: "Your highest modifer multiplier on prestige is permanent",
+            unlocked() {return true},
+            done() {return player["^"].chargedpoints.gte(50)},
+        },
+        3: {
+            requirementDescription: "100 C^",
+            effectDescription: "Your modifier percent boosts ^",
+            unlocked() {return true},
+            done() {return player["^"].chargedpoints.gte(100)},
+        }
     },
     buyables: {
         11: {

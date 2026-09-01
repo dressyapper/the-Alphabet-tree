@@ -167,11 +167,8 @@ addLayer("&", {
             ],
     
             unlocked() {
-
-                if (hasMilestone("&", 2)) {
-                    player["&"].unlockedextra = true
-                }
-                return player["&"].unlockedextra}
+                return hasMilestone("&", 2) || hasUpgrade("&", 71)
+            }
         },
         "Milestones": {
             content: [
