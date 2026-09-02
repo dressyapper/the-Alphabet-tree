@@ -7,7 +7,7 @@ let modInfo = {
 	discordName: "",
 	discordLink: "",
 	initialStartPoints: new Decimal(0), // Used for hard resets and new players
-	offlineLimit: 1,  // In hours
+	offlineLimit: Infinity,  // In hours
 }
 
 // Set your version in num and name
@@ -99,6 +99,13 @@ function getPointGen() {
 	if (hasChallenge("C", 15)) gain = gain.pow(1.1)
 	gain = gain.times(layerEffect("D"))
 	if (hasUpgrade("$", 13)) gain = gain.times(tmp.Ach.pointeff)
+	if (hasUpgrade("D", 13) && player.D.mode == "Dawn" && player.offTime) gain = gain.div(player.B.points.pow(0.5).times(player.offTime.remain))
+	if (hasUpgrade("D", 41)) gain = gain.times(1e3)
+	if (hasUpgrade("D", 42)) gain = gain.times(1e3)
+	if (hasUpgrade("D", 43)) gain = gain.times(1e3)
+	if (hasUpgrade("D", 44)) gain = gain.times(1e3)
+	if (hasUpgrade("D", 45)) gain = gain.times(1e3)
+	if (hasUpgrade("D", 46)) gain = gain.times(1e3)
 
 
 
@@ -113,8 +120,14 @@ function getPointGen() {
 	if (player.D.mode == "Dawn") gain = gain.times(25)
 	if (player.D.mode == "Dusk" && !player.offTime) gain = gain.div(f(() => {if (!hasUpgrade("D", 25)) {return new Decimal(5)} else {return new Decimal(250)}}))
 	if (player.D.mode == "Dusk" && player.offTime) gain = gain.times(f(() => {if (!hasUpgrade("D", 25)) {return new Decimal(30)} else {return new Decimal(125)}}))
-	if (player.D.mode == "Dusk" && !player.offTime && hasUpgrade("D", 12)) gain = gain.div(new Decimal(player.A.points).pow(0.4))
+	if (player.D.mode == "Dusk" && !player.offTime && hasUpgrade("D", 12)) gain = gain.div(new Decimal(player.A.points).add(1).pow(0.4))
 	if (player.D.mode == "Dawn" && player.offTime && hasUpgrade("D", 26)) gain = gain.div(1e4)
+
+	if (player.D.mode == "Dusk" && player.offTime && hasUpgrade("D", 31)) gain = gain.times(player["&"].points.add(1).log(10).add(1))
+	if (player.D.mode == "Dusk" && !player.offTime && hasUpgrade("D", 31)) gain = gain.div(player["&"].points.add(1).log(10).add(1))
+
+	if (player.D.mode == "Dawn" && player.offTime && hasUpgrade("D", 31)) gain = gain.div(player["&"].points.add(1).log(10).add(1))
+	if (player.D.mode == "Dawn" && !player.offTime && hasUpgrade("D", 31)) gain = gain.times(player["&"].points.add(1).log(10).add(1).times(2))
 
 	return gain
 }

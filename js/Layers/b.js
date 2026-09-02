@@ -32,6 +32,8 @@ addLayer("B", {
 
         let keep = []
 
+        if (hasUpgrade("&", 73)) keep.push("buyables")
+
 
         layerDataReset(this.layer, keep)
     },
@@ -43,6 +45,8 @@ addLayer("B", {
                 cangen = false
             }
             if (inChallenge("C", 14)) cangen = false
+            if (player.offTime) cangen = false
+            if (hasUpgrade("D", 13) && player.D.mode == "Dusk") cangen = true
 
             return cangen
         }
@@ -54,7 +58,7 @@ addLayer("B", {
         if (hasChallenge("C", 14)) pg = new Decimal(0.35)
 
 
-        if (player.offTime || !cangenerate()) {
+        if (!cangenerate()) {
             pg = new Decimal(0)
         }
         return pg
@@ -73,6 +77,9 @@ addLayer("B", {
         if (hasUpgrade("C", 33)) mult = mult.times(upgradeEffect("C", 33))
         if (hasAchievement("Ach", 44)) mult = mult.times(10)
         if (hasUpgrade("D", 23)) mult = mult.times(1e5)
+        if (hasUpgrade("D", 34) && player.D.mode == "Dusk") mult = mult.times(12.5)
+        if (hasUpgrade("D", 13) && player.D.mode == "Dawn") mult = mult.times(player.points.add(1).log(100).add(1))
+        if (hasUpgrade("D", 13) && player.D.mode == "Dusk" && !player.offTime) mult = mult.div(7)
 
         return mult
     },
@@ -328,6 +335,12 @@ addLayer("B", {
                     return format(upgradeEffect(this.layer, this.id))+"x"
                 }
             },
+        },
+        44: {
+            title: "Beyond Infinity (almost)",
+            description: "Cube the Bottom Layer Support buy limit",
+            cost: new Decimal(1e35),
+            unlocked() {return hasUpgrade("B", 41)},
         },
         
     },

@@ -23,6 +23,12 @@ addLayer("D", {
         mult = new Decimal(1)
         return mult
     },
+    directMult() {
+        mult = new Decimal(1)
+        if (hasUpgrade("D", 33)) mult = mult.times(2)
+        if (hasUpgrade("D", 34)) mult = mult.times(5)
+        return mult
+    },
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
@@ -109,7 +115,15 @@ addLayer("D", {
             title: "BD",
             description: "Add effects relating to B in Daytime & more upgrades (you must have all row 3 upgrades to buy)",
             cost: new Decimal(100),
-            unlocked() {return hasUpgrade("D", 31) && hasUpgrade("D", 32) && hasUpgrade("D", 33) && hasUpgrade("D", 34) && hasUpgrade("D", 35) && hasUpgrade("D", 36)},
+            unlocked() {return hasUpgrade("D", 12)},
+            canAfford() {return hasUpgrade("D", 31) && hasUpgrade("D", 32) && hasUpgrade("D", 33) && hasUpgrade("D", 34) && hasUpgrade("D", 35) && hasUpgrade("D", 36)},
+        },
+        14: {
+            title: "CD",
+            description: "Add effects relating to C in Daytime & more upgrades (you must have all row 4 upgrades to buy)",
+            cost: new Decimal(1000),
+            unlocked() {return hasUpgrade("D", 13)},
+            canAfford() {return hasUpgrade("D", 41) && hasUpgrade("D", 42) && hasUpgrade("D", 43) && hasUpgrade("D", 44) && hasUpgrade("D", 45) && hasUpgrade("D", 46)},
         },
 
 
@@ -235,10 +249,96 @@ addLayer("D", {
 
 
         31: {
-            title: "Dusky",
-            description: "Divide point gain by /250 when online but multiply by 125x when offline",
-            cost: new Decimal(10),
-            unlocked() {return hasUpgrade("D", 24)},
+            title: "&D",
+            description: "Add effects relating to & in Daytime",
+            cost: new Decimal(100),
+            unlocked() {return hasUpgrade("D", 12)},
+        },
+        32: {
+            title: "Team support",
+            description: "Team carry (C34) no longer grows multiplicatively and instead grows logarithmically but the cap is increased.",
+            cost: new Decimal(5),
+            unlocked() {return hasUpgrade("D", 12)},
+        },
+        33: {
+            title: "Quite Complex",
+            description: "2x D",
+            cost: new Decimal(15),
+            unlocked() {return hasUpgrade("D", 32)},
+        },
+        34: {
+            title() {
+                if (player.D.mode == "Dawn") {
+                    return "Awesome upgrade"
+                }
+                else if (player.D.mode == "Dusk") {
+                    return "Beautiful upgrade"
+                }
+                else {
+                    return "Charismatic upgrade"
+                }
+            },
+            description() {
+                if (player.D.mode == "Dawn") {
+                    return "25x A"
+                }
+                else if (player.D.mode == "Dusk") {
+                    return "12.5x B"
+                }
+                else {
+                    return "You got this! 5x C"
+                }
+            },
+            cost: new Decimal(20),
+            unlocked() {return hasUpgrade("D",33)},
+        },
+        35: {
+            title: "Definitely the most complex thing you've ever seen",
+            description: "5x D ",
+            cost: new Decimal(25),
+            unlocked() {return hasUpgrade("D", 34)},
+        },
+        36: {
+            title: "Ccontinent",
+            description: "25x C ",
+            cost: new Decimal(40),
+            unlocked() {return hasUpgrade("D", 35)},
+        },
+        41: {
+            title: "Dill pickle",
+            description: "1e3x LP",
+            cost: new Decimal(500),
+            unlocked() {return hasUpgrade("D", 13)},
+        },
+        42: {
+            title: "Dill pickle",
+            description: "1e3x LP",
+            cost: new Decimal(500),
+            unlocked() {return hasUpgrade("D", 13)},
+        },
+        43: {
+            title: "Dill pickle",
+            description: "1e3x LP",
+            cost: new Decimal(500),
+            unlocked() {return hasUpgrade("D", 13)},
+        },
+        44: {
+            title: "Dill pickle",
+            description: "1e3x LP",
+            cost: new Decimal(500),
+            unlocked() {return hasUpgrade("D", 13)},
+        },
+        45: {
+            title: "Dill pickle",
+            description: "1e3x LP",
+            cost: new Decimal(500),
+            unlocked() {return hasUpgrade("D", 13)},
+        },
+        46: {
+            title: "Dill pickle",
+            description: "1e3x LP",
+            cost: new Decimal(500),
+            unlocked() {return hasUpgrade("D", 13)},
         },
     },
     
@@ -460,7 +560,7 @@ addLayer("D", {
                 "prestige-button",
                 "blank",
                 ["upgrades",[1]],
-                ["upgrades", () => {if (player.D.total.gte(2)) {return [2]} else {return []}}],
+                ["upgrades", () => {if (player.D.total.gte(2)) {return [2,3,4]} else {return []}}],
                 "blank",
             ],
     
@@ -489,6 +589,19 @@ addLayer("D", {
                             text("Boost A based on reset time<br> Currently: "+format(new Decimal(player.A.resetTime).pow(0.6))+"x<br>")
                             text("Lose A the longer your offline<br>")
                         }
+                        if (hasUpgrade("D", 31)) {
+                            text("& boosts points while online<br> Currently: "+format(player["&"].points.add(1).log(10).add(1).times(2))+"x")
+                            text("& divides points while offline<br> Currently: /"+format(player["&"].points.add(1).log(10).add(1)))
+                        }
+                        if (hasUpgrade("D", 13)) {
+                            text("Boost B based on points<br> Currently: "+format(player.points.add(1).log(100).add(1))+"x<br>")
+                            text("B divides points by offtime*(B^0.5) when offline")
+                        }
+                        if (hasUpgrade("D", 14)) {
+                            text("C layer effect is squared when online")
+                            text("C is square rooted when offline")
+                        }
+                    
 
                     }
                     else if (mode == "Dusk") {
@@ -497,6 +610,18 @@ addLayer("D", {
                         if (hasUpgrade("D", 12)) {
                             text("A is divided by 3")
                             text("You can passively generate A offline")
+                        }
+                        if (hasUpgrade("D", 31)) {
+                            text("& divides points while online<br> Currently: /"+format(player["&"].points.add(1).log(10).add(1)))
+                            text("& boosts points while offline<br> Currently: "+format(player["&"].points.add(1).log(10).add(1))+"x")
+                        }
+                        if (hasUpgrade("D", 13)) {
+                            text("B is divided by 7")
+                            text("You can passively generate B offline")
+                        }
+                        if (hasUpgrade("D", 14)) {
+                            text("C is divided by 15")
+                            text("C layer effect is cubed when offline")
                         }
                         
                     }

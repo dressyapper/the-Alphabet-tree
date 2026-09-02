@@ -108,6 +108,12 @@ addLayer("&", {
             description: "Both B buyables no longer take away B",
             cost: new Decimal(1e200),
             unlocked() {return true},
+        },
+        73: {
+            title: "B buyable keepers",
+            description: "B buyables do not reset on prestige",
+            cost: new Decimal(1e300),
+            unlocked() {return true},
         }
 
     },

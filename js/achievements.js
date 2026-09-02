@@ -375,6 +375,20 @@ addLayer("Ach", {
                 return "Get the D requirement in less then 20 seconds (I underestimated the upgrades a little)"
             },
         },
+        46: {
+            name: "Dill pickle",
+            done() {
+                return hasUpgrade("D", 41) && hasUpgrade("D", 42) && hasUpgrade("D", 43) && hasUpgrade("D", 44) && hasUpgrade("D", 45) && hasUpgrade("D", 46)
+            },
+            tooltip() {
+                if (hasAchievement(this.layer, this.id)) {
+                    return "Dill pickle (buy D row 4)"
+                }
+                else {
+                    return "Dill pickle"
+                }
+            },
+        },
     },
     pointeff() {
         let pts = player.Ach.points

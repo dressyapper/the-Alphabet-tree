@@ -74,6 +74,7 @@ addLayer("A", {
         if (hasUpgrade("D", 12) && player.D.mode == "Dusk") mult = mult.div(3)
         if (hasUpgrade("D", 12) && player.D.mode == "Dawn") mult = mult.times(new Decimal(player.A.resetTime).pow(0.6))
         if (hasUpgrade("D", 23)) mult = mult.times(1e5)
+        if (hasUpgrade("D", 34) && player.D.mode == "Dawn") mult = mult.times(25)
         
         return mult
     },
@@ -110,6 +111,7 @@ addLayer("A", {
 
             if (player.offTime) cangen = false
             if (hasUpgrade("D", 12) && player.D.mode == "Dusk") cangen = true
+            if (hasUpgrade("D", 12) && player.offTime && player.D.mode == "Dawn") cangen = true
 
 
             return cangen
@@ -119,10 +121,10 @@ addLayer("A", {
         if (hasUpgrade("B", 24)) pg = new Decimal(0.1)
         if (hasUpgrade("C", 14)) pg = new Decimal(0.35)
         if (hasChallenge("C", 14)) pg = new Decimal(0.5)
+        if (hasUpgrade("D", 12) && player.offTime && player.D.mode == "Dawn") pg = pg.neg()
         if (!cangenerate()) {
             pg = new Decimal(0)
         }
-        if (hasUpgrade("D", 12) && player.offTime) pg = pg.neg()
         return pg
     },
     gainExp() { // Calculate the exponent on main currency from bonuses

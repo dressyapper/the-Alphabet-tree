@@ -25,6 +25,10 @@ addLayer("C", {
         if (hasUpgrade("C", 34)) mult = mult.times(upgradeEffect("C", 34))
         if (hasUpgrade("D", 22) && player.D.mode == "Dawn") mult = mult.times(upgradeEffect("D", 22))
         if (hasUpgrade("D", 22) && player.D.mode == "Day") mult = mult.times(10)
+        if (hasUpgrade("D", 34) && player.D.mode == "Day") mult = mult.times(5)
+        if (hasUpgrade("D", 36)) mult = mult.times(25)
+        if (hasUpgrade("D", 14) && player.D.mode == "Dusk" && !player.offTime) mult = mult.div(15)
+        if (hasUpgrade("D", 14) && player.D.mode == "Dawn" && player.offTime) mult = mult.pow(0.5)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -65,6 +69,8 @@ addLayer("C", {
         let p = new Decimal(10)
 
         let effect = player.C.total.add(1).log(p).add(1)
+        if (hasUpgrade("D", 14) && player.D.mode == "Dusk" && player.offTime) effect = effect.pow(3)
+        if (hasUpgrade("D", 14) && player.D.mode == "Dawn" && !player.offTime) effect = effect.pow(2)
         return effect
     },
     effectDescription() {
@@ -224,12 +230,22 @@ addLayer("C", {
             effectCap() {
                 let cap = new Decimal(250)
 
+                if (hasUpgrade("D", 32)) cap = cap.times(10)
+
 
                 return cap
             },
             effect() {
                 let cap = this.effectCap()
-                let eff = player.C.points.div(10).add(1)
+                let eff
+                if (hasUpgrade("D", 32)) {
+                    eff = player.C.points.add(1).log(1.01).add(1)
+                }
+                else {
+                    eff = player.C.points.div(10).add(1)
+                }
+                
+
                 if (eff.gte(cap)) {
                     return cap
                 }
