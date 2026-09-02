@@ -327,7 +327,10 @@ addLayer("Ach", {
             done() {
                 return player.D.points.gte(1)
             },
-            tooltip: "Reset D"
+            tooltip: "Reset D",
+            onComplete() {
+                addTheme("Diamond")
+            },
         },
         42: {
             name: "Not letting you off that easlily",
@@ -387,6 +390,16 @@ addLayer("Ach", {
                 else {
                     return "Dill pickle"
                 }
+            },
+        },
+        51: {
+            name: "Energy",
+            done() {
+                return player.E.points.gte(1)
+            },
+            tooltip: "Reset for E",
+            onComplete() {
+                addTheme("Energized")
             },
         },
     },

@@ -29,6 +29,7 @@ addLayer("A", {
         if (hasUpgrade("C", 25)) {d = d.div(1e10)}
         if (buyableEffect("A", 11).gte(1)) {d = d.div(buyableEffect("A",11))}
         if (hasUpgrade("C", 32)) {d = d.div(1e40)}
+        if (hasUpgrade("D", 52)) {d = d.div(100)}
         try {
             return x.div(d).add(new Decimal(hasAchievement("Ach", 33)+0))
         }
@@ -75,6 +76,8 @@ addLayer("A", {
         if (hasUpgrade("D", 12) && player.D.mode == "Dawn") mult = mult.times(new Decimal(player.A.resetTime).pow(0.6))
         if (hasUpgrade("D", 23)) mult = mult.times(1e5)
         if (hasUpgrade("D", 34) && player.D.mode == "Dawn") mult = mult.times(25)
+        if (hasUpgrade("D", 51)) mult = mult.times(100)
+        if (hasUpgrade("D", 15) && player.D.mode == "Dawn" && player.offTime) mult = mult.div(player.D.points.add(1))
         
         return mult
     },

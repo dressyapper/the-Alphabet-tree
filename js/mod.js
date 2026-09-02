@@ -129,6 +129,8 @@ function getPointGen() {
 	if (player.D.mode == "Dawn" && player.offTime && hasUpgrade("D", 31)) gain = gain.div(player["&"].points.add(1).log(10).add(1))
 	if (player.D.mode == "Dawn" && !player.offTime && hasUpgrade("D", 31)) gain = gain.times(player["&"].points.add(1).log(10).add(1).times(2))
 
+	if (hasUpgrade("D", 15) && player.D.mode == "Dawn" && player.offTime) gain = gain.div(player.D.points.add(1))
+
 	return gain
 }
 
@@ -246,18 +248,18 @@ function offtime(bool) {
 function validateThemes() {
 	if (!player || !tmp["Ach"]) return
 
-	themes = player.themes
 	let validate = {
 		Alphabet: true,
 		Black: hasAchievement("Ach", 13),
 		Christmas: hasAchievement("Ach", 26),
 		Diamond: hasAchievement("Ach", 41),
+		Energized: hasAchievement("Ach", 51)
 	}
 
 	for (i in validate) {
 		if (validate[i] && !themes.includes(i)) {
 			addTheme(i)
-			doPopup("milestone", "Added "+i, "Theme added", 2, "red")
+			doPopup("milestone", "Added "+i, "Theme added", 2, colors[i].background)
 		}
 	}
 }

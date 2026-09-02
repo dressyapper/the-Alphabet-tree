@@ -27,6 +27,9 @@ addLayer("D", {
         mult = new Decimal(1)
         if (hasUpgrade("D", 33)) mult = mult.times(2)
         if (hasUpgrade("D", 35)) mult = mult.times(5)
+        if (hasUpgrade("D", 56)) mult = mult.times(5)
+
+        if (hasUpgrade("D", 15) && player.D.mode == "Dusk" && !player.offTime) mult = mult.pow(0.5)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -41,6 +44,13 @@ addLayer("D", {
         if (player.D.mode == "Nil") {
             player.D.mode == "Dawn"
         }
+    },
+    passiveGeneration() {
+        let pg = new Decimal(0)
+
+        if (hasUpgrade("D", 15) && player.D.mode == "Dawn" && !player.offTime) {pg = new Decimal(0.5)}
+        if (hasUpgrade("D", 15) && player.D.mode == "Dusk" && player.offTime) {pg = new Decimal(1.5)}
+        return pg
     },
     /*effectDescription() {
         return ""
@@ -109,7 +119,7 @@ addLayer("D", {
             description: "Add effects relating to A in Daytime & more upgrades, (you must have all row 2 upgrades to buy)",
             cost: new Decimal(10),
             canAfford() {return hasUpgrade("D", 21) && hasUpgrade("D", 22) && hasUpgrade("D", 23) && hasUpgrade("D", 24) && hasUpgrade("D", 25) && hasUpgrade("D", 26)},
-            unlocked() {return true},
+            unlocked() {return hasUpgrade("D", 11)},
         },
         13: {
             title: "BD",
@@ -124,6 +134,13 @@ addLayer("D", {
             cost: new Decimal(1000),
             unlocked() {return hasUpgrade("D", 13)},
             canAfford() {return hasUpgrade("D", 41) && hasUpgrade("D", 42) && hasUpgrade("D", 43) && hasUpgrade("D", 44) && hasUpgrade("D", 45) && hasUpgrade("D", 46)},
+        },
+        15: {
+            title: "DD",
+            description: "Add effects relating to D in Daytime (you must have all row 5 upgrades to buy)",
+            cost: new Decimal(10000),
+            unlocked() {return hasUpgrade("D", 14)},
+            canAfford() {return hasUpgrade("D", 51) && hasUpgrade("D", 52) && hasUpgrade("D", 53) && hasUpgrade("D", 54) && hasUpgrade("D", 55) && hasUpgrade("D", 56)},
         },
 
 
@@ -340,6 +357,44 @@ addLayer("D", {
             cost: new Decimal(500),
             unlocked() {return hasUpgrade("D", 13)},
         },
+        51: {
+            title: "Im really running out of ideas",
+            description: "100x A",
+            cost: new Decimal(500),
+            unlocked() {return hasUpgrade("D", 14)},
+        },
+        52: {
+            title: "Haven't done this in a while",
+            description: "Improve the & formula",
+            cost: new Decimal(500),
+            unlocked() {return hasUpgrade("D", 51)},
+        },
+        53: {
+            title: "Inflation",
+            description: "100x B",
+            cost: new Decimal(501),
+            unlocked() {return hasUpgrade("D", 52)},
+        },
+        54: {
+            title: "Shrinkflation",
+            description: "1.1x C",
+            cost: new Decimal(502),
+            unlocked() {return hasUpgrade("D", 53)},
+        },
+        55: {
+            title: "Compensationflation",
+            description: "100x C",
+            cost: new Decimal(503),
+            unlocked() {return hasUpgrade("D", 54)},
+        },
+        56: {
+            title: "Compensationflationinflammationnationdetermination",
+            description: "10x D",
+            cost: new Decimal(1000),
+            unlocked() {return hasUpgrade("D", 55)},
+        },
+
+
     },
     
     clickables: {
@@ -560,7 +615,7 @@ addLayer("D", {
                 "prestige-button",
                 "blank",
                 ["upgrades",[1]],
-                ["upgrades", () => {if (player.D.total.gte(2)) {return [2,3,4]} else {return []}}],
+                ["upgrades", () => {if (player.D.total.gte(2)) {return [2,3,4,5]} else {return []}}],
                 "blank",
             ],
     
@@ -601,6 +656,10 @@ addLayer("D", {
                             text("C layer effect is squared when online")
                             text("C is square rooted when offline")
                         }
+                        if (hasUpgrade("D", 15)) {
+                            text("Generate 50% of your D reset while online")
+                            text("Divide everything else by D while offline")
+                        }
                     
 
                     }
@@ -623,11 +682,16 @@ addLayer("D", {
                             text("C is divided by 15")
                             text("C layer effect is cubed when offline")
                         }
+                        if (hasUpgrade("D", 15)) {
+                            text("D is square rooted when online")
+                            text("Generate 150% of your D reset when offline")
+                        }
                         
                     }
 
                     return t
                 }],
+                "blank",
                 ["infobox", "info"],
                 "blank",
             ],

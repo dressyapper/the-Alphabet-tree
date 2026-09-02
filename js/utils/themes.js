@@ -52,6 +52,16 @@ var colors = {
 		background: "rgb(0, 225, 255)",
 		background_tooltip: " rgba(0, 125, 255, 0.5)",
 	},
+	Energized: {
+		1: "rgb(0, 255, 255)",
+		2: "rgb(255, 255, 0)",
+		3: "rgb(255, 255, 0)",
+		color: "rgb(255, 255, 255)",
+		points: "rgb(255, 255, 255)",
+		locked: "rgb(41, 36, 0)",
+		background: "rgb(218, 218, 0)",
+		background_tooltip: " rgba(0, 125, 255, 0.5)",
+	},
 }
 function changeTheme() {
 

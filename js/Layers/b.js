@@ -80,6 +80,8 @@ addLayer("B", {
         if (hasUpgrade("D", 34) && player.D.mode == "Dusk") mult = mult.times(12.5)
         if (hasUpgrade("D", 13) && player.D.mode == "Dawn") mult = mult.times(player.points.add(1).log(100).add(1))
         if (hasUpgrade("D", 13) && player.D.mode == "Dusk" && !player.offTime) mult = mult.div(7)
+        if (hasUpgrade("D", 53)) mult = mult.times(100)
+        if (hasUpgrade("D", 15) && player.D.mode == "Dawn" && player.offTime) mult = mult.div(player.D.points.add(1))
 
         return mult
     },
