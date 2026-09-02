@@ -26,7 +26,7 @@ addLayer("D", {
     directMult() {
         mult = new Decimal(1)
         if (hasUpgrade("D", 33)) mult = mult.times(2)
-        if (hasUpgrade("D", 34)) mult = mult.times(5)
+        if (hasUpgrade("D", 35)) mult = mult.times(5)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
