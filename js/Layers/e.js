@@ -16,7 +16,7 @@ addLayer("E", {
     baseResource: "D", // Name of resource prestige is based on
     baseAmount() {return player.D.points}, // Get the current amount of baseResource
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 0.1, // Prestige currency exponent
+    exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         return mult
@@ -25,15 +25,15 @@ addLayer("E", {
         return new Decimal(1)
     },
     effect() {
-        let effect = player.B.total.pow(0.1).add(1)
-        return new Decimal(1)
+        let effect = player.E.total.add(1)
+        return effect
     },
     onPrestige() {
         
     },
-    /*effectDescription() {
-        return ""
-    },*/
+    effectDescription() {
+        return "but your total is boosting LP & D by "+format(this.effect())+"x"
+    },
     branches: ["C", "D"],
     row: 4, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
@@ -45,25 +45,6 @@ addLayer("E", {
         }
         return player[this.layer].shown
     }, 
-    cap() {
-        return new Decimal(6)
-    },
-    effect() {
-        return new Decimal(1)
-    },
-    effectDescription() {
-        if (player.D.total.gt(15)) {
-            return "but your total D boosts LP by "+format(this.effect())+"x (SUPERCAPPED)"
-        }
-        else if (player.D.total.gte(tmp.D.cap)) {
-            return "but your total D boosts LP by "+format(this.effect())+"x (SOFTCAPPED)"
-        }
-        else {
-            return "but your total D boosts LP by "+format(this.effect())+"x"
-        }
-        
-
-    },
     doReset(reset) {
         if (layers[reset].row <= this.row) return 
 
@@ -75,7 +56,7 @@ addLayer("E", {
     upgrades: {
         11: {
             title: "Energy",
-            description: "Soon",
+            description: "Unlock",
             cost: new Decimal(Infinity),
             unlocked() {return hasAchievement("Ach", 51)},
         },

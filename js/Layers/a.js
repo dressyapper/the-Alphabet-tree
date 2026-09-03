@@ -73,7 +73,7 @@ addLayer("A", {
         if (inChallenge("C", 13)) mult = mult.div(tmp.C.challenges["13"].inChallengeEffect)
         if (hasUpgrade("B", 41)) mult = mult.times(15)
         if (hasUpgrade("D", 12) && player.D.mode == "Dusk") mult = mult.div(3)
-        if (hasUpgrade("D", 12) && player.D.mode == "Dawn") mult = mult.times(new Decimal(player.A.resetTime).pow(0.6))
+        if (hasUpgrade("D", 12) && player.D.mode == "Dawn") mult = mult.times(new Decimal(player.A.resetTime).pow(0.01))
         if (hasUpgrade("D", 23)) mult = mult.times(1e5)
         if (hasUpgrade("D", 34) && player.D.mode == "Dawn") mult = mult.times(25)
         if (hasUpgrade("D", 51)) mult = mult.times(100)

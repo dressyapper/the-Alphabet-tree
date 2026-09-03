@@ -21,6 +21,8 @@ addLayer("D", {
     exponent: 0.1, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+        if (hasUpgrade("D", 25)) mult = mult.times(1.2)
+        if (hasUpgrade("D", 26)) mult = mult.times(1.3)
         return mult
     },
     directMult() {
@@ -49,7 +51,7 @@ addLayer("D", {
         let pg = new Decimal(0)
 
         if (hasUpgrade("D", 15) && player.D.mode == "Dawn" && !player.offTime) {pg = new Decimal(0.5)}
-        if (hasUpgrade("D", 15) && player.D.mode == "Dusk" && player.offTime) {pg = new Decimal(1.5)}
+        if (hasUpgrade("D", 15) && player.D.mode == "Dusk" && player.offTime) {pg = new Decimal(0.75)}
         return pg
     },
     /*effectDescription() {
@@ -70,11 +72,11 @@ addLayer("D", {
         return new Decimal(6)
     },
     effect() {
-        let effect = new Decimal(10).pow(player.D.total)
+        let effect = new Decimal(1.2).pow(player.D.total)
         if (player.D.total.gte(tmp.D.cap)) {
-            let a = new Decimal(10).pow(tmp.D.cap.add(player.D.total.sub(tmp.D.cap).pow(0.3)))
+            let a = new Decimal(1.2).pow(tmp.D.cap.add(player.D.total.sub(tmp.D.cap).pow(0.3)))
             if (player.D.total.gt(15)) {
-                a = new Decimal(10).pow((new Decimal(6).add(player.D.total.sub(6).pow(0.3))).add(player.D.total.sub(15).pow(0.01).sub(1)))
+                a = new Decimal(1.2).pow((new Decimal(6).add(player.D.total.sub(6).pow(0.3))).add(player.D.total.sub(15).pow(0.01).sub(1)))
             }
             return a
         }
@@ -250,16 +252,16 @@ addLayer("D", {
             unlocked() {return hasUpgrade("D", 23)},
         },
         25: {
-            title: "Dusky",
-            description: "Divide point gain by /250 when online but multiply by 125x when offline",
+            title: "2D",
+            description: "1.2x D",
             cost: new Decimal(10),
             unlocked() {return hasUpgrade("D", 24)},
         },
         26: {
-            title: "Dawny",
-            description: "Instead of point gen being completely disabled, point gen is divided by 1e4",
+            title: "3D",
+            description: "1.3x D",
             cost: new Decimal(10),
-            unlocked() {return hasUpgrade("D", 24)},
+            unlocked() {return hasUpgrade("D", 25)},
         },
 
        
@@ -638,22 +640,22 @@ addLayer("D", {
                     }
 
                     if (mode == "Dawn") {
-                        text("LP is boosted by 25x")
-                        text(f(() => {if (!hasUpgrade("D", 25)) {return "Point gen is disabled offline"} else {return "LP is /1e4 when offline"}}))
+                        text("LP is boosted by 2x")
+                        text("Point gen is disabled offline")
                         if (hasUpgrade("D", 12)) {
-                            text("Boost A based on reset time<br> Currently: "+format(new Decimal(player.A.resetTime).pow(0.6))+"x<br>")
+                            text("Boost A based on reset time<br> Currently: "+format(new Decimal(player.A.resetTime).pow(0.01))+"x<br>")
                             text("Lose A the longer your offline<br>")
                         }
                         if (hasUpgrade("D", 31)) {
-                            text("& boosts points while online<br> Currently: "+format(player["&"].points.add(1).log(10).add(1).times(2))+"x")
-                            text("& divides points while offline<br> Currently: /"+format(player["&"].points.add(1).log(10).add(1)))
+                            text("& boosts points while online<br> Currently: "+format(player["&"].points.add(1).log(100).add(1))+"x")
+                            text("& divides points while offline<br> Currently: /"+format(player["&"].points.add(1).log(2).add(1)))
                         }
                         if (hasUpgrade("D", 13)) {
-                            text("Boost B based on points<br> Currently: "+format(player.points.add(1).log(100).add(1))+"x<br>")
+                            text("Boost B based on points<br> Currently: "+format(player.points.add(1).log(100000).add(1))+"x<br>")
                             text("B divides points by offtime*(B^0.5) when offline")
                         }
                         if (hasUpgrade("D", 14)) {
-                            text("C layer effect is squared when online")
+                            text("C layer effect is 2x when online")
                             text("C is square rooted when offline")
                         }
                         if (hasUpgrade("D", 15)) {
@@ -664,15 +666,15 @@ addLayer("D", {
 
                     }
                     else if (mode == "Dusk") {
-                        text("LP is /"+f(() => {if (!hasUpgrade("D", 25)) {return 5} else {return 250}}))
-                        text("LP is "+f(() => {if (!hasUpgrade("D", 25)) {return 30} else {return 125}})+"x only when offline")
+                        text("LP is /10 when online")
+                        text("LP is 5x when offline")
                         if (hasUpgrade("D", 12)) {
                             text("A is divided by 3")
                             text("You can passively generate A offline")
                         }
                         if (hasUpgrade("D", 31)) {
-                            text("& divides points while online<br> Currently: /"+format(player["&"].points.add(1).log(10).add(1)))
-                            text("& boosts points while offline<br> Currently: "+format(player["&"].points.add(1).log(10).add(1))+"x")
+                            text("& divides points while online<br> Currently: /"+format(player["&"].points.add(1).log(2).add(1)))
+                            text("& boosts points while offline<br> Currently: "+format(player["&"].points.add(1).log(100).add(1))+"x")
                         }
                         if (hasUpgrade("D", 13)) {
                             text("B is divided by 7")
@@ -680,11 +682,11 @@ addLayer("D", {
                         }
                         if (hasUpgrade("D", 14)) {
                             text("C is divided by 15")
-                            text("C layer effect is cubed when offline")
+                            text("C layer effect is 3x when offline")
                         }
                         if (hasUpgrade("D", 15)) {
                             text("D is square rooted when online")
-                            text("Generate 150% of your D reset when offline")
+                            text("Generate 75% of your D reset when offline")
                         }
                         
                     }

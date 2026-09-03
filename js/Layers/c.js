@@ -72,8 +72,8 @@ addLayer("C", {
         let p = new Decimal(10)
 
         let effect = player.C.total.add(1).log(p).add(1)
-        if (hasUpgrade("D", 14) && player.D.mode == "Dusk" && player.offTime) effect = effect.pow(3)
-        if (hasUpgrade("D", 14) && player.D.mode == "Dawn" && !player.offTime) effect = effect.pow(2)
+        if (hasUpgrade("D", 14) && player.D.mode == "Dusk" && player.offTime) effect = effect.times(3)
+        if (hasUpgrade("D", 14) && player.D.mode == "Dawn" && !player.offTime) effect = effect.times(2)
         return effect
     },
     effectDescription() {

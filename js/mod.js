@@ -50,6 +50,7 @@ function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
 
+
 	let gain = new Decimal(1)
 
 	if (hasAchievement("Ach", 15)) gain = gain.times(achievementEffect("Ach", 15))
@@ -117,17 +118,16 @@ function getPointGen() {
 
 
 
-	if (player.D.mode == "Dawn") gain = gain.times(25)
-	if (player.D.mode == "Dusk" && !player.offTime) gain = gain.div(f(() => {if (!hasUpgrade("D", 25)) {return new Decimal(5)} else {return new Decimal(250)}}))
-	if (player.D.mode == "Dusk" && player.offTime) gain = gain.times(f(() => {if (!hasUpgrade("D", 25)) {return new Decimal(30)} else {return new Decimal(125)}}))
+	if (player.D.mode == "Dawn") gain = gain.times(2)
+	if (player.D.mode == "Dusk" && !player.offTime) gain = gain.div(10)
+	if (player.D.mode == "Dusk" && player.offTime) gain = gain.times(5)
 	if (player.D.mode == "Dusk" && !player.offTime && hasUpgrade("D", 12)) gain = gain.div(new Decimal(player.A.points).add(1).pow(0.4))
-	if (player.D.mode == "Dawn" && player.offTime && hasUpgrade("D", 26)) gain = gain.div(1e4)
 
-	if (player.D.mode == "Dusk" && player.offTime && hasUpgrade("D", 31)) gain = gain.times(player["&"].points.add(1).log(10).add(1))
-	if (player.D.mode == "Dusk" && !player.offTime && hasUpgrade("D", 31)) gain = gain.div(player["&"].points.add(1).log(10).add(1))
+	if (player.D.mode == "Dusk" && player.offTime && hasUpgrade("D", 31)) gain = gain.times(player["&"].points.add(1).log(100).add(1))
+	if (player.D.mode == "Dusk" && !player.offTime && hasUpgrade("D", 31)) gain = gain.div(player["&"].points.add(1).log(2).add(1))
 
-	if (player.D.mode == "Dawn" && player.offTime && hasUpgrade("D", 31)) gain = gain.div(player["&"].points.add(1).log(10).add(1))
-	if (player.D.mode == "Dawn" && !player.offTime && hasUpgrade("D", 31)) gain = gain.times(player["&"].points.add(1).log(10).add(1).times(2))
+	if (player.D.mode == "Dawn" && player.offTime && hasUpgrade("D", 31)) gain = gain.div(player["&"].points.add(1).log(2).add(1))
+	if (player.D.mode == "Dawn" && !player.offTime && hasUpgrade("D", 31)) gain = gain.times(player["&"].points.add(1).log(100).add(1))
 
 	if (hasUpgrade("D", 15) && player.D.mode == "Dawn" && player.offTime) gain = gain.div(player.D.points.add(1))
 
@@ -233,11 +233,13 @@ function offtime(bool) {
 	if (hasUpgrade("$", 14) && player.D.auto) {
 		if (bool) {
 			if (player.D.mode != "Dusk") {
+				console.log("offline")
 				player.D.mode = "Dusk"
 			}
 		}
 		else {
 			if (player.D.mode != "Dawn") {
+				console.log("online")
 				player.D.mode = "Dawn"
 			}
 		}
