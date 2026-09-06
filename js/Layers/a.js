@@ -68,9 +68,9 @@ addLayer("A", {
         if (hasMilestone("B", 3)) mult = mult.times(25)
         if (hasUpgrade("C", 12)) mult = mult.times(1.2)
         if (hasUpgrade("B", 36)) mult = mult.times(6)
-        if (inChallenge("C", 12)) mult = mult.div(tmp.C.challenges["12"].inChallengeEffect)
+        if (inChallenge("C", 12)) mult = mult.div(inChallengeEffect("C", 12))
         if (hasChallenge("C", 12)) mult = mult.times(challengeEffect("C", 12))
-        if (inChallenge("C", 13)) mult = mult.div(tmp.C.challenges["13"].inChallengeEffect)
+        if (inChallenge("C", 13)) mult = mult.div(inChallengeEffect("C", 13))
         if (hasUpgrade("B", 41)) mult = mult.times(15)
         if (hasUpgrade("D", 12) && player.D.mode == "Dusk") mult = mult.div(3)
         if (hasUpgrade("D", 12) && player.D.mode == "Dawn") mult = mult.times(new Decimal(player.A.resetTime).pow(0.01))
@@ -78,6 +78,7 @@ addLayer("A", {
         if (hasUpgrade("D", 34) && player.D.mode == "Dawn") mult = mult.times(25)
         if (hasUpgrade("D", 51)) mult = mult.times(100)
         if (hasUpgrade("D", 15) && player.D.mode == "Dawn" && player.offTime) mult = mult.div(player.D.points.add(1))
+        if (player.E.energizer.a.gte(1)) mult = mult.times(layerE.earnformula.a(player.E.energizer.a))
         
         return mult
     },

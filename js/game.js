@@ -260,12 +260,10 @@ function startChallenge(layer, x) {
 		if(canExitChallenge(layer, x)){
 			completeChallenge(layer, x)
 			Vue.set(player[layer], "activeChallenge", null)
-			player.currentChallenge = false
 		}
 	}
 	else {
 		enter = true
-		player.currentChallenge = layer+String(x)
 	}
 	if(enter || canExitChallenge(layer, x)) doReset(layer, true)
 	if(enter) {
@@ -443,6 +441,10 @@ var interval = setInterval(function() {
 	adjustPopupTime(trueDiff)
 	updateParticles(trueDiff)
 	ticking = false
+	for (i in layers) {
+		if (i == "egg") return
+		updateLayerShown(i)
+	}
 }, 50)
 
 setInterval(function() {needCanvasUpdate = true}, 500)

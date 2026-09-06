@@ -23,6 +23,7 @@ addLayer("D", {
         mult = new Decimal(1)
         if (hasUpgrade("D", 25)) mult = mult.times(1.2)
         if (hasUpgrade("D", 26)) mult = mult.times(1.3)
+        if (player.E.energizer.d.gte(1)) mult = mult.times(layerE.earnformula.d(player.E.energizer.d))
         return mult
     },
     directMult() {
@@ -32,6 +33,7 @@ addLayer("D", {
         if (hasUpgrade("D", 56)) mult = mult.times(5)
 
         if (hasUpgrade("D", 15) && player.D.mode == "Dusk" && !player.offTime) mult = mult.pow(0.5)
+        //mult = mult.times(layerEffect("E"))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses

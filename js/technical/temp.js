@@ -159,6 +159,15 @@ function updateClickableTemp(layer)
 	updateTempData(layers[layer].clickables, tmp[layer].clickables, funcs[layer].clickables)
 }
 
+function updateLayerShown(layer) {
+	if (layer == "🥚") {
+		tmp[layer].layerShown = tmp[layer].layerShown && (player.egg == "show")
+	}
+	else {
+		tmp[layer].layerShown = tmp[layer].layerShown && (player.egg !== "show")
+	}
+}
+
 function setupBuyables(layer) {
 	for (id in layers[layer].buyables) {
 		if (isPlainObject(layers[layer].buyables[id])) {

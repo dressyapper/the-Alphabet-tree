@@ -6,7 +6,16 @@ addLayer("E", {
         unlocked: true,
 		points: new Decimal(0),
         energy: new Decimal(0),
+        input: new Decimal(1),
+        energizer: {
+            lp: new Decimal(0),
+            a: new Decimal(0),
+            b: new Decimal(0),
+            c: new Decimal(0),
+            d: new Decimal(0),
+        },
     }},
+
     color: "rgb(0, 255, 255)",
     requires() {
         let req = new Decimal(100000)
@@ -28,11 +37,29 @@ addLayer("E", {
         let effect = player.E.total.add(1)
         return effect
     },
-    onPrestige() {
-        
-    },
     effectDescription() {
         return "but your total is boosting LP & D by "+format(this.effect())+"x"
+    },
+    energizerCaps() {
+        obj = {
+            lp: new Decimal(250),
+            a: new Decimal(100),
+            b: new Decimal(25),
+            c: new Decimal(10),
+            d: new Decimal(5)
+        }
+
+        if (hasUpgrade("E", 12)) obj.lp = obj.lp.pow(2)
+        if (hasUpgrade("E", 13)) obj.a = obj.a.pow(2)
+        if (hasUpgrade("E", 14)) obj.b = obj.b.pow(2)
+        if (hasUpgrade("E", 15)) obj.c = obj.c.pow(2)
+        if (hasUpgrade("E", 16)) obj.d = obj.d.pow(2)
+
+
+        for (i in obj) {
+            obj[i] = obj[i].floor()
+        }
+        return obj
     },
     branches: ["C", "D"],
     row: 4, // Row the layer is in on the tree (0 is the first row)
@@ -56,202 +83,211 @@ addLayer("E", {
     upgrades: {
         11: {
             title: "Energy",
-            description: "Unlock",
-            cost: new Decimal(Infinity),
+            description: "Unlock Energizer & Charging",
+            cost: new Decimal(0),
             unlocked() {return hasAchievement("Ach", 51)},
         },
+        12: {
+            title: "Extension Installer LP",
+            description: "Square LP cap (square the cap for the LP energizer)",
+            cost: new Decimal(20),
+            unlocked() {return hasUpgrade("E", 11)},
+        },
+        13: {
+            title: "Extension Installer A",
+            description: "Square A cap",
+            cost: new Decimal(30),
+            unlocked() {return hasUpgrade("E", 11)},
+        },
+        14: {
+            title: "Extension Installer B",
+            description: "Square B cap",
+            cost: new Decimal(40),
+            unlocked() {return hasUpgrade("E", 11)},
+        },
+        15: {
+            title: "Extension Installer C",
+            description: "Square C cap",
+            cost: new Decimal(50),
+            unlocked() {return hasUpgrade("E", 11)},
+        },
+        16: {
+            title: "Extension Installer D",
+            description: "Square D cap",
+            cost: new Decimal(60),
+            unlocked() {return hasUpgrade("E", 11)},
+        },
+        21: {
+            title: "Extension Installer E",
+            description: "Square D cap",
+            cost: new Decimal(100),
+            unlocked() {return false && hasUpgrade("E", 12) && hasUpgrade("E", 13) && hasUpgrade("E", 14) && hasUpgrade("E", 15) && hasUpgrade("E", 16)},
+        },
     },
+
     
     clickables: {
-        11: {
-            title: "Time",
+        10001: {
+            title: "Respec all",
             canClick() {return true},
             onClick() {
-                if (player.offTime && player.D.mode != "Dusk") {
-                    player.D.nuhuh = true
+                if (confirm("Are you sure you want to reset? This will reset E")) {
+                    player.E.points = player.E.points.add(player.E.energizer.lp)
+                    player.E.points = player.E.points.add(player.E.energizer.a)
+                    player.E.points = player.E.points.add(player.E.energizer.b)
+                    player.E.points = player.E.points.add(player.E.energizer.c)
+                    player.E.points = player.E.points.add(player.E.energizer.d)
+                    player.E.energizer.lp = new Decimal(0)
+                    player.E.energizer.a = new Decimal(0)
+                    player.E.energizer.b = new Decimal(0)
+                    player.E.energizer.c = new Decimal(0)
+                    player.E.energizer.d = new Decimal(0)
+                    doReset("E", true)
                 }
-                else {
-                    if (player.D.mode == "Day") {
-                        player.D.mode = "Dusk"
-                    }
-                    else {
-                        player.D.mode = !(player.D.mode == "Dawn") ? "Dawn" : "Dusk"
-                    }
-                }
+            },
+        },
+        10: {
+            title: "Energize LP",
+            canClick() {return player.E.points.gte(1) && player.E.energizer.lp.add(player.E.input).lte(tmp.E.energizerCaps.lp) && player.E.input.lte(player.E.points)},
+            onClick() {
+                player.E.points = player.E.points.sub(1)
+                player.E.energizer.lp = player.E.energizer.lp.add(player.E.input)
             },
             display() {
-                return "<h3>"+player.D.mode+"<h3>"
+                return "You have "+player.E.energizer.lp+" energy in LP <b> which is giving a "+format(layerE.earnformula.lp(player.E.energizer.lp))+"x to LP"
             },
-            onHold() {
-                if (player.offTime && player.D.mode != "Dusk") {
-                    player.D.nuhuh = true
-                }
-                else {
-                    player.D.mode = "Day"
-                }
-            }
-            
         },
-    },
-    infoboxes: {
-        info: {
-            title: "Dawn & Dusk",
-            body: "Dawn & Dusk is a feature where you can effect stats based on if your mode is dawn or dusk. <br>Dawn effects stats when you're online/active and Dusk effects stats when offline.<br> You can hold the button to set it to 'Day' which provides no effects (hold and move off the button to set it)",
-        },
-    },
-    /*challenges: {
         11: {
-            name: "Chopped Point Count",
+            title: "Energize A",
+            canClick() {return player.E.points.gte(1) && player.E.energizer.a.add(player.E.input).lte(tmp.E.energizerCaps.a) && player.E.input.lte(player.E.points)},
+            onClick() {
+                player.E.points = player.E.points.sub(1)
+                player.E.energizer.a = player.E.energizer.a.add(player.E.input)
+            },
+            display() {
+                return "You have "+player.E.energizer.a+" energy in A <b> which is giving a "+format(layerE.earnformula.a(player.E.energizer.a))+"x to A"
+            },
+        },
+        12: {
+            title: "Energize B",
+            canClick() {return player.E.points.gte(1) && player.E.energizer.b.add(player.E.input).lte(tmp.E.energizerCaps.b) && player.E.input.lte(player.E.points)},
+            onClick() {
+                player.E.points = player.E.points.sub(1)
+                player.E.energizer.b = player.E.energizer.b.add(player.E.input)
+            },
+            display() {
+                return "You have "+player.E.energizer.b+" energy in B <b> which is giving a "+format(layerE.earnformula.b(player.E.energizer.b))+"x to B"
+            },
+        },
+        13: {
+            title: "Energize C",
+            canClick() {return player.E.points.gte(1) && player.E.energizer.c.add(player.E.input).lte(tmp.E.energizerCaps.c) && player.E.input.lte(player.E.points)},
+            onClick() {
+                player.E.points = player.E.points.sub(1)
+                player.E.energizer.c = player.E.energizer.c.add(player.E.input)
+            },
+            display() {
+                return "You have "+player.E.energizer.c+" energy in C <b> which is giving a "+format(layerE.earnformula.c(player.E.energizer.c))+"x to C"
+            },
+        },
+        14: {
+            title: "Energize D",
+            canClick() {return player.E.points.gte(1) && player.E.energizer.d.add(player.E.input).lte(tmp.E.energizerCaps.d) && player.E.input.lte(player.E.points)},
+            onClick() {
+                player.E.points = player.E.points.sub(1)
+                player.E.energizer.d = player.E.energizer.d.add(player.E.input)
+            },
+            display() {
+                return "You have "+player.E.energizer.d+" energy in D <b> which is giving a "+format(layerE.earnformula.d(player.E.energizer.d))+"x to D"
+            },
+        },
+    },
+    bars: {
+        lp: {
+            direction: RIGHT,
+            width: 500,
+            height: 50,
+            display() {try{return player.E.energizer[this.id]+"/"+tmp.E.energizerCaps[this.id]} catch{return "Please wait..."}},
+            progress() { return player.E.energizer[this.id].div(tmp.E.energizerCaps[this.id]) },
+            fillStyle() {
+                return {"background": "grey"}
+            }
+        },
+        a: {
+            direction: RIGHT,
+            width: 500,
+            height: 50,
+            display() {try{return player.E.energizer[this.id]+"/"+tmp.E.energizerCaps[this.id]} catch{return "Please wait..."}},
+            progress() { return player.E.energizer[this.id].div(tmp.E.energizerCaps[this.id]) },
+            fillStyle() {
+                return {"background": tmp.A.color}
+            }
+        },
+        b: {
+            direction: RIGHT,
+            width: 500,
+            height: 50,
+            display() {try{return player.E.energizer[this.id]+"/"+tmp.E.energizerCaps[this.id]} catch{return "Please wait..."}},
+            progress() { return player.E.energizer[this.id].div(tmp.E.energizerCaps[this.id]) },
+            fillStyle() {
+                return {"background": tmp.B.color}
+            }
+        },
+        c: {
+            direction: RIGHT,
+            width: 500,
+            height: 50,
+            display() {try{return player.E.energizer[this.id]+"/"+tmp.E.energizerCaps[this.id]} catch{return "Please wait..."}},
+            progress() { return player.E.energizer[this.id].div(tmp.E.energizerCaps[this.id]) },
+            fillStyle() {
+                return {"background": tmp.C.color}
+            }
+        },
+        d: {
+            direction: RIGHT,
+            width: 500,
+            height: 50,
+            display() {try{return player.E.energizer[this.id]+"/"+tmp.E.energizerCaps[this.id]} catch{return "Please wait..."}},
+            progress() { return player.E.energizer[this.id].div(tmp.E.energizerCaps[this.id]) },
+            fillStyle() {
+                return {"background": tmp.D.color}
+            }
+        },
+    },
+    challenges: {
+        11: {
+            name() {return "Energy Charge Tier "+challengeCompletions(this.layer, this.id)},
             challengeDescription() { 
-                let x = "LP is divided by /"+this.inChallengeEffect()+" and more upgrades"
+                let x = "Charge your energy up using LP gain, LP is divided by /"+format(this.inChallengeEffect())+"<br> You can complete this as many times as you want."
                 return x
             },
             goalDescription() {
-                return "Get 1e6 B"
+                return "Get 1e"+new Decimal(challengeCompletions("E",11)).add(1).times(3)+" LP"
             },
             canComplete(){
-                return player.B.points.gte(1e6)
+                return player.points.gte(new Decimal(10).pow(new Decimal(challengeCompletions("E",11)).add(1).times(3)))
             },
             unlocked() { 
                 return (true) 
             },
-            rewardEffect() {
-                return new Decimal(1.1).pow(new Decimal(challengeCompletions(this.layer, this.id))).add(1).floor()
-            },
             inChallengeEffect() {
-                return new Decimal(4).pow(new Decimal(challengeCompletions(this.layer, this.id)).add(1))
+                return new Decimal(2).pow(new Decimal(challengeCompletions(this.layer, this.id)).add(1))
             },
             currencyDisplayName: "points",
-            completionLimit: 1,
+            completionLimit: Infinity,
             rewardDescription() {
-                let x = "Boost points by "+this.rewardEffect()+"x"
+                let x = "+"+new Decimal(challengeCompletions(this.layer, this.id)).add(1)+" E"
                 return x
             },
             onEnter() {
                 player.points = player.points
+            },
+            onComplete() {
+                addPoints("E", new Decimal(challengeCompletions(this.layer, this.id)))
             }
         },
-        12: {
-            name: "Cut A Generation",
-            challengeDescription() { 
-                let x = "A is divided by /"+this.inChallengeEffect()
-                return x
-            },
-            goalDescription() {
-                return "Get 1e6 B"
-            },
-            canComplete(){
-                return player.B.points.gte(1e6)
-            },
-            unlocked() { 
-                return (hasChallenge("C", 11)) 
-            },
-            rewardEffect() {
-                return new Decimal(2)
-            },
-            inChallengeEffect() {
-                return new Decimal(16).pow(new Decimal(challengeCompletions(this.layer, this.id)).add(1))
-            },
-            currencyDisplayName: "points",
-            completionLimit: 1,
-            rewardDescription() {
-                let x = "Boost A by "+this.rewardEffect()+"x"
-                return x
-            },
-            onEnter() {
-                player.points = player.points
-            }
-        },
-        13: {
-            name: "Catastrophic Challenge",
-            challengeDescription() { 
-                let x = "LP, A & B is divided by /1024 <br> Autoupgrading is disabled in this challenge"
-                return x
-            },
-            goalDescription() {
-                return "Get 1e9 B"
-            },
-            canComplete(){
-                return player.B.points.gte(1e9)
-            },
-            unlocked() { 
-                return (hasChallenge("C", 12)) 
-            },
-            rewardEffect() {
-                return new Decimal(16)
-            },
-            inChallengeEffect() {
-                return new Decimal(1024).pow(new Decimal(challengeCompletions("C", 13)).add(1))
-            },
-            currencyDisplayName: "points",
-            completionLimit: 1,
-            rewardDescription() {
-                let x = "Boost points by "+this.rewardEffect()+"x"
-                return x
-            },
-            onEnter() {
-                player.A.upgrades = []
-                player.B.upgrades = []
-            }
-        },
-        14: {
-            name: "Creatorless Challenge",
-            challengeDescription() { 
-                let x = "Remember all that automation we gave you? Yeah well we're taking it away now. <br> You dont generate A or B and & no longer works"
-                return x
-            },
-            goalDescription() {
-                return "Get 1e10 B"
-            },
-            canComplete(){
-                return player.B.points.gte(1e10)
-            },
-            unlocked() { 
-                return (hasChallenge("C", 12)) 
-            },
-            inChallengeEffect() {
-                return false
-            },
-            currencyDisplayName: "points",
-            completionLimit: 1,
-            rewardDescription() {
-                let x = "B passive generation cap is ^10 (woah), you generate 50% of your A reset and 35% of your B reset and the ampersand formula is even better "
-                return x
-            },
-            onEnter() {
-                player.points = player.points
-            }
-        },
-        15: {
-            name: "Calamity",
-            challengeDescription() { 
-                let x = "LP, A and B are raised to the ^0.25 power"
-                return x
-            },
-            goalDescription() {
-                return "Get 1000 B"
-            },
-            canComplete(){
-                return player.B.points.gte(1000)
-            },
-            unlocked() { 
-                return (hasChallenge("C", 11) && hasChallenge("C", 12) && hasChallenge("C", 13) && hasChallenge("C", 14)) 
-            },
-            inChallengeEffect() {
-                return false
-            },
-            currencyDisplayName: "points",
-            completionLimit: 1,
-            rewardDescription() {
-                let x = "LP is raised to the ^1.1 and a new layer"
-                return x
-            },
-            onEnter() {
-                player.A.upgrades = []
-                player.B.upgrades = []
-            }
-        }
-    },*/
+        
+    },
     tabFormat: {
         "Main": {
             content: [
@@ -264,6 +300,60 @@ addLayer("E", {
     
             unlocked() {return true}
         },
-    },
+        "Energizer": {
+            content: [
+                "main-display",
+                "prestige-button",
+                "blank",
+                ["clickable", [10001]],
+                ["clickable", [10]],
+                ["bar", "lp"],
+                "blank",
+                ["clickable", [11]],
+                ["bar", "a"],
+                "blank",
+                ["clickable", [12]],
+                ["bar", "b"],
+                "blank",
+                ["clickable", [13]],
+                ["bar", "c"],
+                "blank",
+                ["clickable", [14]],
+                ["bar", "d"],
+                "blank",
+            ],
+    
+            unlocked() {return hasUpgrade("E", 11)}
+        },
+        "Charging": {
+            content: [
+                "main-display",
+                "prestige-button",
+                "blank",
+                "challenges",
+                "blank",
+            ],
 
+            unlocked() {return hasUpgrade("E", 11)}
+        }
+    },
 })
+let layerE = {
+    earnformula: {
+        lp(x) {
+            return x.times(1000).add(1).pow(1.05)
+        },
+        a(x) {
+            return x.times(100).pow(0.9).add(1)
+        },
+        b(x) {
+            return x.times(50).pow(0.7).add(1)
+        },
+        c(x) {
+            return x.times(25).pow(0.5).add(1)
+        },
+        d(x) {
+            return x.times(5).pow(0.3).add(1)
+        },
+    },
+}

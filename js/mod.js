@@ -2,7 +2,7 @@ let modInfo = {
 	name: "The Alphabet Tree",
 	author: "me",
 	pointsName: "Lexiconal Points",
-	modFiles: ["Layers/a.js","Layers/b.js","Layers/c.js","Layers/d.js","Layers/e.js","Layers/f.js","Layers/g.js","Layers/h.js","Layers/i.js","Layers/j.js","Layers/k.js","Layers/l.js","Layers/m.js","Layers/n.js","Layers/o.js","Layers/p.js","Layers/q.js","Layers/r.js","Layers/s.js","Layers/t.js","Layers/u.js","Layers/v.js","Layers/w.js","Layers/x.js","Layers/y.js","Layers/z.js","achievements.js", "tree.js","dev.js","Layers/Sublayers/&.js", "Layers/Sublayers/$.js", "Layers/Sublayers/QM.js", "Layers/Sublayers/^.js"],
+	modFiles: ["Layers/a.js","Layers/b.js","Layers/c.js","Layers/d.js","Layers/e.js","Layers/f.js","Layers/g.js","Layers/h.js","Layers/i.js","Layers/j.js","Layers/k.js","Layers/l.js","Layers/m.js","Layers/n.js","Layers/o.js","Layers/p.js","Layers/q.js","Layers/r.js","Layers/s.js","Layers/t.js","Layers/u.js","Layers/v.js","Layers/w.js","Layers/x.js","Layers/y.js","Layers/z.js","achievements.js", "tree.js","dev.js","Layers/Sublayers/&.js", "Layers/Sublayers/$.js", "Layers/Sublayers/QM.js", "Layers/Sublayers/^.js", "egg.js"],
 
 	discordName: "",
 	discordLink: "",
@@ -83,7 +83,7 @@ function getPointGen() {
 	if (hasMilestone("B", 5)) gain = gain.times(100)
 	if (hasUpgrade("A", 42)) gain = gain.times(upgradeEffect("A", 42))
 	if (hasUpgrade("A", 44)) gain = gain.times(22)
-	if (inChallenge("C", 11)) gain = gain.div(tmp.C.challenges["11"].inChallengeEffect)
+	if (inChallenge("C", 11)) gain = gain.div(inChallengeEffect("C", 11))
 	if (hasChallenge("C", 11)) gain = gain.times(challengeEffect("C", 11))
 	if (hasUpgrade("C", 12)) gain = gain.times(1.2)
 	if (hasUpgrade("C", 13)) gain = gain.times(10)	
@@ -91,7 +91,7 @@ function getPointGen() {
 	if (hasUpgrade("A", 45)) gain = gain.times(3)
 	if (hasUpgrade("A", 46)) gain = gain.times(3)
 	if (hasUpgrade("C", 23)) gain = gain.times(upgradeEffect("C", 23))
-	if (inChallenge("C", 13)) gain = gain.div(tmp.C.challenges["13"].inChallengeEffect)
+	if (inChallenge("C", 13)) gain = gain.div(inChallengeEffect("C", 13))
 	if (hasUpgrade("C", 24)) gain = gain.times(1e4)	
 	if (hasUpgrade("B", 42)) gain = gain.times(30)	
 	if (hasUpgrade("B", 43)) gain = gain.times(upgradeEffect("B", 43))
@@ -107,17 +107,6 @@ function getPointGen() {
 	if (hasUpgrade("D", 44)) gain = gain.times(1e3)
 	if (hasUpgrade("D", 45)) gain = gain.times(1e3)
 	if (hasUpgrade("D", 46)) gain = gain.times(1e3)
-
-
-
-
-
-
-
-
-
-
-
 	if (player.D.mode == "Dawn") gain = gain.times(2)
 	if (player.D.mode == "Dusk" && !player.offTime) gain = gain.div(10)
 	if (player.D.mode == "Dusk" && player.offTime) gain = gain.times(5)
@@ -130,6 +119,9 @@ function getPointGen() {
 	if (player.D.mode == "Dawn" && !player.offTime && hasUpgrade("D", 31)) gain = gain.times(player["&"].points.add(1).log(100).add(1))
 
 	if (hasUpgrade("D", 15) && player.D.mode == "Dawn" && player.offTime) gain = gain.div(player.D.points.add(1))
+	if (player.E.energizer.lp.gte(1)) gain = gain.times(layerE.earnformula.lp(player.E.energizer.lp))
+	if (hasChallenge("E", 11)) gain = gain.div(tmp.E.challenges["11"].inChallengeEffect)
+	//gain = gain.times(layerEffect("E"))
 
 	return gain
 }
@@ -139,6 +131,7 @@ function addedPlayerData() { return {
 	paused: false,
 	currentChallenge: false,
 	trueTimePlayed: 0,
+	switched: [],
 
 	hidemilestones: {
 		a: false,
@@ -154,14 +147,6 @@ var displayThings = [
 	()=>{
 		if (player.paused) {
 			return "[DISABLED GENERATION]"
-		}
-	},
-	()=>{
-		if (player.currentChallenge) {
-			return "Current Challenge: "+player.currentChallenge
-		}
-		else {
-			return ""
 		}
 	},
 	()=>{
@@ -271,4 +256,20 @@ function forceImport(text = String, reload) {
 	player = JSON.parse(atob(text))
 	save(true)
 	setTimeout(() => {location.reload()}, 100)
+}
+
+function onSwitchTab(tab) {
+	if (player.switched.length == 10) {
+		player.switched.splice(0, 1)
+	}
+
+	player.switched.push(tab)
+
+	/*if (player.switched[9] == "D" && player.switched[8] == "E" && player.switched[7] == "D" && player.switched[6] == "E") {
+		if (Math.random() < 0.1 && !player.egg) {
+			showTab('none')
+			player.egg = 'show'
+		}
+	}*/
+	
 }

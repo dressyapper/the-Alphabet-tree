@@ -402,6 +402,13 @@ addLayer("Ach", {
                 addTheme("Energized")
             },
         },
+        52: {
+            name: "$25 seperate for the charger",
+            done() {
+                return challengeCompletions("E", 11) >= 5
+            },
+            tooltip: "Reach Energy Charge tier 5",
+        },
     },
     pointeff() {
         let pts = player.Ach.points

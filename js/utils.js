@@ -155,6 +155,8 @@ function showTab(name, prev) {
 	needCanvasUpdate = true
 	document.activeElement.blur()
 
+	onSwitchTab(name)
+
 }
 
 function showNavTab(name, prev) {

@@ -73,7 +73,7 @@ addLayer("B", {
         if (hasUpgrade("C", 12)) mult = mult.times(1.2)
         if (hasUpgrade("A", 46)) mult = mult.times(1.2)
         if (hasUpgrade("C", 22)) mult = mult.times(22)
-        if (inChallenge("C", 13)) mult = mult.div(tmp.C.challenges["13"].inChallengeEffect)
+        if (inChallenge("C", 13)) mult = mult.div(inChallengeEffect("C", 13))
         if (hasUpgrade("C", 33)) mult = mult.times(upgradeEffect("C", 33))
         if (hasAchievement("Ach", 44)) mult = mult.times(10)
         if (hasUpgrade("D", 23)) mult = mult.times(1e5)
@@ -82,6 +82,7 @@ addLayer("B", {
         if (hasUpgrade("D", 13) && player.D.mode == "Dusk" && !player.offTime) mult = mult.div(7)
         if (hasUpgrade("D", 53)) mult = mult.times(100)
         if (hasUpgrade("D", 15) && player.D.mode == "Dawn" && player.offTime) mult = mult.div(player.D.points.add(1))
+        if (player.E.energizer.b.gte(1)) mult = mult.times(layerE.earnformula.b(player.E.energizer.b))
 
         return mult
     },
