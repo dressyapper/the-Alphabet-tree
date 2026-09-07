@@ -120,7 +120,7 @@ function getPointGen() {
 
 	if (hasUpgrade("D", 15) && player.D.mode == "Dawn" && player.offTime) gain = gain.div(player.D.points.add(1))
 	if (player.E.energizer.lp.gte(1)) gain = gain.times(layerE.earnformula.lp(player.E.energizer.lp))
-	if (hasChallenge("E", 11)) gain = gain.div(tmp.E.challenges["11"].inChallengeEffect)
+	if (inChallenge("E", 11)) gain = gain.div(tmp.E.challenges["11"].inChallengeEffect)
 	//gain = gain.times(layerEffect("E"))
 
 	return gain
