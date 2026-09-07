@@ -409,6 +409,13 @@ addLayer("Ach", {
             },
             tooltip: "Reach Energy Charge tier 5",
         },
+        53: {
+            name: "Infinite energy glitch",
+            done() {
+                return challengeCompletions("E", 11) >= 5
+            },
+            tooltip: "Reach Energy Charge tier 10",
+        },
     },
     pointeff() {
         let pts = player.Ach.points

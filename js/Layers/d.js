@@ -31,6 +31,7 @@ addLayer("D", {
         if (hasUpgrade("D", 33)) mult = mult.times(2)
         if (hasUpgrade("D", 35)) mult = mult.times(5)
         if (hasUpgrade("D", 56)) mult = mult.times(5)
+        mult = mult.times(layerEffect("E"))
 
         if (hasUpgrade("D", 15) && player.D.mode == "Dusk" && !player.offTime) mult = mult.pow(0.5)
         //mult = mult.times(layerEffect("E"))
