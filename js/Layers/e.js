@@ -24,15 +24,39 @@ addLayer("E", {
     resource: "E", // Name of prestige currency
     baseResource: "D", // Name of resource prestige is based on
     baseAmount() {return player.D.points}, // Get the current amount of baseResource
-    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    type: "custom", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.5, // Prestige currency exponent
     directMult() { // Calculate the multiplier for main currency from bonuses
-        mult = new Decimal(2)
+        mult = new Decimal(1)
         return mult
     },
     gainMult() { // Calculate the exponent on main currency from bonuses
-        return new Decimal(2)
+        return new Decimal(1)
     },
+    getResetGain() {
+        return player.E.points.add(1)
+    },
+    getNextAt() {
+        return tmp.E.requires.times(new Decimal(2).pow(player.E.points))
+    },
+    canReset() {
+        try {
+            return player.D.points.gte(tmp.E.requires)
+        }
+        catch {
+            return new Decimal(0)
+        }
+    },
+    prestigeButtonText() {
+        try {
+            return `${tmp.E.resetDescription !== undefined ? tmp.E.resetDescription : "Reset for "}+<b>${formatWhole(tmp.E.resetGain)}</b> ${tmp.E.resource}<br><br>${player.E.points.lt(30) ? (tmp.E.baseAmount.gte(tmp.E.nextAt) && (tmp.E.canBuyMax !== undefined) && tmp.E.canBuyMax ? "Next:" : "Req:") : ""} ${formatWhole(tmp.E.baseAmount)} / ${(tmp[layer].roundUpCost ? formatWhole(tmp.E.nextAtDisp) : format(tmp.E.nextAtDisp))} ${tmp.E.baseResource}		
+		`
+        }
+        catch {
+            return "Please wait..."
+        }
+    },
+    
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
@@ -151,10 +175,18 @@ addLayer("E", {
         },
         10: {
             title: "Energize LP",
-            canClick() {return player.E.points.gte(1) && player.E.energizer.lp.add(player.E.input).lte(tmp.E.energizerCaps.lp) && player.E.input.lte(player.E.points)},
+            canClick() {return player.E.points.gte(1) && /*is less than cap*/((player.E.energizer.lp.add(player.E.input).lte(tmp.E.energizerCaps.lp) && /*input fits in points*/ player.E.input.lte(player.E.points)) || player.E.input == "max")},
             onClick() {
-                player.E.points = player.E.points.sub(1)
-                player.E.energizer.lp = player.E.energizer.lp.add(player.E.input)
+                if (player.E.input == "max") {
+                    let diff = tmp.E.energizerCaps.lp.sub(player.E.energizer.lp)
+                    if (false) {
+
+                    }
+                }
+                else {
+                    player.E.points = player.E.points.sub(1)
+                    player.E.energizer.lp = player.E.energizer.lp.add(player.E.input)
+                }
             },
             display() {
                 return "You have "+player.E.energizer.lp+" energy in LP <b> which is giving a "+format(layerE.earnformula.lp(player.E.energizer.lp))+"x to LP"
@@ -162,7 +194,7 @@ addLayer("E", {
         },
         11: {
             title: "Energize A",
-            canClick() {return player.E.points.gte(1) && player.E.energizer.a.add(player.E.input).lte(tmp.E.energizerCaps.a) && player.E.input.lte(player.E.points)},
+            canClick() {return player.E.points.gte(1) && /*is less than cap*/((player.E.energizer.a.add(player.E.input).lte(tmp.E.energizerCaps.a) && /*input fits in points*/ player.E.input.lte(player.E.points)) || player.E.input == "max")},
             onClick() {
                 player.E.points = player.E.points.sub(1)
                 player.E.energizer.a = player.E.energizer.a.add(player.E.input)
@@ -173,7 +205,7 @@ addLayer("E", {
         },
         12: {
             title: "Energize B",
-            canClick() {return player.E.points.gte(1) && player.E.energizer.b.add(player.E.input).lte(tmp.E.energizerCaps.b) && player.E.input.lte(player.E.points)},
+            canClick() {return player.E.points.gte(1) && /*is less than cap*/((player.E.energizer.b.add(player.E.input).lte(tmp.E.energizerCaps.b) && /*input fits in points*/ player.E.input.lte(player.E.points)) || player.E.input == "max")},
             onClick() {
                 player.E.points = player.E.points.sub(1)
                 player.E.energizer.b = player.E.energizer.b.add(player.E.input)
@@ -184,7 +216,7 @@ addLayer("E", {
         },
         13: {
             title: "Energize C",
-            canClick() {return player.E.points.gte(1) && player.E.energizer.c.add(player.E.input).lte(tmp.E.energizerCaps.c) && player.E.input.lte(player.E.points)},
+            canClick() {return player.E.points.gte(1) && /*is less than cap*/((player.E.energizer.c.add(player.E.input).lte(tmp.E.energizerCaps.c) && /*input fits in points*/ player.E.input.lte(player.E.points)) || player.E.input == "max")},
             onClick() {
                 player.E.points = player.E.points.sub(1)
                 player.E.energizer.c = player.E.energizer.c.add(player.E.input)
@@ -195,7 +227,7 @@ addLayer("E", {
         },
         14: {
             title: "Energize D",
-            canClick() {return player.E.points.gte(1) && player.E.energizer.d.add(player.E.input).lte(tmp.E.energizerCaps.d) && player.E.input.lte(player.E.points)},
+            canClick() {return player.E.points.gte(1) && /*is less than cap*/((player.E.energizer.d.add(player.E.input).lte(tmp.E.energizerCaps.d) && /*input fits in points*/ player.E.input.lte(player.E.points)) || player.E.input == "max")},
             onClick() {
                 player.E.points = player.E.points.sub(1)
                 player.E.energizer.d = player.E.energizer.d.add(player.E.input)
