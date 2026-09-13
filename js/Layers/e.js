@@ -34,7 +34,7 @@ addLayer("E", {
     },
     color: "rgb(0, 255, 255)",
     requires() {
-        let req = new Decimal(1)
+        let req = new Decimal(150000)
         return req
     }, // Can be a function that takes requirement increases into account
     resource: "E", // Name of prestige currency
