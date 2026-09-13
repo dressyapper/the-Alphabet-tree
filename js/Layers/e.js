@@ -35,6 +35,9 @@ addLayer("E", {
     color: "rgb(0, 255, 255)",
     requires() {
         let req = new Decimal(150000)
+        if (hasUpgrade("E", 31)) {
+            req = req.div(upgradeEffect("E", 31))
+        }
         return req
     }, // Can be a function that takes requirement increases into account
     resource: "E", // Name of prestige currency
@@ -54,10 +57,6 @@ addLayer("E", {
         console.log
         if (req.gte(1000)) {
             req = new Decimal(1000).add(player.E.points.sub(1000).add(1).log(1.1))
-        }
-
-        if (hasUpgrade("E", 31)) {
-            req = req.times(upgradeEffect("E", 31))
         }
         return req
     },
@@ -284,7 +283,7 @@ addLayer("E", {
 
         31: {
             title: "Extra bonuses",
-            description: "All allocated energy boost E",
+            description: "All allocated energy nerfs E requirement",
             cost: new Decimal(75),
             effectCap() {
                 let cap = new Decimal(1000)
@@ -307,11 +306,11 @@ addLayer("E", {
             },
             effectDisplay() {
                 if (this.effect().gte(this.effectCap())) {
-                    return "/"+format(upgradeEffect(this.layer, this.id))+" (CAPPED)"
+                    return "/"+format(upgradeEffect(this.layer, this.id))+"(CAPPED)"
                 }
                 else {
                     return "/"+format(upgradeEffect(this.layer, this.id))
-                }
+ x               }
             },
             unlocked() {return hasAchievement("Ach", 54)},
         },
