@@ -31,9 +31,9 @@ addLayer("D", {
         if (hasUpgrade("D", 33)) mult = mult.times(2)
         if (hasUpgrade("D", 35)) mult = mult.times(5)
         if (hasUpgrade("D", 56)) mult = mult.times(5)
-        mult = mult.times(layerEffect("E"))
 
         if (hasUpgrade("D", 15) && player.D.mode == "Dusk" && !player.offTime) mult = mult.pow(0.5)
+        if (player.E.energygalaxy.gte(1)) mult = mult.times(player.E.EGeffect)
         //mult = mult.times(layerEffect("E"))
         return mult
     },
@@ -55,7 +55,11 @@ addLayer("D", {
 
         if (hasUpgrade("D", 15) && player.D.mode == "Dawn" && !player.offTime) {pg = new Decimal(0.5)}
         if (hasUpgrade("D", 15) && player.D.mode == "Dusk" && player.offTime) {pg = new Decimal(0.75)}
+        if (hasUpgrade("E", 22)) pg = pg.add(0.25)
         return pg
+    },
+    autoUpgrade() {
+        return hasUpgrade("&", 14) && !inChallenge("C", 14)
     },
     /*effectDescription() {
         return ""

@@ -30,6 +30,7 @@ addLayer("A", {
         if (buyableEffect("A", 11).gte(1)) {d = d.div(buyableEffect("A",11))}
         if (hasUpgrade("C", 32)) {d = d.div(1e40)}
         if (hasUpgrade("D", 52)) {d = d.div(100)}
+        if (hasChallenge("E", 22)) {d = d.div(1e50)}
         try {
             return x.div(d).add(new Decimal(hasAchievement("Ach", 33)+0))
         }
@@ -79,6 +80,7 @@ addLayer("A", {
         if (hasUpgrade("D", 51)) mult = mult.times(100)
         if (hasUpgrade("D", 15) && player.D.mode == "Dawn" && player.offTime) mult = mult.div(player.D.points.add(1))
         if (player.E.energizer.a.gte(1)) mult = mult.times(layerE.earnformula.a(player.E.energizer.a))
+        if (player.E.energygalaxy.gte(1)) mult = mult.times(player.E.EGeffect)
         
         return mult
     },
@@ -125,10 +127,13 @@ addLayer("A", {
         if (hasUpgrade("B", 24)) pg = new Decimal(0.1)
         if (hasUpgrade("C", 14)) pg = new Decimal(0.35)
         if (hasChallenge("C", 14)) pg = new Decimal(0.5)
-        if (hasUpgrade("D", 12) && player.offTime && player.D.mode == "Dawn") pg = pg.neg()
+        if (hasChallenge("E", 22)) pg = new Decimal(1.5)
+
+
         if (!cangenerate()) {
             pg = new Decimal(0)
         }
+        if (hasUpgrade("D", 12) && player.offTime && player.D.mode == "Dawn") pg = pg.neg()
         return pg
     },
     gainExp() { // Calculate the exponent on main currency from bonuses

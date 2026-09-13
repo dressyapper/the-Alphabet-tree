@@ -14,11 +14,27 @@ addLayer("E", {
             c: new Decimal(0),
             d: new Decimal(0),
         },
-    }},
 
+        energygalaxy: new Decimal(0),
+        EGreq: new Decimal(1e9),
+        EGeffect: new Decimal(1)
+    }},
+    update(diff) {
+        if (player.E.input != "max" &&player.E.input.eq(0)) {
+            player.E.input = new Decimal(1)
+        }
+
+        if (player.E.energygalaxy.gte(43)) {
+            player.E.EGreq = new Decimal(1e50).add(new Decimal(10).pow(player.E.energygalaxy.add(player.E.energygalaxy.sub(43)).add(7)))
+        }
+        else {
+            player.E.EGreq = new Decimal(10).pow(player.E.energygalaxy.add(7))
+        }
+        player.E.EGeffect = new Decimal(1).times(new Decimal(1.10).pow(player.E.energygalaxy).sub(1)).add(1)
+    },
     color: "rgb(0, 255, 255)",
     requires() {
-        let req = new Decimal(100000)
+        let req = new Decimal(1)
         return req
     }, // Can be a function that takes requirement increases into account
     resource: "E", // Name of prestige currency
@@ -34,18 +50,40 @@ addLayer("E", {
         return new Decimal(1)
     },
     getResetGain() {
-        return player.E.points.add(1)
+        let req = player.E.points.add(1)
+        console.log
+        if (req.gte(1000)) {
+            req = new Decimal(1000).add(player.E.points.sub(1000).add(1).log(1.1))
+        }
+
+        if (hasUpgrade("E", 31)) {
+            req = req.times(upgradeEffect("E", 31))
+        }
+        return req
     },
     getNextAt() {
-        return tmp.E.requires.times(new Decimal(2).pow(player.E.points))
+        let req = tmp.E.requires.times(new Decimal(2).pow(player.E.points))
+        console.log
+        if (req.gte(1000)) {
+            req = new Decimal(1000).add(new Decimal(2).pow(player.E.points.pow(2)))
+        }
+
+        return req
     },
     canReset() {
         try {
-            return player.D.points.gte(tmp.E.requires)
+            return player.D.points.gte(tmp.E.nextAt)
         }
         catch {
-            return new Decimal(0)
+            return false
         }
+    },
+    doReset(reset) {
+        if (layers[reset].row <= this.row) return 
+
+        let keep = ["input"]
+
+        layerDataReset(this.layer, keep)
     },
     prestigeButtonText() {
         try {
@@ -54,6 +92,17 @@ addLayer("E", {
         }
         catch {
             return "Please wait..."
+        }
+    },
+    generate() {
+        if (tmp.E.resetGain instanceof Decimal) {
+            let pg = player.E.points.add(1).log(10).div(1000).min(2)
+
+        
+
+            if (hasUpgrade("E", 21)) {
+                addPoints("E", tmp.E.resetGain.times(pg))
+            } 
         }
     },
     
@@ -65,7 +114,7 @@ addLayer("E", {
         return effect
     },
     effectDescription() {
-        return "but your total is boosting LP & D by "+format(this.effect())+"x"
+        return "but your total is boosting LP by "+format(this.effect())+"x"
     },
     energizerCaps() {
         obj = {
@@ -145,12 +194,129 @@ addLayer("E", {
             unlocked() {return hasUpgrade("E", 11)},
         },
         21: {
-            title: "Extension Installer E",
-            description: "Square D cap",
+            title: "Perpetual Energy",
+            description: "Passively generate energy at a rate based on energy (capped at 200%)",
             cost: new Decimal(100),
-            unlocked() {return false && hasUpgrade("E", 12) && hasUpgrade("E", 13) && hasUpgrade("E", 14) && hasUpgrade("E", 15) && hasUpgrade("E", 16)},
+            unlocked() {return hasUpgrade("E", 12) && hasUpgrade("E", 13) && hasUpgrade("E", 14) && hasUpgrade("E", 15) && hasUpgrade("E", 16)},
+        },
+        22: {
+            title: "Energy powered automation",
+            description: "Generate 150% of A reset, 75% of B reset & ^25 the cap (woahwoahwo (2.5 woahs)), 50% of C reset and +25% of D reset and improve the & formula",
+            cost: new Decimal(50000),
+            unlocked() {return hasUpgrade("E", 12) && hasUpgrade("E", 13) && hasUpgrade("E", 14) && hasUpgrade("E", 15) && hasUpgrade("E", 16)},
+        },
+        23: {
+            title: "Lexicon Charger",
+            description: "Boost LP by EC tier",
+            cost: new Decimal(150000),
+            effectCap() {
+                let cap = new Decimal(250)
+
+
+                return cap
+            },
+            effect() {
+                let cap = this.effectCap()
+                let eff = new Decimal(challengeCompletions("E", 11)).add(1)
+                
+
+                if (eff.gte(cap)) {
+                    return cap
+                }
+                else {
+                    return eff
+                }
+            },
+            effectDisplay() {
+                if (this.effect().gte(this.effectCap())) {
+                    return format(upgradeEffect(this.layer, this.id))+"x (CAPPED)"
+                }
+                else {
+                    return format(upgradeEffect(this.layer, this.id))+"x"
+                }
+            },
+            unlocked() {return hasUpgrade("E", 22)},
+        },
+        24: {
+            title: "Electric Energizer",
+            description: "All energizer buffs are boosted based on E",
+            cost: new Decimal(300000),
+            effectCap() {
+                let cap = new Decimal(250)
+
+
+                return cap
+            },
+            effect() {
+                let cap = this.effectCap()
+                let eff = new Decimal(player.E.points).pow(0.2).add(1)
+                
+
+                if (eff.gte(cap)) {
+                    return cap
+                }
+                else {
+                    return eff
+                }
+            },
+            effectDisplay() {
+                if (this.effect().gte(this.effectCap())) {
+                    return format(upgradeEffect(this.layer, this.id))+"x (CAPPED)"
+                }
+                else {
+                    return format(upgradeEffect(this.layer, this.id))+"x"
+                }
+            },
+            unlocked() {return hasUpgrade("E", 23)},
+        },
+        25: {
+            title: "Quite alot for a static layer...",
+            description: "Total E divides energy charge challenge effect",
+            cost: new Decimal(1.5e6),
+            unlocked() {return hasUpgrade("E", 24)},
+        },
+        26: {
+            title: "Energy Galaxy",
+            description: "Unlock Energy Galaxies",
+            cost: new Decimal(7.77e6),
+            unlocked() {return hasUpgrade("E", 24)},
+        },
+
+        31: {
+            title: "Extra bonuses",
+            description: "All allocated energy boost E",
+            cost: new Decimal(75),
+            effectCap() {
+                let cap = new Decimal(1000)
+
+
+                return cap
+            },
+            effect() {
+                let cap = this.effectCap()
+                let en = player.E.energizer
+                let eff = en.lp.add(en.a.add(en.b.add(en.c.add(en.d)))).add(1).log(2).add(1)
+                
+
+                if (eff.gte(cap)) {
+                    return cap
+                }
+                else {
+                    return eff
+                }
+            },
+            effectDisplay() {
+                if (this.effect().gte(this.effectCap())) {
+                    return "/"+format(upgradeEffect(this.layer, this.id))+" (CAPPED)"
+                }
+                else {
+                    return "/"+format(upgradeEffect(this.layer, this.id))
+                }
+            },
+            unlocked() {return hasAchievement("Ach", 54)},
         },
     },
+
 
     
     clickables: {
@@ -173,14 +339,95 @@ addLayer("E", {
                 }
             },
         },
+        10002: {
+            title: "Reset for Energy Galaxy",
+            style() {
+                return {
+                    "width": "250px"
+                }
+            },
+            display() {
+                return "Reset all of E for an Energy Galaxy which boosts all of pre E by +10% compounding<br>"+format(player.E.points)+"/"+format(player.E.EGreq)
+            },
+            canClick() {return player.E.points.div(player.E.EGreq).gte(1)},
+            onClick() {
+                doReset("E", true)
+                player.E.energizer = {
+                    lp: new Decimal(0),
+                    a: new Decimal(0),
+                    b: new Decimal(0),
+                    c: new Decimal(0),
+                    d: new Decimal(0),
+                }
+                player.E.points = new Decimal(0)
+                player.E.upgrades = []
+                player.E.energygalaxy = player.E.energygalaxy.add(1)
+            },
+        },
+        10003: {
+            title() {
+                if (player.E.input == "max") {
+                    return "Amount: Max"
+                }
+                else {
+                    return "Amount: "+player.E.input 
+                }},
+            canClick() {return true},
+            onClick() {
+                let e = player.E.input
+
+                if (e == "max") {
+                    player.E.input = new Decimal(1)
+                }
+                else if (e.eq(1)) {
+                    player.E.input = new Decimal(5)
+                }
+                else if (e.eq(5)) {
+                    player.E.input = new Decimal(10)
+                }
+                else if (e.eq(10)) {
+                    player.E.input = new Decimal(25)
+                }
+                else if (e.eq(25)) {
+                    player.E.input = new Decimal(50)
+                }
+                else if (e.eq(50)) {
+                    player.E.input = new Decimal(100)
+                }
+                else if (e.eq(100)) {
+                    player.E.input = new Decimal(500)
+                }
+                else if (e.eq(500)) {
+                    player.E.input = new Decimal(1000)
+                }
+                else if (e.eq(1000)) {
+                    player.E.input = "max"
+                }
+                else {
+                    e = "max"
+                }
+
+                
+            },
+            onHold() {
+                player.E.input = "max"
+            },
+            unlocked() {
+                return hasUpgrade("$", 15)
+            }
+        },
         10: {
             title: "Energize LP",
-            canClick() {return player.E.points.gte(1) && /*is less than cap*/((player.E.energizer.lp.add(player.E.input).lte(tmp.E.energizerCaps.lp) && /*input fits in points*/ player.E.input.lte(player.E.points)) || player.E.input == "max")},
+            canClick() {return player.E.points.gte(1) && /*is less than cap*/((player.E.energizer.lp.add(player.E.input).lte(tmp.E.energizerCaps.lp) || player.E.input == "max"))},
             onClick() {
                 if (player.E.input == "max") {
-                    let diff = tmp.E.energizerCaps.lp.sub(player.E.energizer.lp)
-                    if (false) {
-
+                    if (tmp.E.energizerCaps.lp.sub(player.E.energizer.lp).gt(player.E.points)) {
+                        player.E.energizer.lp = player.E.energizer.lp.add(player.E.points.floor())
+                        player.E.points = new Decimal(0)
+                    }
+                    else {
+                        player.E.points = player.E.points.sub(tmp.E.energizerCaps.lp.sub(player.E.energizer.lp))
+                        player.E.energizer.lp = player.E.energizer.lp.add(tmp.E.energizerCaps.lp.sub(player.E.energizer.lp))
                     }
                 }
                 else {
@@ -194,10 +441,22 @@ addLayer("E", {
         },
         11: {
             title: "Energize A",
-            canClick() {return player.E.points.gte(1) && /*is less than cap*/((player.E.energizer.a.add(player.E.input).lte(tmp.E.energizerCaps.a) && /*input fits in points*/ player.E.input.lte(player.E.points)) || player.E.input == "max")},
+            canClick() {return player.E.points.gte(1) && /*is less than cap*/((player.E.energizer.a.add(player.E.input).lte(tmp.E.energizerCaps.a) || player.E.input == "max"))},
             onClick() {
-                player.E.points = player.E.points.sub(1)
-                player.E.energizer.a = player.E.energizer.a.add(player.E.input)
+                if (player.E.input == "max") {
+                    if (tmp.E.energizerCaps.a.sub(player.E.energizer.a).gt(player.E.points)) {
+                        player.E.energizer.a = player.E.energizer.a.add(player.E.points.floor())
+                        player.E.points = new Decimal(0)
+                    }
+                    else {
+                        player.E.points = player.E.points.sub(tmp.E.energizerCaps.a.sub(player.E.energizer.a))
+                        player.E.energizer.a = player.E.energizer.a.add(tmp.E.energizerCaps.a.sub(player.E.energizer.a))
+                    }
+                }
+                else {
+                    player.E.points = player.E.points.sub(1)
+                    player.E.energizer.a = player.E.energizer.a.add(player.E.input)
+                }
             },
             display() {
                 return "You have "+player.E.energizer.a+" energy in A <b> which is giving a "+format(layerE.earnformula.a(player.E.energizer.a))+"x to A"
@@ -205,10 +464,22 @@ addLayer("E", {
         },
         12: {
             title: "Energize B",
-            canClick() {return player.E.points.gte(1) && /*is less than cap*/((player.E.energizer.b.add(player.E.input).lte(tmp.E.energizerCaps.b) && /*input fits in points*/ player.E.input.lte(player.E.points)) || player.E.input == "max")},
+            canClick() {return player.E.points.gte(1) && /*is less than cap*/((player.E.energizer.b.add(player.E.input).lte(tmp.E.energizerCaps.b) || player.E.input == "max"))},
             onClick() {
-                player.E.points = player.E.points.sub(1)
-                player.E.energizer.b = player.E.energizer.b.add(player.E.input)
+                if (player.E.input == "max") {
+                    if (tmp.E.energizerCaps.b.sub(player.E.energizer.b).gt(player.E.points)) {
+                        player.E.energizer.b = player.E.energizer.b.add(player.E.points.floor())
+                        player.E.points = new Decimal(0)
+                    }
+                    else {
+                        player.E.points = player.E.points.sub(tmp.E.energizerCaps.b.sub(player.E.energizer.b))
+                        player.E.energizer.b = player.E.energizer.b.add(tmp.E.energizerCaps.b.sub(player.E.energizer.b))
+                    }
+                }
+                else {
+                    player.E.points = player.E.points.sub(1)
+                    player.E.energizer.b = player.E.energizer.b.add(player.E.input)
+                }
             },
             display() {
                 return "You have "+player.E.energizer.b+" energy in B <b> which is giving a "+format(layerE.earnformula.b(player.E.energizer.b))+"x to B"
@@ -216,10 +487,22 @@ addLayer("E", {
         },
         13: {
             title: "Energize C",
-            canClick() {return player.E.points.gte(1) && /*is less than cap*/((player.E.energizer.c.add(player.E.input).lte(tmp.E.energizerCaps.c) && /*input fits in points*/ player.E.input.lte(player.E.points)) || player.E.input == "max")},
+            canClick() {return player.E.points.gte(1) && /*is less than cap*/((player.E.energizer.c.add(player.E.input).lte(tmp.E.energizerCaps.c) || player.E.input == "max"))},
             onClick() {
-                player.E.points = player.E.points.sub(1)
-                player.E.energizer.c = player.E.energizer.c.add(player.E.input)
+                if (player.E.input == "max") {
+                    if (tmp.E.energizerCaps.c.sub(player.E.energizer.c).gt(player.E.points)) {
+                        player.E.energizer.c = player.E.energizer.c.add(player.E.points.floor())
+                        player.E.points = new Decimal(0)
+                    }
+                    else {
+                        player.E.points = player.E.points.sub(tmp.E.energizerCaps.c.sub(player.E.energizer.c))
+                        player.E.energizer.c = player.E.energizer.c.add(tmp.E.energizerCaps.c.sub(player.E.energizer.c))
+                    }
+                }
+                else {
+                    player.E.points = player.E.points.sub(1)
+                    player.E.energizer.c = player.E.energizer.c.add(player.E.input)
+                }
             },
             display() {
                 return "You have "+player.E.energizer.c+" energy in C <b> which is giving a "+format(layerE.earnformula.c(player.E.energizer.c))+"x to C"
@@ -227,10 +510,22 @@ addLayer("E", {
         },
         14: {
             title: "Energize D",
-            canClick() {return player.E.points.gte(1) && /*is less than cap*/((player.E.energizer.d.add(player.E.input).lte(tmp.E.energizerCaps.d) && /*input fits in points*/ player.E.input.lte(player.E.points)) || player.E.input == "max")},
+            canClick() {return player.E.points.gte(1) && /*is less than cap*/((player.E.energizer.d.add(player.E.input).lte(tmp.E.energizerCaps.d) || player.E.input == "max"))},
             onClick() {
-                player.E.points = player.E.points.sub(1)
-                player.E.energizer.d = player.E.energizer.d.add(player.E.input)
+                if (player.E.input == "max") {
+                    if (tmp.E.energizerCaps.d.sub(player.E.energizer.d).gt(player.E.points)) {
+                        player.E.energizer.d = player.E.energizer.d.add(player.E.points.floor())
+                        player.E.points = new Decimal(0)
+                    }
+                    else {
+                        player.E.points = player.E.points.sub(tmp.E.energizerCaps.d.sub(player.E.energizer.d))
+                        player.E.energizer.d = player.E.energizer.d.add(tmp.E.energizerCaps.d.sub(player.E.energizer.d))
+                    }
+                }
+                else {
+                    player.E.points = player.E.points.sub(1)
+                    player.E.energizer.d = player.E.energizer.d.add(player.E.input)
+                }
             },
             display() {
                 return "You have "+player.E.energizer.d+" energy in D <b> which is giving a "+format(layerE.earnformula.d(player.E.energizer.d))+"x to D"
@@ -306,7 +601,12 @@ addLayer("E", {
                 return (true) 
             },
             inChallengeEffect() {
-                return new Decimal(2).pow(new Decimal(challengeCompletions(this.layer, this.id)).add(1))
+                if (hasUpgrade("E", 25)) {
+                    return new Decimal(2).pow(new Decimal(challengeCompletions(this.layer, this.id)).add(1)).div(player.E.total.pow(2)).add(1)
+                }
+                else {
+                    return new Decimal(2).pow(new Decimal(challengeCompletions(this.layer, this.id)).add(1))
+                }
             },
             currencyDisplayName: "points",
             completionLimit: Infinity,
@@ -321,7 +621,6 @@ addLayer("E", {
                 addPoints("E", new Decimal(challengeCompletions(this.layer, this.id)))
             }
         },
-        
     },
     tabFormat: {
         "Main": {
@@ -329,7 +628,7 @@ addLayer("E", {
                 "main-display",
                 "prestige-button",
                 "blank",
-                "upgrades",
+                ["upgrades", [1,2,3]],
                 "blank",
             ],
     
@@ -340,7 +639,9 @@ addLayer("E", {
                 "main-display",
                 "prestige-button",
                 "blank",
+                ["clickable", [10003]],
                 ["clickable", [10001]],
+                "blank",
                 ["clickable", [10]],
                 ["bar", "lp"],
                 "blank",
@@ -370,25 +671,67 @@ addLayer("E", {
             ],
 
             unlocked() {return hasUpgrade("E", 11)}
+        },
+        "Galaxy": {
+            content: [
+                "main-display",
+                ["display-text", function() { 
+                    return 'You have <h2 style="color: ' + tmp[this.layer].color + +'; text-shadow: 0px 0px 10px ' + tmp[this.layer].color + '; display: inline;">' + player.E.energygalaxy +'</h2><span> Energy Galaxies</span>, which give a <h2 style="color: ' + tmp[this.layer].color + +'; text-shadow: 0px 0px 10px ' + tmp[this.layer].color + '; display: inline;">'+format(player.E.EGeffect)+'x</h2> to every main layer before E'
+                }],
+                "blank",
+                "prestige-button",
+                "blank",
+                ["clickable", [10002]],
+                "blank",
+                ["upgrades", [4]]
+            ],
+
+            unlocked() {return hasUpgrade("E", 26) || player.E.energygalaxy.gte(1)}
         }
     },
 })
+
 let layerE = {
     earnformula: {
         lp(x) {
-            return x.times(1000).add(1).pow(1.05)
+            if (hasUpgrade("E", 24)) {
+                return x.times(1000).add(1).pow(1.05).times(upgradeEffect("E", 24))
+            }
+            else {
+                return x.times(1000).add(1).pow(1.05)
+            }
         },
         a(x) {
-            return x.times(100).pow(0.9).add(1)
+            if (hasUpgrade("E", 24)) {
+                return x.times(100).pow(0.9).add(1).times(upgradeEffect("E", 24))
+            }
+            else {
+                return x.times(100).pow(0.9).add(1)
+            }
         },
         b(x) {
-            return x.times(50).pow(0.7).add(1)
+            if (hasUpgrade("E", 24)) {
+                return x.times(50).pow(0.7).add(1).times(upgradeEffect("E", 24))
+            }
+            else {
+                return x.times(50).pow(0.7).add(1)
+            }
         },
         c(x) {
-            return x.times(25).pow(0.5).add(1)
+            if (hasUpgrade("E", 24)) {
+                return x.times(25).pow(0.5).add(1).times(upgradeEffect("E", 24))
+            }
+            else {
+                return x.times(25).pow(0.5).add(1)
+            }
         },
         d(x) {
-            return x.times(5).pow(0.3).add(1)
+            if (hasUpgrade("E", 24)) {
+                return x.times(5).pow(0.3).add(1).times(upgradeEffect("E", 24))
+            }
+            else {
+                return x.times(5).pow(0.3).add(1)
+            }
         },
     },
 }

@@ -121,7 +121,9 @@ function getPointGen() {
 	if (hasUpgrade("D", 15) && player.D.mode == "Dawn" && player.offTime) gain = gain.div(player.D.points.add(1))
 	if (player.E.energizer.lp.gte(1)) gain = gain.times(layerE.earnformula.lp(player.E.energizer.lp))
 	if (inChallenge("E", 11)) gain = gain.div(tmp.E.challenges["11"].inChallengeEffect)
-	//gain = gain.times(layerEffect("E"))
+	gain = gain.times(layerEffect("E"))
+	if (hasUpgrade("E", 23)) gain = gain.times(upgradeEffect("E", 23))
+	if (player.E.energygalaxy.gte(1)) gain = gain.times(player.E.EGeffect)
 
 	return gain
 }
@@ -178,6 +180,12 @@ function maxTickLength() {
 // Use this if you need to undo inflation from an older version. If the version is older than the version that fixed the issue,
 // you can cap their current resources with this.
 function fixOldSave(oldVersion){
+	if (Object.keys(player).includes("🥚")) {
+		delete player['🥚']
+	}
+	if (Object.keys(player.infoboxes).includes("🥚")) {
+		delete player.infoboxes['🥚']
+	}
 }
 
 function changeUpgSize(size) {
@@ -273,3 +281,5 @@ function onSwitchTab(tab) {
 	}*/
 	
 }
+
+

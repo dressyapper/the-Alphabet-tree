@@ -262,15 +262,22 @@ function NaNcheck(data) {
 }
 function exportSave() {
 	//if (NaNalert) return
-	let str = btoa(JSON.stringify(player));
+	try {
+		let str = btoa(JSON.stringify(player));
 
-	const el = document.createElement("textarea");
-	el.value = str;
-	document.body.appendChild(el);
-	el.select();
-	el.setSelectionRange(0, 99999);
-	document.execCommand("copy");
-	document.body.removeChild(el);
+		const el = document.createElement("textarea");
+		el.value = str;
+		document.body.appendChild(el);
+		el.select();
+		el.setSelectionRange(0, 99999);
+		document.execCommand("copy");
+		document.body.removeChild(el);
+		doPopup("milestone", "Exported save to clipboard", "Exported To Clipboard!", 2, "white")
+	}
+	catch (e) {
+		alert("An error occured with exporting save, check the console for more details.")
+		console.log({text:JSON.stringify(player)}, e)
+	}
 }
 function importSave(imported = undefined, forced = false) {
 	if (imported === undefined)

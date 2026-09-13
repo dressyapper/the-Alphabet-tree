@@ -174,6 +174,7 @@ var systemComponents = {
 			<tr>
                 <td><button class="opt" onclick="toggleOpt('hideMilestonePopups')">Show Milestone Popups: {{ formatOption(!options.hideMilestonePopups) }}</button></td>
 				<td><button class="opt" onclick="validateThemes()">Validate Themes</button></td>
+				<td><button class="opt" onclick="fixOldSave()">Validate Save</button></td>
             </tr>
         </table>`
     },

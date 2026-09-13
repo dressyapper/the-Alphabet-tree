@@ -59,6 +59,11 @@ addLayer("&", {
             }
         }   
     },
+    generate() {
+        if (hasUpgrade("$", 16)) {
+            addPoints("&", tmp.A.ampersandformula.times(0.001))
+        }
+    },
     infoboxes: {
         format: {
             title: "Format",
@@ -93,6 +98,15 @@ addLayer("&", {
   
             }
         },
+        14: {
+            title: "Automator IV",
+            description: "Automate D upgrades",
+            cost: new Decimal(1e240),
+            unlocked() {return hasAchievement("Ach", 41)},
+            onPurchase() {
+  
+            }
+        },
 
         71: {
             title: "B Buyable Automator",
@@ -113,6 +127,12 @@ addLayer("&", {
             title: "B buyable keepers",
             description: "B buyables do not reset on prestige",
             cost: new Decimal(1e300),
+            unlocked() {return true},
+        },
+        74: {
+            title: "B buyables go to infinity",
+            description: "Square both B buyables purchase limit",
+            cost: new Decimal("1e400"),
             unlocked() {return true},
         }
 

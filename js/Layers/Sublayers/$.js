@@ -68,9 +68,21 @@ addLayer("$", {
             cost: new Decimal(3),
             unlocked() {return tmp["D"].layerShown || hasUpgrade("$", 14)},
         },
-        /*15: {
-            title: "AutoTime 3000",
-            description: "Unlock AutoTime which changes the Daytime on D automatically",
+        15: {
+            title: "Max Energizer",
+            description: "Unlock options to add in the energizer",
+            cost: new Decimal(1),
+            unlocked() {return hasUpgrade("E", 11) || hasUpgrade("$", 15)},
+        },
+        16: {
+            title: "& Income",
+            description: "Generate 0.1% of your & reset",
+            cost: new Decimal(1),
+            unlocked() {return hasUpgrade("E", 11) || hasUpgrade("$", 15)},
+        },
+       /* 15: {
+            title: "& Generator",
+            description: "Permanently generate & idk man i dont get paid enough for this",
             cost: new Decimal(3),
             unlocked() {return tmp["D"].layerShown || hasUpgrade("$", 14)},
         },*/

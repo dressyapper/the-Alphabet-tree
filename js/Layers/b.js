@@ -56,6 +56,7 @@ addLayer("B", {
         if (hasUpgrade("B", 34)) pg = new Decimal(0.1)
         if (hasUpgrade("C", 14)) pg = new Decimal(0.2)
         if (hasChallenge("C", 14)) pg = new Decimal(0.35)
+        if (hasUpgrade("E", 22)) pg = new Decimal(0.75)
 
 
         if (!cangenerate()) {
@@ -83,6 +84,7 @@ addLayer("B", {
         if (hasUpgrade("D", 53)) mult = mult.times(100)
         if (hasUpgrade("D", 15) && player.D.mode == "Dawn" && player.offTime) mult = mult.div(player.D.points.add(1))
         if (player.E.energizer.b.gte(1)) mult = mult.times(layerE.earnformula.b(player.E.energizer.b))
+        if (player.E.energygalaxy.gte(1)) mult = mult.times(player.E.EGeffect)
 
         return mult
     },
@@ -242,6 +244,7 @@ addLayer("B", {
                 if (hasUpgrade("B", 33)) {cap = cap.pow(3)}
                 if (hasUpgrade("C", 21)) {cap = cap.pow(1.5)}
                 if (hasChallenge("C", 14)) {cap = cap.pow(10)}
+                if (hasUpgrade("E", 22)) {cap = cap.pow(25)}
                 return cap
             },
             effectDisplay() {
@@ -343,7 +346,7 @@ addLayer("B", {
             title: "Beyond Infinity (almost)",
             description: "Cube the Bottom Layer Support buy limit",
             cost: new Decimal(1e35),
-            unlocked() {return hasUpgrade("B", 41)},
+            unlocked() {return hasUpgrade("B", 43)},
         },
         
     },
@@ -351,10 +354,12 @@ addLayer("B", {
         11: {
             title: "Bottom Layer Support",
             description: "Boost A and LP<br>",
-            purchaseLimit: function() {
+            purchaseLimit() {
                 let limit = new Decimal(25)
 
                 if (hasUpgrade("B", 35)) {limit = limit.pow(2)}
+                if (hasUpgrade("B", 44)) {limit = limit.pow(3)}
+                if (hasUpgrade("&", 74)) {limit = limit.pow(2)}
 
                 return limit.floor()
             },
@@ -391,14 +396,20 @@ addLayer("B", {
         12: {
             title: "Big B boost",
             description: "Boost B",
-            purchaseLimit: new Decimal(25),
+            purchaseLimit() {
+                let limit = new Decimal(25)
+
+                if (hasUpgrade("&", 74)) {limit = limit.pow(2)}
+
+                return limit.floor()
+            },
             unlocked() {return hasUpgrade("B", 31)},
             cost(x) {
                 return new Decimal(50).pow(x)
             },
             display() {
                 if (this.purchaseLimit) {
-                    return ""+this.description+"<br>Cost: " + format(this.cost()) + " B" + "<br>Bought: " + getBuyableAmount(this.layer, this.id) + "/"+this.purchaseLimit+"<br>Effect: "+format(buyableEffect(this.layer, this.id))+"x" 
+                    return ""+this.description+"<br>Cost: " + format(this.cost()) + " B" + "<br>Bought: " + getBuyableAmount(this.layer, this.id) + "/"+this.purchaseLimit()+"<br>Effect: "+format(buyableEffect(this.layer, this.id))+"x" 
                 }
                 else {
                     return ""+this.description+"<br>Cost: " + format(this.cost()) + " B" + "<br>Bought: " + getBuyableAmount(this.layer, this.id) + "<br>Effect: "+format(buyableEffect(this.layer, this.id))+"x"

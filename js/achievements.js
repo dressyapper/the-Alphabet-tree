@@ -416,6 +416,36 @@ addLayer("Ach", {
             },
             tooltip: "Reach Energy Charge tier 10",
         },
+        54: {
+            name: "World E star",
+            done() {
+                return player.E.total.gte(100)
+            },
+            tooltip() {
+                let desc = "Get a total of 100 E"
+                if (hasAchievement(this.layer, this.id)) {
+                    let effectdesc = "Unlock 1 upgrade"
+                    return desc+"<br>Reward: "+effectdesc
+                }
+                else {
+                    return desc
+                }
+            },
+            style() {
+                return {
+                    "border-color": "white",
+                    "border-width": "2px"
+                }
+            }
+        },
+        55: {
+            name: "Generic idle game currency",
+            done() {
+                return hasUpgrade("E", 26)
+            },
+            tooltip: "Unlock energy galaxies"
+        },
+        
     },
     pointeff() {
         let pts = player.Ach.points

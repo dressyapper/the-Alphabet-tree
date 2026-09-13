@@ -33,6 +33,7 @@ addLayer("C", {
         if (hasUpgrade("D", 55)) mult = mult.times(100)
         if (hasUpgrade("D", 15) && player.D.mode == "Dawn" && player.offTime) mult = mult.div(player.D.points.add(1))
         if (player.E.energizer.c.gte(1)) mult = mult.times(layerE.earnformula.c(player.E.energizer.c))
+        if (player.E.energygalaxy.gte(1)) mult = mult.times(player.E.EGeffect)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -45,6 +46,7 @@ addLayer("C", {
         let p = new Decimal(0)
 
         if (hasUpgrade("D", 24)) p = new Decimal(0.25)
+        if (hasUpgrade("E", 22)) p = new Decimal(0.5)
         return p
     },
     /*effectDescription() {
