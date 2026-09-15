@@ -192,7 +192,7 @@ addLayer("E", {
         21: {
             title: "Perpetual Energy",
             description: "Passively generate energy at a rate based on energy (capped at 200%)",
-            cost: new Decimal(100),
+            cost: new Decimal(1),
             unlocked() {return hasUpgrade("E", 12) && hasUpgrade("E", 13) && hasUpgrade("E", 14) && hasUpgrade("E", 15) && hasUpgrade("E", 16)},
         },
         22: {
