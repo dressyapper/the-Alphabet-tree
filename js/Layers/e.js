@@ -440,7 +440,7 @@ addLayer("E", {
         },
         10: {
             title: "Energize LP",
-            canClick() {return player.E.points.gte(1) && /*is less than cap*/((player.E.energizer.lp.add(player.E.input).lte(tmp.E.energizerCaps.lp) || player.E.input == "max"))},
+            canClick() { return player.E.points.gte(1) && player.E.points.sub(player.E.input).gte(0) && ((player.E.energizer.lp.add(player.E.input).lte(tmp.E.energizerCaps.lp) || player.E.input == "max"))},
             onClick() {
                 if (player.E.input == "max") {
                     if (tmp.E.energizerCaps.lp.sub(player.E.energizer.lp).gt(player.E.points)) {
@@ -463,7 +463,7 @@ addLayer("E", {
         },
         11: {
             title: "Energize A",
-            canClick() {return player.E.points.gte(1) && /*is less than cap*/((player.E.energizer.a.add(player.E.input).lte(tmp.E.energizerCaps.a) || player.E.input == "max"))},
+            canClick() {return player.E.points.gte(1) && player.E.points.sub(player.E.input).gte(0) && ((player.E.energizer.a.add(player.E.input).lte(tmp.E.energizerCaps.a) || player.E.input == "max"))},
             onClick() {
                 if (player.E.input == "max") {
                     if (tmp.E.energizerCaps.a.sub(player.E.energizer.a).gt(player.E.points)) {
@@ -486,7 +486,7 @@ addLayer("E", {
         },
         12: {
             title: "Energize B",
-            canClick() {return player.E.points.gte(1) && /*is less than cap*/((player.E.energizer.b.add(player.E.input).lte(tmp.E.energizerCaps.b) || player.E.input == "max"))},
+            canClick() {return player.E.points.gte(1) && player.E.points.sub(player.E.input).gte(0) && ((player.E.energizer.b.add(player.E.input).lte(tmp.E.energizerCaps.b) || player.E.input == "max"))},
             onClick() {
                 if (player.E.input == "max") {
                     if (tmp.E.energizerCaps.b.sub(player.E.energizer.b).gt(player.E.points)) {
@@ -509,7 +509,7 @@ addLayer("E", {
         },
         13: {
             title: "Energize C",
-            canClick() {return player.E.points.gte(1) && /*is less than cap*/((player.E.energizer.c.add(player.E.input).lte(tmp.E.energizerCaps.c) || player.E.input == "max"))},
+            canClick() {return player.E.points.gte(1) && player.E.points.sub(player.E.input).gte(0) && (player.E.energizer.c.add(player.E.input).lte(tmp.E.energizerCaps.c) || player.E.input == "max")},
             onClick() {
                 if (player.E.input == "max") {
                     if (tmp.E.energizerCaps.c.sub(player.E.energizer.c).gt(player.E.points)) {
@@ -532,7 +532,7 @@ addLayer("E", {
         },
         14: {
             title: "Energize D",
-            canClick() {return player.E.points.gte(1) && /*is less than cap*/((player.E.energizer.d.add(player.E.input).lte(tmp.E.energizerCaps.d) || player.E.input == "max"))},
+            canClick() {return player.E.points.gte(1) && player.E.points.sub(player.E.input).gte(0) && ((player.E.energizer.d.add(player.E.input).lte(tmp.E.energizerCaps.d) || player.E.input == "max"))},
             onClick() {
                 if (player.E.input == "max") {
                     if (tmp.E.energizerCaps.d.sub(player.E.energizer.d).gt(player.E.points)) {
