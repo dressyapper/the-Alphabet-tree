@@ -519,7 +519,7 @@ addLayer("A", {
             purchaseLimit: function() {
                 let limit = new Decimal(100)
 
-                if (false) {limit = limit.pow(2)}
+                if (hasUpgrade("A", 9991)) {limit = limit.times(2)}
 
                 return limit.floor()
             },

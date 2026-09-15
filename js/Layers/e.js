@@ -199,7 +199,7 @@ addLayer("E", {
             title: "Energy powered automation",
             description: "Generate 150% of A reset, 75% of B reset & ^25 the cap (woahwoahwo (2.5 woahs)), 50% of C reset and +25% of D reset and improve the & formula",
             cost: new Decimal(50000),
-            unlocked() {return hasUpgrade("E", 12) && hasUpgrade("E", 13) && hasUpgrade("E", 14) && hasUpgrade("E", 15) && hasUpgrade("E", 16)},
+            unlocked() {return hasUpgrade("E", 21)}
         },
         23: {
             title: "Lexicon Charger",
@@ -301,7 +301,7 @@ addLayer("E", {
                     return format(upgradeEffect(this.layer, this.id))+"x"
                 }
             },
-            unlocked() {return hasUpgrade("E", 23)},
+            unlocked() {return hasUpgrade("E", 25)},
         },
 
         31: {
