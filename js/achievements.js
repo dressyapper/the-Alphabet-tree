@@ -439,7 +439,7 @@ addLayer("Ach", {
             }
         },
         55: {
-            name: "Generic idle game currency",
+            name: "G",
             done() {
                 return hasUpgrade("E", 26)
             },

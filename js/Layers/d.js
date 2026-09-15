@@ -33,7 +33,6 @@ addLayer("D", {
         if (hasUpgrade("D", 56)) mult = mult.times(5)
 
         if (hasUpgrade("D", 15) && player.D.mode == "Dusk" && !player.offTime) mult = mult.pow(0.5)
-        if (player.E.energygalaxy.gte(1)) mult = mult.times(player.E.EGeffect)
         //mult = mult.times(layerEffect("E"))
         return mult
     },

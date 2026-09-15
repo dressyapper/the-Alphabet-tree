@@ -279,10 +279,36 @@ addLayer("E", {
             unlocked() {return hasUpgrade("E", 24)},
         },
         26: {
-            title: "Energy Galaxy",
-            description: "Unlock Energy Galaxies",
+            title: "Energy^0.5",
+            description: "Boost LP based on energy",
             cost: new Decimal(7.77e6),
-            unlocked() {return hasUpgrade("E", 24)},
+            effectCap() {
+                let cap = new Decimal(1e6)
+
+
+                return cap
+            },
+            effect() {
+                let cap = this.effectCap()
+                let eff = new Decimal(player.E.points).pow(0.5)
+                
+
+                if (eff.gte(cap)) {
+                    return cap
+                }
+                else {
+                    return eff
+                }
+            },
+            effectDisplay() {
+                if (this.effect().gte(this.effectCap())) {
+                    return format(upgradeEffect(this.layer, this.id))+"x (CAPPED)"
+                }
+                else {
+                    return format(upgradeEffect(this.layer, this.id))+"x"
+                }
+            },
+            unlocked() {return hasUpgrade("E", 23)},
         },
 
         31: {
@@ -675,22 +701,6 @@ addLayer("E", {
 
             unlocked() {return hasUpgrade("E", 11)}
         },
-        "Galaxy": {
-            content: [
-                "main-display",
-                ["display-text", function() { 
-                    return 'You have <h2 style="color: ' + tmp[this.layer].color + +'; text-shadow: 0px 0px 10px ' + tmp[this.layer].color + '; display: inline;">' + player.E.energygalaxy +'</h2><span> Energy Galaxies</span>, which give a <h2 style="color: ' + tmp[this.layer].color + +'; text-shadow: 0px 0px 10px ' + tmp[this.layer].color + '; display: inline;">'+format(player.E.EGeffect)+'x</h2> to every main layer before E'
-                }],
-                "blank",
-                "prestige-button",
-                "blank",
-                ["clickable", [10002]],
-                "blank",
-                ["upgrades", [4]]
-            ],
-
-            unlocked() {return hasUpgrade("E", 26) || player.E.energygalaxy.gte(1)}
-        }
     },
 })
 

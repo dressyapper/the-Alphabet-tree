@@ -84,7 +84,6 @@ addLayer("B", {
         if (hasUpgrade("D", 53)) mult = mult.times(100)
         if (hasUpgrade("D", 15) && player.D.mode == "Dawn" && player.offTime) mult = mult.div(player.D.points.add(1))
         if (player.E.energizer.b.gte(1)) mult = mult.times(layerE.earnformula.b(player.E.energizer.b))
-        if (player.E.energygalaxy.gte(1)) mult = mult.times(player.E.EGeffect)
 
         return mult
     },

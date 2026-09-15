@@ -124,6 +124,7 @@ function getPointGen() {
 	gain = gain.times(layerEffect("E"))
 	if (hasUpgrade("E", 23)) gain = gain.times(upgradeEffect("E", 23))
 	if (player.E.energygalaxy.gte(1)) gain = gain.times(player.E.EGeffect)
+	if (hasUpgrade("E", 26)) gain = gain.times(upgradeEffect("E", 26))
 
 	return gain
 }
