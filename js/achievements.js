@@ -439,11 +439,11 @@ addLayer("Ach", {
             }
         },
         55: {
-            name: "G",
+            name: "No point in charging now...",
             done() {
-                return hasUpgrade("E", 26)
+                return hasUpgrade("E", 21)
             },
-            tooltip: "Unlock energy galaxies"
+            tooltip: "Unlock Perpetual Energy"
         },
         
     },

@@ -483,6 +483,12 @@ addLayer("A", {
             description: "1e3x LP",
             cost: new Decimal(1e50),
             unlocked() {return hasUpgrade("A", 46)},
+        },
+        9991: {
+            title: "More, MORE!",
+            description: "Double the Ampersand Booster cap",
+            cost: new Decimal(1e50),
+            unlocked() {return getBuyableAmount("A",11).eq(100)},
         }
         
     },
@@ -593,6 +599,7 @@ addLayer("A", {
                 "prestige-button",
                 "blank",
                 "buyables",
+                ["upgrades", [999]],
                 "blank",
             ],
     
