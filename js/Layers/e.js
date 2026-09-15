@@ -58,6 +58,10 @@ addLayer("E", {
         if (req.gte(1000)) {
             req = new Decimal(1000).add(player.E.points.sub(1000).add(1).log(1.1))
         }
+
+        if (hasUpgrade("E", 31)) {
+            req = req.times(upgradeEffect("E", 31))
+        }
         return req
     },
     getNextAt() {
@@ -306,10 +310,10 @@ addLayer("E", {
             },
             effectDisplay() {
                 if (this.effect().gte(this.effectCap())) {
-                    return "/"+format(upgradeEffect(this.layer, this.id))+"(CAPPED)"
+                    return format(upgradeEffect(this.layer, this.id))+"x (CAPPED)"
                 }
                 else {
-                    return "/"+format(upgradeEffect(this.layer, this.id))
+                    return format(upgradeEffect(this.layer, this.id))+"x"
  x               }
             },
             unlocked() {return hasAchievement("Ach", 54)},
