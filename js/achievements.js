@@ -463,7 +463,7 @@ addLayer("Ach", {
                 },
                 () => {
                     if (hasUpgrade("$", 13)) {
-                        let x = () => {return "Which is bosting your points by "+tmp.Ach.pointeff+"x"}
+                        let x = () => {return "Which is bosting your points by "+format(tmp.Ach.pointeff)+"x"}
                         return ["display-text", x()]
                     }
                 },
