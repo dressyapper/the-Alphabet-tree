@@ -35,9 +35,6 @@ addLayer("E", {
     color: "rgb(0, 255, 255)",
     requires() {
         let req = new Decimal(150000)
-        if (hasUpgrade("E", 31)) {
-            req = req.div(upgradeEffect("E", 31))
-        }
         return req
     }, // Can be a function that takes requirement increases into account
     resource: "E", // Name of prestige currency
@@ -66,10 +63,6 @@ addLayer("E", {
     },
     getNextAt() {
         let req = tmp.E.requires.times(new Decimal(2).pow(player.E.points))
-        console.log
-        if (req.gte(1000)) {
-            req = new Decimal(1000).add(new Decimal(2).pow(player.E.points.pow(2)))
-        }
 
         return req
     },
