@@ -453,7 +453,7 @@ addLayer("E", {
                     }
                 }
                 else {
-                    player.E.points = player.E.points.sub(1)
+                    player.E.points = player.E.points.sub(player.E.input)
                     player.E.energizer.lp = player.E.energizer.lp.add(player.E.input)
                 }
             },
@@ -476,7 +476,7 @@ addLayer("E", {
                     }
                 }
                 else {
-                    player.E.points = player.E.points.sub(1)
+                    player.E.points = player.E.points.sub(player.E.input)
                     player.E.energizer.a = player.E.energizer.a.add(player.E.input)
                 }
             },
@@ -499,7 +499,7 @@ addLayer("E", {
                     }
                 }
                 else {
-                    player.E.points = player.E.points.sub(1)
+                    player.E.points = player.E.points.sub(player.E.input)
                     player.E.energizer.b = player.E.energizer.b.add(player.E.input)
                 }
             },
@@ -522,7 +522,7 @@ addLayer("E", {
                     }
                 }
                 else {
-                    player.E.points = player.E.points.sub(1)
+                    player.E.points = player.E.points.sub(player.E.input)
                     player.E.energizer.c = player.E.energizer.c.add(player.E.input)
                 }
             },
@@ -545,7 +545,7 @@ addLayer("E", {
                     }
                 }
                 else {
-                    player.E.points = player.E.points.sub(1)
+                    player.E.points = player.E.points.sub(player.E.input)
                     player.E.energizer.d = player.E.energizer.d.add(player.E.input)
                 }
             },
