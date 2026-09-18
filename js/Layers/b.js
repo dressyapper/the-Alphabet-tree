@@ -368,7 +368,7 @@ addLayer("B", {
             },
             display() {
                 if (this.purchaseLimit()) {
-                    return ""+this.description+"<br>Cost: " + format(this.cost()) + " B" + "<br>Bought: " + getBuyableAmount(this.layer, this.id) + "/"+this.purchaseLimit()+"<br>Effect: "+format(buyableEffect(this.layer, this.id))+"x" 
+                    return ""+this.description+"<br>Cost: " + format(this.cost()) + " B" + "<br>Bought: " + getBuyableAmount(this.layer, this.id) + "/"+format(this.purchaseLimit())+"<br>Effect: "+format(buyableEffect(this.layer, this.id))+"x" 
                 }
                 else {
                     return ""+this.description+"<br>Cost: " + format(this.cost()) + " B" + "<br>Bought: " + getBuyableAmount(this.layer, this.id) + "<br>Effect: "+format(buyableEffect(this.layer, this.id))+"x"

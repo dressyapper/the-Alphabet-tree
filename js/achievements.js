@@ -445,6 +445,28 @@ addLayer("Ach", {
             },
             tooltip: "Unlock Perpetual Energy"
         },
+        56: {
+            name: "Row of E",
+            done() {
+                return player.E.total.gte(1e6)
+            },
+            tooltip() {
+                let desc = "Get a total of 1e6 E"
+                if (hasAchievement(this.layer, this.id)) {
+                    let effectdesc = ""
+                    return desc+"<br>Reward: "+effectdesc
+                }
+                else {
+                    return desc
+                }
+            },
+            style() {
+                return {
+                    "border-color": "white",
+                    "border-width": "2px"
+                }
+            }
+        },
         
     },
     pointeff() {
