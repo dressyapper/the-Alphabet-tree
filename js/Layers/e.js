@@ -23,14 +23,6 @@ addLayer("E", {
         if (player.E.input != "max" &&player.E.input.eq(0)) {
             player.E.input = new Decimal(1)
         }
-
-        if (player.E.energygalaxy.gte(43)) {
-            player.E.EGreq = new Decimal(1e50).add(new Decimal(10).pow(player.E.energygalaxy.add(player.E.energygalaxy.sub(43)).add(7)))
-        }
-        else {
-            player.E.EGreq = new Decimal(10).pow(player.E.energygalaxy.add(7))
-        }
-        player.E.EGeffect = new Decimal(1).times(new Decimal(1.10).pow(player.E.energygalaxy).sub(1)).add(1)
     },
     color: "rgb(0, 255, 255)",
     requires() {
@@ -92,7 +84,7 @@ addLayer("E", {
     },
     generate() {
         if (tmp.E.resetGain instanceof Decimal) {
-            let pg = player.E.points.add(1).log(10).div(1000).min(2)
+            let pg = player.E.points.add(1).log(10).div(1000).min(3)
 
         
 
@@ -191,7 +183,7 @@ addLayer("E", {
         },
         21: {
             title: "Perpetual Energy",
-            description: "Passively generate energy at a rate based on energy (capped at 200%)",
+            description: "Passively generate energy at a rate based on energy (capped at 300%)",
             cost: new Decimal(1),
             unlocked() {return hasUpgrade("E", 12) && hasUpgrade("E", 13) && hasUpgrade("E", 14) && hasUpgrade("E", 15) && hasUpgrade("E", 16)},
         },

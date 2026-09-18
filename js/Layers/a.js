@@ -488,7 +488,7 @@ addLayer("A", {
             title: "More, MORE!",
             description: "Double the Ampersand Booster cap",
             cost: new Decimal(1e50),
-            unlocked() {return getBuyableAmount("A",11).eq(100)},
+            unlocked() {return getBuyableAmount("A",11).eq(100) || hasUpgrade("A", 9991)},
         }
         
     },
