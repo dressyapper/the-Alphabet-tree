@@ -347,6 +347,18 @@ addLayer("B", {
             cost: new Decimal(1e35),
             unlocked() {return hasUpgrade("B", 43)},
         },
+        45: {
+            title: "Big number simulator",
+            description: "20x LP",
+            cost: new Decimal(1e40),
+            unlocked() {return hasUpgrade("E", 34)},
+        },
+        46: {
+            title: "Bigger number simulator",
+            description: "200x LP",
+            cost: new Decimal(1e41),
+            unlocked() {return hasUpgrade("B", 35)},
+        },
         
     },
     buyables: {

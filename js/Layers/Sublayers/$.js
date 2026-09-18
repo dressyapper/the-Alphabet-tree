@@ -78,14 +78,14 @@ addLayer("$", {
             title: "& Income",
             description: "Generate 0.1% of your & reset",
             cost: new Decimal(1),
-            unlocked() {return hasUpgrade("E", 11) || hasUpgrade("$", 15)},
+            unlocked() {return hasUpgrade("E", 11) || hasUpgrade("$", 16)},
         },
-       /* 15: {
-            title: "& Generator",
-            description: "Permanently generate & idk man i dont get paid enough for this",
-            cost: new Decimal(3),
-            unlocked() {return tmp["D"].layerShown || hasUpgrade("$", 14)},
-        },*/
+        21: {
+            title: "Energy Powered Energizer",
+            description: "Unlock an option to constantly max all energizer (set in amount after max)",
+            cost: new Decimal(2),
+            unlocked() {return hasUpgrade("E", 32) || hasUpgrade("$", 21)},
+        },
         
         
     },

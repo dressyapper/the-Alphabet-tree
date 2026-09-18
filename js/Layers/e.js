@@ -14,13 +14,12 @@ addLayer("E", {
             c: new Decimal(0),
             d: new Decimal(0),
         },
-
-        energygalaxy: new Decimal(0),
-        EGreq: new Decimal(1e9),
-        EGeffect: new Decimal(1)
     }},
     update(diff) {
-        if (player.E.input != "max" &&player.E.input.eq(0)) {
+        if (player.E.input instanceof Decimal && player.E.input.eq(0)) {
+            if (player.E.input != "max" || player.E.input != "auto") {
+
+            }
             player.E.input = new Decimal(1)
         }
     },
@@ -43,7 +42,6 @@ addLayer("E", {
     },
     getResetGain() {
         let req = player.E.points.add(1)
-        console.log
         if (req.gte(1000)) {
             req = new Decimal(1000).add(player.E.points.sub(1000).add(1).log(1.1))
         }
@@ -51,6 +49,11 @@ addLayer("E", {
         if (hasUpgrade("E", 31)) {
             req = req.times(upgradeEffect("E", 31))
         }
+
+        if (hasAchievement("Ach", 61)) {
+            req = req.times(new Decimal(challengeCompletions("E", 11)).add(1))
+        }
+
         return req
     },
     getNextAt() {
@@ -60,7 +63,7 @@ addLayer("E", {
     },
     canReset() {
         try {
-            return player.D.points.gte(tmp.E.nextAt)
+            return player.D.points.gte(tmp.E.nextAt) && !hasUpgrade("E", 21)
         }
         catch {
             return false
@@ -118,6 +121,12 @@ addLayer("E", {
         if (hasUpgrade("E", 14)) obj.b = obj.b.pow(2)
         if (hasUpgrade("E", 15)) obj.c = obj.c.pow(2)
         if (hasUpgrade("E", 16)) obj.d = obj.d.pow(2)
+
+        if (hasUpgrade("E", 32)) obj.lp = obj.lp.add(upgradeEffect("A", 32))
+        if (hasUpgrade("E", 32)) obj.a = obj.a.add(upgradeEffect("A", 32))
+        if (hasUpgrade("E", 32)) obj.b = obj.b.add(upgradeEffect("A", 32))
+        if (hasUpgrade("E", 32)) obj.c = obj.c.add(upgradeEffect("A", 32))
+        if (hasUpgrade("E", 32)) obj.d= obj.d.add(upgradeEffect("A", 32))
 
 
         for (i in obj) {
@@ -275,7 +284,7 @@ addLayer("E", {
             },
             effect() {
                 let cap = this.effectCap()
-                let eff = new Decimal(player.E.points).pow(0.5)
+                let eff = new Decimal(player.E.points).pow(0.5).add(1)
                 
 
                 if (eff.gte(cap)) {
@@ -329,9 +338,50 @@ addLayer("E", {
             },
             unlocked() {return hasAchievement("Ach", 54)},
         },
+        32: {
+            title: "Extra useless upgrade",
+            description() {return "So remember that one upgrade that added to LP gain and was completely useless in A, yeah well its coming back. Boost ALL energizer caps by +"+format(upgradeEffect("A", 32))},
+            cost: new Decimal(1.5e6),
+            unlocked() {return upgradeEffect("A", 32).gte(25000) || hasUpgrade("E", 32)},
+        },
+        33: {
+            title: "Empersand",
+            description: "Boost & by alot",
+            cost: new Decimal(3e6),
+            unlocked() {return upgradeEffect("A", 32).gte(25000) || hasUpgrade("E", 32)},
+        },
+        34: {
+            title: "Exponent",
+            description: "^1.1 points and more upgrades in A and B",
+            cost: new Decimal(1.5e7),
+            unlocked() {return hasUpgrade("E", 33)},
+        },
+        35: {
+            title: "Eternity",
+            description: "^1.3 points",
+            cost: new Decimal(5e7),
+            unlocked() {return hasUpgrade("E", 33)},
+        },
+        36: {
+            title: "Energy ",
+            description: "Use all your energy to do something...",
+            cost() {
+                return player.E.points
+            },
+            unlocked() {return player.E.upgrades.length >= 17},
+        },
+        
     },
 
-
+    autoenergize() {
+        if (hasUpgrade("$", 21) && player.E.input == "auto") {
+            tmp.E.clickables[10].onClick()
+            tmp.E.clickables[11].onClick()
+            tmp.E.clickables[12].onClick()
+            tmp.E.clickables[13].onClick()
+            tmp.E.clickables[14].onClick()
+        }
+    },
     
     clickables: {
         10001: {
@@ -383,15 +433,18 @@ addLayer("E", {
                 if (player.E.input == "max") {
                     return "Amount: Max"
                 }
+                else if (player.E.input == "auto") {
+                    return "Amount: Auto"
+                }
                 else {
                     return "Amount: "+player.E.input 
                 }},
             canClick() {return true},
             onClick() {
                 let e = player.E.input
-
-                if (e == "max") {
-                    player.E.input = new Decimal(1)
+                
+                if (hasUpgrade("$", 21) && e == "max") {
+                    player.E.input = "auto"
                 }
                 else if (e.eq(1)) {
                     player.E.input = new Decimal(5)
@@ -417,8 +470,11 @@ addLayer("E", {
                 else if (e.eq(1000)) {
                     player.E.input = "max"
                 }
+                else if ((e == "auto" && hasUpgrade("$", 21)) || (e == "max" && !hasUpgrade("$",21))) {
+                    player.E.input = new Decimal(1)
+                }
                 else {
-                    e = "max"
+                    player.E.input = new Decimal(1)
                 }
 
                 
@@ -434,7 +490,7 @@ addLayer("E", {
             title: "Energize LP",
             canClick() { return player.E.points.gte(1) && player.E.points.sub(player.E.input).gte(0) && ((player.E.energizer.lp.add(player.E.input).lte(tmp.E.energizerCaps.lp) || player.E.input == "max"))},
             onClick() {
-                if (player.E.input == "max") {
+                if (player.E.input == "max" || player.E.input == "auto") {
                     if (tmp.E.energizerCaps.lp.sub(player.E.energizer.lp).gt(player.E.points)) {
                         player.E.energizer.lp = player.E.energizer.lp.add(player.E.points.floor())
                         player.E.points = new Decimal(0)
@@ -457,7 +513,7 @@ addLayer("E", {
             title: "Energize A",
             canClick() {return player.E.points.gte(1) && player.E.points.sub(player.E.input).gte(0) && ((player.E.energizer.a.add(player.E.input).lte(tmp.E.energizerCaps.a) || player.E.input == "max"))},
             onClick() {
-                if (player.E.input == "max") {
+                if (player.E.input == "max" || player.E.input == "auto") {
                     if (tmp.E.energizerCaps.a.sub(player.E.energizer.a).gt(player.E.points)) {
                         player.E.energizer.a = player.E.energizer.a.add(player.E.points.floor())
                         player.E.points = new Decimal(0)
@@ -480,7 +536,7 @@ addLayer("E", {
             title: "Energize B",
             canClick() {return player.E.points.gte(1) && player.E.points.sub(player.E.input).gte(0) && ((player.E.energizer.b.add(player.E.input).lte(tmp.E.energizerCaps.b) || player.E.input == "max"))},
             onClick() {
-                if (player.E.input == "max") {
+                if (player.E.input == "max" || player.E.input == "auto") {
                     if (tmp.E.energizerCaps.b.sub(player.E.energizer.b).gt(player.E.points)) {
                         player.E.energizer.b = player.E.energizer.b.add(player.E.points.floor())
                         player.E.points = new Decimal(0)
@@ -503,7 +559,7 @@ addLayer("E", {
             title: "Energize C",
             canClick() {return player.E.points.gte(1) && player.E.points.sub(player.E.input).gte(0) && (player.E.energizer.c.add(player.E.input).lte(tmp.E.energizerCaps.c) || player.E.input == "max")},
             onClick() {
-                if (player.E.input == "max") {
+                if (player.E.input == "max" || player.E.input == "auto") {
                     if (tmp.E.energizerCaps.c.sub(player.E.energizer.c).gt(player.E.points)) {
                         player.E.energizer.c = player.E.energizer.c.add(player.E.points.floor())
                         player.E.points = new Decimal(0)
@@ -526,7 +582,7 @@ addLayer("E", {
             title: "Energize D",
             canClick() {return player.E.points.gte(1) && player.E.points.sub(player.E.input).gte(0) && ((player.E.energizer.d.add(player.E.input).lte(tmp.E.energizerCaps.d) || player.E.input == "max"))},
             onClick() {
-                if (player.E.input == "max") {
+                if (player.E.input == "max" || player.E.input == "auto") {
                     if (tmp.E.energizerCaps.d.sub(player.E.energizer.d).gt(player.E.points)) {
                         player.E.energizer.d = player.E.energizer.d.add(player.E.points.floor())
                         player.E.points = new Decimal(0)

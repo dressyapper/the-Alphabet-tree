@@ -30,7 +30,8 @@ addLayer("A", {
         if (buyableEffect("A", 11).gte(1)) {d = d.div(buyableEffect("A",11))}
         if (hasUpgrade("C", 32)) {d = d.div(1e40)}
         if (hasUpgrade("D", 52)) {d = d.div(100)}
-        if (hasChallenge("E", 22)) {d = d.div(1e50)}
+        if (hasUpgrade("E", 22)) {d = d.div(1e50)}
+        if (hasUpgrade("E", 33)) {d = d.div(1e95)}
         try {
             return x.div(d).add(new Decimal(hasAchievement("Ach", 33)+0))
         }
@@ -80,6 +81,7 @@ addLayer("A", {
         if (hasUpgrade("D", 51)) mult = mult.times(100)
         if (hasUpgrade("D", 15) && player.D.mode == "Dawn" && player.offTime) mult = mult.div(player.D.points.add(1))
         if (player.E.energizer.a.gte(1)) mult = mult.times(layerE.earnformula.a(player.E.energizer.a))
+        if (hasUpgrade("A", 53)) mult = mult.times(upgradeEffect("A", 53))
         
         return mult
     },
@@ -484,6 +486,48 @@ addLayer("A", {
             cost: new Decimal(1e50),
             unlocked() {return hasUpgrade("A", 46)},
         },
+        52: {
+            title: "Long time no see",
+            description: "1e5x LP",
+            cost: new Decimal(1e132),
+            unlocked() {return hasUpgrade("A", 46)},
+        },
+        52: {
+            title: "Long time no see",
+            description: "1e5x LP",
+            cost: new Decimal(1e132),
+            unlocked() {return hasUpgrade("E", 34)},
+        },
+        53: {
+            title: "Self synergand",
+            description: "Boost a based on &",
+            cost: new Decimal(1e135),
+            unlocked() {return hasUpgrade("A", 52)},
+            effectCap() {
+                let cap = new Decimal(1e15)
+
+
+                return cap
+            },
+            effect() {
+                let cap = this.effectCap()
+                let eff = player["&"].points.add(1).log(1.15).add(1)
+                if (eff.gte(cap)) {
+                    return cap
+                }
+                else {
+                    return eff
+                }
+            },
+            effectDisplay() {
+                if (this.effect().gte(this.effectCap())) {
+                    return format(upgradeEffect(this.layer, this.id))+"x (CAPPED)"
+                }
+                else {
+                    return format(upgradeEffect(this.layer, this.id))+"x"
+                }
+            },
+        },
         9991: {
             title: "More, MORE!",
             description: "Double the Ampersand Booster cap",
@@ -574,7 +618,7 @@ addLayer("A", {
                 "main-display",
                 "prestige-button",
                 "blank",
-                "upgrades",
+                ["upgrades",[1,2,3,4,5]],
                 "blank",
                 ["infobox", "start"],
             ],

@@ -412,7 +412,7 @@ addLayer("Ach", {
         53: {
             name: "Infinite energy glitch",
             done() {
-                return challengeCompletions("E", 11) >= 5
+                return challengeCompletions("E", 11) >= 10
             },
             tooltip: "Reach Energy Charge tier 10",
         },
@@ -450,10 +450,17 @@ addLayer("Ach", {
             done() {
                 return player.E.total.gte(1e6)
             },
+            tooltip: "Get a total of 1e6 E",
+        },
+        61: {
+            name: "Well you see... What if there was a point?",
+            done() {
+                return challengeCompletions("E", 11) >= 31
+            },
             tooltip() {
-                let desc = "Get a total of 1e6 E"
+                let desc = "Reach energy tier 31"
                 if (hasAchievement(this.layer, this.id)) {
-                    let effectdesc = ""
+                    let effectdesc = "Energy tier boosts energy gain<br>Currently: "+new Decimal(challengeCompletions("E", 11)).add(1)+'x'
                     return desc+"<br>Reward: "+effectdesc
                 }
                 else {
@@ -466,6 +473,27 @@ addLayer("Ach", {
                     "border-width": "2px"
                 }
             }
+        },
+        62: {
+            name: "When is buy max????",
+            done() {
+                return getBuyableAmount("B", 11).gt(25000)
+            },
+            tooltip: "Buy Bottom Layer Boost over 25000 times",
+        },
+        62: {
+            name: "Your only 7.45834073120067e-155% of the way there!",
+            done() {
+                return player.points.gte(new Decimal(2).pow(512))
+            },
+            tooltip: "Get ~1.34e154 points",
+        },
+        63: {
+            name: "First somewhat stupid idea",
+            done() {
+                return 
+            },
+            tooltip: "Throw your first object, trust me it will make sense later",
         },
         
     },

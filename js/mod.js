@@ -123,8 +123,12 @@ function getPointGen() {
 	if (inChallenge("E", 11)) gain = gain.div(tmp.E.challenges["11"].inChallengeEffect)
 	gain = gain.times(layerEffect("E"))
 	if (hasUpgrade("E", 23)) gain = gain.times(upgradeEffect("E", 23))
-	if (player.E.energygalaxy.gte(1)) gain = gain.times(player.E.EGeffect)
 	if (hasUpgrade("E", 26)) gain = gain.times(upgradeEffect("E", 26))
+	if (hasUpgrade("E", 34)) gain = gain.pow(1.1)
+	if (hasUpgrade("B", 45)) gain = gain.times(20)
+	if (hasUpgrade("B", 46)) gain = gain.times(20)
+	if (hasUpgrade("A", 52)) gain = gain.times(1e5)
+	if (hasUpgrade("E", 35)) gain = gain.pow(1.3)
 
 	return gain
 }
