@@ -80,7 +80,7 @@ addLayer("D", {
     effect() {
         let effect = new Decimal(1.15).pow(player.D.total)
         if (effect.gte(tmp.D.cap)) {
-            effect = new Decimal(100000).add(new Decimal(10).pow(player.D.total.pow(0.2)))
+            effect = new Decimal(100000).add(new Decimal(10).pow(player.D.total.pow(0.01)))
             return effect
         }
         else {
