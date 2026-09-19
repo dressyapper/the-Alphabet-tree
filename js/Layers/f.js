@@ -103,7 +103,12 @@ addLayer("F", {
     effectDescription() {
         return "and your "+format(player.F.product)+" "+player.F.productname+" boost LP by "+format(this.effect())+"x"
     },
-    layerShown(){return true},
+    layerShown(){
+        if (hasUpgrade("E", 36)) {
+            player[this.layer].shown = true
+        }
+        return player[this.layer].shown
+    },
     productgeneration() {
         let gen = new Decimal(0)
 

@@ -87,7 +87,7 @@ addLayer("E", {
     },
     generate() {
         if (tmp.E.resetGain instanceof Decimal) {
-            let pg = player.E.points.add(1).log(10).div(100).min(3)
+            let pg = player.E.points.add(1).log(10).div(100).min(10)
 
         
 
@@ -192,7 +192,7 @@ addLayer("E", {
         },
         21: {
             title: "Perpetual Energy",
-            description: "Passively generate energy at a rate based on energy (capped at 300%)",
+            description: "Passively generate energy at a rate based on energy (capped at 1000%)",
             cost: new Decimal(1),
             unlocked() {return hasUpgrade("E", 12) && hasUpgrade("E", 13) && hasUpgrade("E", 14) && hasUpgrade("E", 15) && hasUpgrade("E", 16)},
         },
@@ -359,7 +359,7 @@ addLayer("E", {
         35: {
             title: "Eternity",
             description: "^1.3 points",
-            cost: new Decimal(5e7),
+            cost: new Decimal(2e7),
             unlocked() {return hasUpgrade("E", 33)},
         },
         36: {
