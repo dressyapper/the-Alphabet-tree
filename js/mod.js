@@ -25,7 +25,7 @@ let winText = `Congratulations! You have reached the end and beaten this game, b
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
-var doNotCallTheseFunctionsEveryTick = ["blowUpEverything"]
+var doNotCallTheseFunctionsEveryTick = ["blowUpEverything", "callablefunction"]
 
 function getStartPoints(){
     return new Decimal(modInfo.initialStartPoints)
@@ -190,6 +190,9 @@ function fixOldSave(oldVersion){
 	}
 	if (Object.keys(player.infoboxes).includes("🥚")) {
 		delete player.infoboxes['🥚']
+	}
+	if (typeof player.F.productname == "object") {
+		player.F.productname = ""
 	}
 }
 

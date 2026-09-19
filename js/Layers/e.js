@@ -87,7 +87,7 @@ addLayer("E", {
     },
     generate() {
         if (tmp.E.resetGain instanceof Decimal) {
-            let pg = player.E.points.add(1).log(10).div(1000).min(3)
+            let pg = player.E.points.add(1).log(10).div(100).min(3)
 
         
 

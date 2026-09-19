@@ -489,11 +489,11 @@ addLayer("Ach", {
             tooltip: "Get ~1.34e154 points",
         },
         63: {
-            name: "First somewhat stupid idea",
+            name: "Factory reset",
             done() {
-                return 
+                return player.F.points.gte(1)
             },
-            tooltip: "Throw your first object, trust me it will make sense later",
+            tooltip: "Reset for a factory",
         },
         
     },
