@@ -63,7 +63,7 @@ addLayer("E", {
     },
     canReset() {
         try {
-            return player.D.points.gte(tmp.E.nextAt) && !hasUpgrade("E", 21)
+            return player.D.points.gte(tmp.E.nextAt)
         }
         catch {
             return false
