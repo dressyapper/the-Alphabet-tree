@@ -158,7 +158,7 @@ addLayer("E", {
             title: "Energy",
             description: "Unlock Energizer & Charging",
             cost: new Decimal(0),
-            unlocked() {return hasAchievement("Ach", 51)},
+            unlocked() {return hasAchievement("Ach", 51) && (player.E.points.gte(1) || hasUpgrade("E", 11))},
         },
         12: {
             title: "Extension Installer LP",
@@ -446,6 +446,12 @@ addLayer("E", {
                 if (hasUpgrade("$", 21) && e == "max") {
                     player.E.input = "auto"
                 }
+                else if (e == "max" && !hasUpgrade("$", 21)) {
+                    player.E.input = new Decimal(1)
+                }
+                else if (e == "auto") {
+                    player.E.input = new Decimal(1)
+                }
                 else if (e.eq(1)) {
                     player.E.input = new Decimal(5)
                 }
@@ -469,12 +475,6 @@ addLayer("E", {
                 }
                 else if (e.eq(1000)) {
                     player.E.input = "max"
-                }
-                else if ((e == "auto" && hasUpgrade("$", 21)) || (e == "max" && !hasUpgrade("$",21))) {
-                    player.E.input = new Decimal(1)
-                }
-                else {
-                    player.E.input = new Decimal(1)
                 }
 
                 
