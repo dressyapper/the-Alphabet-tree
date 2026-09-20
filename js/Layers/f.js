@@ -261,6 +261,9 @@ addLayer("F", {
             display() {
                 return "Costs "+this.cost()+" Product<br><b>You have "+player.F.energydrink+" Energy Drinks"
             },
+            unlocked() {
+                return hasUpgrade("F", 15)
+            }
             
         },
     },
