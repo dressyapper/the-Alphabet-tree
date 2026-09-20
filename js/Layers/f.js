@@ -196,7 +196,7 @@ addLayer("F", {
         16: {
             title: "Invite a friend promo",
             description: "You decide that you need more people and should probably start working a bit outside the box. Whoever invites a friend to work gets 10 free energy drinks. Generate x1.7 product but ED (Energy Drinks) are twice the demand",
-            cost: new Decimal(150),
+            cost: new Decimal(500),
 
             currencyLayer: "F",
             currencyInternalName: "product",
@@ -206,7 +206,7 @@ addLayer("F", {
         21: {
             title: "Redesign your company",
             description: "Your company logo looks bad, your factory looks bad. Redesign it all and make it look better for more people to work. Generate +24 product",
-            cost: new Decimal(2500),
+            cost: new Decimal(1000),
 
             currencyLayer: "F",
             currencyInternalName: "product",
@@ -216,22 +216,12 @@ addLayer("F", {
         22: {
             title: "Limited Edition",
             description: 'Limited Edition "Energy" Drink. Who even knows what they put into this anymore. Generate +48 product and workers work twice as fast',
-            cost: new Decimal(7500),
+            cost: new Decimal(2500),
 
             currencyLayer: "F",
             currencyInternalName: "product",
             currencyDisplayName() {return player.F.productname},
-            unlocked() {return hasUpgrade("F",16)},
-        },
-        23: {
-            title: "Limited Edition",
-            description: 'Limited Edition "Energy" Drink. Who even knows what they put into this anymore. Generate +48 product and workers work twice as fast',
-            cost: new Decimal(7500),
-
-            currencyLayer: "F",
-            currencyInternalName: "product",
-            currencyDisplayName() {return player.F.productname},
-            unlocked() {return hasUpgrade("F",16)},
+            unlocked() {return hasUpgrade("F",21)},
         },
         
         
