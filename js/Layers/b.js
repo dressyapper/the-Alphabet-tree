@@ -357,7 +357,7 @@ addLayer("B", {
             title: "Bigger number simulator",
             description: "200x LP",
             cost: new Decimal(1e41),
-            unlocked() {return hasUpgrade("B", 35)},
+            unlocked() {return hasUpgrade("B", 45)},
         },
         
     },

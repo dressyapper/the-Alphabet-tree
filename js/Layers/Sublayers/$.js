@@ -86,6 +86,17 @@ addLayer("$", {
             cost: new Decimal(2),
             unlocked() {return hasUpgrade("E", 32) || hasUpgrade("$", 21)},
         },
+        22: {
+            title: "True Definite Convenience",
+            description: "Always keep Creatorless challenge",
+            cost: new Decimal(2),
+            unlocked() {return hasAchievement("Ach", 63) && player.C.points.gte(1e9)},
+            onPurchase() {
+                if (player.C.challenges[14] == 0) {
+                    player.C.challenges[14] = 1
+                }
+            }
+        },
         
         
     },

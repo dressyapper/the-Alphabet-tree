@@ -131,6 +131,8 @@ addLayer("F", {
     ],
     effect() {
         let effect = player.F.product.add(1).log(10).times(5).add(1)
+
+        if (hasUpgrade("F", 23)) effect = effect.times(40)
         return effect
     },
     effectDescription() {
@@ -217,6 +219,16 @@ addLayer("F", {
             title: "Limited Edition",
             description: 'Limited Edition "Energy" Drink. Who even knows what they put into this anymore. Generate +48 product and workers work twice as fast',
             cost: new Decimal(2500),
+
+            currencyLayer: "F",
+            currencyInternalName: "product",
+            currencyDisplayName() {return player.F.productname},
+            unlocked() {return hasUpgrade("F",21)},
+        },
+        23: {
+            title: "Forty Fold",
+            description: 'Multiply the layer effect by 40x',
+            cost: new Decimal(10000),
 
             currencyLayer: "F",
             currencyInternalName: "product",

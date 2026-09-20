@@ -58,7 +58,9 @@ addLayer("C", {
 
         if (hasUpgrade("D", 21)) keep.push("challenges")
         layerDataReset(this.layer, keep)
+        if (hasUpgrade("$", 22) && player.C.challenge[14] == 0) {player.C.challenges[14] = 1}
     },
+
     branches: ["B", "C"],
     row: 2, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
@@ -376,7 +378,7 @@ addLayer("C", {
                 return player.B.points.gte(1e10)
             },
             unlocked() { 
-                return (hasChallenge("C", 12)) 
+                return (hasChallenge("C", 12) || hasUpgrade("$", 22)) 
             },
             inChallengeEffect() {
                 return false
@@ -466,7 +468,7 @@ addLayer("C", {
                 "blank",
             ],
     
-            unlocked() {return hasUpgrade("C", 11) || hasChallenge("C", 11)}
+            unlocked() {return hasUpgrade("C", 11) || hasChallenge("C", 11) || hasUpgrade("$",22)}
         },
     }
 })
