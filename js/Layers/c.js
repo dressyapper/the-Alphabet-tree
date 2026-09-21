@@ -132,7 +132,7 @@ addLayer("C", {
             title: "UnCassive generate",
             description: "B passive generation is boosted by ^1.5",
             cost: new Decimal(2),
-            unlocked() {return hasChallenge("C", 11) && hasUpgrade("C", 16) && hasUpgrade("C", 15) && hasUpgrade("C", 14)},
+            unlocked() {return (hasChallenge("C", 11) || hasUpgrade("$", 22)) && hasUpgrade("C", 16) && hasUpgrade("C", 15) && hasUpgrade("C", 14)},
         },
         22: {
             title: "Cost upgrade scale increase",

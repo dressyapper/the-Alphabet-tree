@@ -307,7 +307,7 @@ addLayer("E", {
 
         31: {
             title: "Extra bonuses",
-            description: "All allocated energy nerfs E requirement",
+            description: "All allocated energy boosts E reset",
             cost: new Decimal(75),
             effectCap() {
                 let cap = new Decimal(1000)
@@ -348,7 +348,7 @@ addLayer("E", {
             title: "Empersand",
             description: "Boost & by alot",
             cost: new Decimal(3e6),
-            unlocked() {return upgradeEffect("A", 32).gte(25000) || hasUpgrade("E", 32)},
+            unlocked() {return hasUpgrade("E", 32)},
         },
         34: {
             title: "Exponent",
@@ -360,10 +360,10 @@ addLayer("E", {
             title: "Eternity",
             description: "^1.3 points",
             cost: new Decimal(2e7),
-            unlocked() {return hasUpgrade("E", 33)},
+            unlocked() {return hasUpgrade("E", 34)},
         },
         36: {
-            title: "Energy ",
+            title: "Energy",
             description: "Use all your energy to do something...",
             cost() {
                 return player.E.points

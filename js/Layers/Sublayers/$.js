@@ -88,7 +88,7 @@ addLayer("$", {
         },
         22: {
             title: "True Definite Convenience",
-            description: "Always keep Creatorless challenge",
+            description: "Always keep Creatorless challenge & Unlock the rest of the C upgrades without beating the challenge.",
             cost: new Decimal(2),
             unlocked() {return hasAchievement("Ach", 63) && player.C.points.gte(1e9)},
             onPurchase() {
