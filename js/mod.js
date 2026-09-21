@@ -257,7 +257,8 @@ function validateThemes() {
 		Black: hasAchievement("Ach", 13),
 		Christmas: hasAchievement("Ach", 26),
 		Diamond: hasAchievement("Ach", 41),
-		Energized: hasAchievement("Ach", 51)
+		Energized: hasAchievement("Ach", 51),
+		Fish: hasAchievement("Ach", 63),
 	}
 
 	for (i in validate) {

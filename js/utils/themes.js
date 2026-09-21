@@ -62,6 +62,16 @@ var colors = {
 		background: "rgb(218, 218, 0)",
 		background_tooltip: " rgba(0, 125, 255, 0.5)",
 	},
+	Fish: {
+		1: "rgb(0, 139, 14)",
+		2: "rgb(0, 137, 23)",
+		3: "rgb(16, 118, 0)",
+		color: "rgb(64, 255, 0)",
+		points: "rgb(0, 253, 245)",
+		locked: "rgb(41, 36, 0)",
+		background: "rgb(0, 218, 214)",
+		background_tooltip: " rgba(0, 0, 0, 0.5)",
+	},
 }
 function changeTheme() {
 

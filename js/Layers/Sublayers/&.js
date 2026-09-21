@@ -102,7 +102,16 @@ addLayer("&", {
             title: "Automator IV",
             description: "Automate D upgrades",
             cost: new Decimal(1e240),
-            unlocked() {return hasAchievement("Ach", 41)},
+            unlocked() {return hasAchievement("Ach", 51)},
+            onPurchase() {
+  
+            }
+        },
+        15: {
+            title: "Automator V",
+            description: "Automate E upgrades",
+            cost: new Decimal("1e480"),
+            unlocked() {return hasAchievement("Ach", 63)},
             onPurchase() {
   
             }

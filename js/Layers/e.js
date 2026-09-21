@@ -54,6 +54,12 @@ addLayer("E", {
             req = req.times(new Decimal(challengeCompletions("E", 11)).add(1))
         }
 
+        if (hasUpgrade("F", 34)) {
+            if (player.E.points.lte(tmp.F.getNextAt)) {
+                req = req.times(100)
+            }
+        }
+
         return req
     },
     getNextAt() {
@@ -668,7 +674,7 @@ addLayer("E", {
                 return player.points.gte(new Decimal(10).pow(new Decimal(challengeCompletions("E",11)).add(1).times(3)))
             },
             unlocked() { 
-                return (true) 
+                return (hasUpgrade("E",11)) 
             },
             inChallengeEffect() {
                 if (hasUpgrade("E", 25)) {

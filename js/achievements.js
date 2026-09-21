@@ -494,6 +494,9 @@ addLayer("Ach", {
                 return player.F.points.gte(1)
             },
             tooltip: "Reset for a factory",
+            onComplete() {
+                addTheme("Fish")
+            },
         },
         64: {
             name: "Not reaching that anytime soon",
@@ -517,6 +520,13 @@ addLayer("Ach", {
                     "border-width": "2px"
                 }
             }
+        },
+        65: {
+            name: "Forever Factory",
+            done() {
+                return player.F.points.gte(1)
+            },
+            tooltip: "Reset for another factory",
         },
         
     },

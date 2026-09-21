@@ -11,18 +11,31 @@ addLayer("F", {
         rate: new Decimal(1000),
 
         energydrink: new Decimal(0),
+        enabledrobots: true,
     }},
     color: "rgb(0, 0, 255)",
     milestonePopups: true,
     update(diff) {
+        let p = player.F.product.add(player.F.generation.times(new Decimal(1).div(player.F.rate).times(50)))
         //rate: player.F.generation.times(new Decimal(1).div(player.F.rate).times(50))
-        if (player.paused) {
+        if (player.paused || (!player.F.enabledrobots && hasUpgrade("F", 31))) {
             return
         }
-        player.F.product = player.F.product.add(player.F.generation.times(new Decimal(1).div(player.F.rate).times(50)).times(player.F.points))
+        if (hasUpgrade("F", 31)) {
+            if (hasUpgrade("F", 31) && player.E.points.gt(1)) {
+                player.F.product = p
+                player.E.points = player.E.points.div(player.E.points.pow(0.1).div(100).add(1))
+            }
+            else {
+
+            }
+        }
+        else {
+            player.F.product = p
+        }
     },
     energydrink() {
-        if (player.F.energydrink.gt(0)) {
+        if (player.F.energydrink.gt(0) && ((player.F.enabledrobots && hasUpgrade("F", 31))||!hasUpgrade("F",31)) && player.E.points.gt(1)) {
             if (new Decimal(Math.random()).times(100000).times(player.F.upgrades.length) > new Decimal(99999).div(player.F.energydrink.add(1).log(100).add(1)).div(new Decimal(1+hasUpgrade("F",16)).min(1.25))) {
                 player.F.energydrink = player.F.energydrink.sub(1)
             }
@@ -31,8 +44,10 @@ addLayer("F", {
     rate() {
         let rate = new Decimal(1000)
 
-        rate = rate.div(player.F.energydrink.add(1).log(10).add(1))
         if (hasUpgrade("F", 22)) rate = rate.div(2)
+        if (hasUpgrade("F", 31)) rate = rate.div(4)
+        if (hasUpgrade("F", 32)) rate = rate.div(player.F.energydrink.add(1).log(1.01).add(1))
+        else {rate = rate.div(player.F.energydrink.add(1).log(10).add(1))}
 
         player.F.rate = rate
     },
@@ -46,6 +61,12 @@ addLayer("F", {
         if (hasUpgrade("F", 16)) {gen = gen.times(1.7).floor()}
         if (hasUpgrade("F", 21)) {gen = gen.add(24)}
         if (hasUpgrade("F", 22)) {gen = gen.add(48)}
+        if (hasUpgrade("F", 31) && !player.E.points.eq(0)) {gen = gen.times(player.E.points.log(10).add(1))}
+        if (hasUpgrade("F", 33)) {gen = gen.times(7)}
+
+
+
+        gen = gen.times(player.F.points)
 
         player.F.generation = gen
     },
@@ -71,6 +92,13 @@ addLayer("F", {
         catch {
             return false
         }
+    },
+    onPrestige() {
+        player.F.upgrades = []
+        player.F.energydrink = new Decimal(0)
+        player.F.product = new Decimal(0)
+        player.F.enabledrobots = true
+        
     },
     resource: "F", // Name of prestige currency
     baseResource: "E", // Name of resource prestige is based on
@@ -254,7 +282,7 @@ addLayer("F", {
             currencyLayer: "F",
             currencyInternalName: "product",
             currencyDisplayName() {return player.F.productname},
-            unlocked() {return hasUpgrade("F",22)},
+            unlocked() {return hasUpgrade("F",23)},
         },
         25: {
             title: "Factory Butomation",
@@ -275,7 +303,7 @@ addLayer("F", {
             currencyLayer: "F",
             currencyInternalName: "product",
             currencyDisplayName() {return player.F.productname},
-            unlocked() {return hasUpgrade("F",22)},
+            unlocked() {return hasUpgrade("F",24)},
         },
         26: {
             title: "Factory Cutomation",
@@ -297,7 +325,51 @@ addLayer("F", {
             currencyLayer: "F",
             currencyInternalName: "product",
             currencyDisplayName() {return player.F.productname},
-            unlocked() {return hasUpgrade("F",22)},
+            unlocked() {return hasUpgrade("F",25)},
+        },
+        31: {
+            title: "AI",
+            description: "Lets just replace everyone with robots. Robots work 4x faster and more based on energy but they also take energy. Oh and energy drinks are replaced with superchargers branded as energy drinks.",
+            cost: new Decimal(100000),
+
+
+            currencyLayer: "F",
+            currencyInternalName: "product",
+            currencyDisplayName() {return player.F.productname},
+            unlocked() {return hasUpgrade("F",26)},
+        },
+        32: {
+            title: "Premium Energy Superchargers",
+            description: "The energy drink price is tripled but is way more efficient",
+            cost: new Decimal(125000),
+
+
+            currencyLayer: "F",
+            currencyInternalName: "product",
+            currencyDisplayName() {return player.F.productname},
+            unlocked() {return hasUpgrade("F",31)},
+        },
+        33: {
+            title: "Worldwide shipping",
+            description: "Use your money to become world wide. 7x more product.",
+            cost: new Decimal(1e8),
+
+
+            currencyLayer: "F",
+            currencyInternalName: "product",
+            currencyDisplayName() {return player.F.productname},
+            unlocked() {return hasUpgrade("F",32)},
+        },
+        34: {
+            title: "Where do we even store these things???",
+            description: "We keep expanding the factory to add more robots and boost production. Its time we become fully worldwide. Boost energy by 100x when under the next factory requirement.",
+            cost: new Decimal(2.5e9),
+
+
+            currencyLayer: "F",
+            currencyInternalName: "product",
+            currencyDisplayName() {return player.F.productname},
+            unlocked() {return hasUpgrade("F",33)},
         },
         
         
@@ -313,7 +385,10 @@ addLayer("F", {
         11: {
             title: "Buy energy drinks",
             cost() {
-                return new Decimal(50)
+                let c = new Decimal(50)
+
+                if (hasUpgrade("F", 32)) c = c.times(3)
+                return c
             },
             canClick() {return player.F.product.gte(this.cost())},
             onClick() {
@@ -329,6 +404,52 @@ addLayer("F", {
             },
             unlocked() {
                 return hasUpgrade("F", 15)
+            }
+            
+        },
+        12: {
+            title: "Respect Product for Energy",
+            cost() {
+                let c = new Decimal(50)
+
+                if (hasUpgrade("F", 32)) c = c.times(3)
+                return c
+            },
+            canClick() {return player.F.product.gte(this.cost()) && !player.E.points.eq(0)},
+            onClick() {
+                player.E.points = player.E.points.add(player.F.product.div(5))
+                player.F.product = new Decimal(0)
+                player.F.enabledrobots = false
+            },
+            display() {
+                if (player.E.points.eq(0)) {
+                    return "<h3>You cannot have 0 E to do this</h3>"
+                }
+                else {
+                    return "Through some sort of dark magic you can sell all your product for "+format(player.F.product.div(5))+" Energy and disable robots"
+                }
+            },
+            unlocked() {
+                return hasUpgrade("F", 31)
+            }
+            
+        },
+        13: {
+            title: "Robot Status",
+            canClick() {return true},
+            onClick() {
+                player.F.enabledrobots = !player.F.enabledrobots
+            },
+            display() {
+                if (player.F.enabledrobots) {
+                    return "Generate"
+                }
+                else {
+                    return "Idle"
+                }
+            },
+            unlocked() {
+                return hasUpgrade("F", 31)
             }
             
         },
@@ -362,6 +483,10 @@ addLayer("F", {
                 "blank",
                 ["display-text", function() {
                     return "You are generating "+format(player.F.generation)+" "+player.F.productname+" every ~"+format(player.F.rate)+"ms"
+                }],
+                "blank",
+                ["display-text", function() {
+                    return "You have "+format(player.F.energydrink)+" Energy Drinks"
                 }],
                 "blank",
                 "upgrades",
