@@ -59,7 +59,7 @@ addLayer("C", {
 
         if (hasUpgrade("D", 21)) keep.push("challenges")
         layerDataReset(this.layer, keep)
-        if (hasUpgrade("$", 22) && player.C.challenge[14] == 0) {player.C.challenges[14] = 1}
+        if (hasUpgrade("$", 22) && player.C.challenges[14] == 0) {player.C.challenges[14] = 1}
     },
 
     branches: ["B", "C"],
