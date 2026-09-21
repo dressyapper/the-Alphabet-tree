@@ -57,6 +57,7 @@ addLayer("B", {
         if (hasUpgrade("C", 14)) pg = new Decimal(0.2)
         if (hasChallenge("C", 14)) pg = new Decimal(0.35)
         if (hasUpgrade("E", 22)) pg = new Decimal(0.75)
+        if (hasUpgrade("F", 25)) pg = pg.add(upgradeEffect("F", 25))
 
 
         if (!cangenerate()) {
@@ -244,6 +245,7 @@ addLayer("B", {
                 if (hasUpgrade("C", 21)) {cap = cap.pow(1.5)}
                 if (hasChallenge("C", 14)) {cap = cap.pow(10)}
                 if (hasUpgrade("E", 22)) {cap = cap.pow(25)}
+                if (hasUpgrade("F", 25)) {cap = cap.pow(player.F.product)}
                 return cap
             },
             effectDisplay() {

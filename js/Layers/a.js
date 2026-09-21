@@ -129,6 +129,7 @@ addLayer("A", {
         if (hasUpgrade("C", 14)) pg = new Decimal(0.35)
         if (hasChallenge("C", 14)) pg = new Decimal(0.5)
         if (hasChallenge("E", 22)) pg = new Decimal(1.5)
+        if (hasUpgrade("F", 24)) pg = pg.add(upgradeEffect("F", 24))
 
 
         if (!cangenerate()) {

@@ -46,6 +46,7 @@ addLayer("C", {
 
         if (hasUpgrade("D", 24)) p = new Decimal(0.25)
         if (hasUpgrade("E", 22)) p = new Decimal(0.5)
+        if (hasUpgrade("F", 26)) p = p.add(upgradeEffect("F", 26))
         return p
     },
     /*effectDescription() {

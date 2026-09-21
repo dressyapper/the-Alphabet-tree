@@ -495,6 +495,29 @@ addLayer("Ach", {
             },
             tooltip: "Reset for a factory",
         },
+        64: {
+            name: "Not reaching that anytime soon",
+            done() {
+                return upgradeEffect("B", 24).gte("1ee6")
+            },
+            tooltip: "Get the B passive generation cap above 1ee6",
+            tooltip() {
+                let desc = "Get the B passive generation cap above 1ee6"
+                if (hasAchievement(this.layer, this.id)) {
+                    let effectdesc = "Boost points by B passive generation cap<br>Currently: 1.00x<br> Formula: x/x"
+                    return desc+"<br>Reward: "+effectdesc
+                }
+                else {
+                    return desc
+                }
+            },
+            style() {
+                return {
+                    "border-color": "white",
+                    "border-width": "2px"
+                }
+            }
+        },
         
     },
     pointeff() {

@@ -227,13 +227,77 @@ addLayer("F", {
         },
         23: {
             title: "Forty Fold",
-            description: 'Multiply the layer effect by 40x',
+            description: "Multiply the layer effect by 40x",
             cost: new Decimal(10000),
 
             currencyLayer: "F",
             currencyInternalName: "product",
             currencyDisplayName() {return player.F.productname},
-            unlocked() {return hasUpgrade("F",21)},
+            unlocked() {return hasUpgrade("F",22)},
+        },
+        24: {
+            title: "Factory Automation",
+            description: "Generate A based on your Product (capped at 1000%)",
+            cost: new Decimal(10000),
+            effect() {
+                return player.F.product.add(1).log(2).add(1).min(10)
+            },
+            effectDisplay() {
+                if (this.effect().gte(10)) {
+                    return "+"+format(upgradeEffect(this.layer, this.id).times(100))+"% (CAPPED)"
+                }
+                else {
+                    return "+"+format(upgradeEffect(this.layer, this.id).times(100))+"%"
+                }
+            },
+
+            currencyLayer: "F",
+            currencyInternalName: "product",
+            currencyDisplayName() {return player.F.productname},
+            unlocked() {return hasUpgrade("F",22)},
+        },
+        25: {
+            title: "Factory Butomation",
+            description: "Generate B based on your Product (capped at 500%) and raise the B generation cap to Product... (omega woah)",
+            cost: new Decimal(15000),
+            effect() {
+                return player.F.product.add(1).log(3).add(1).min(5)
+            },
+            effectDisplay() {
+                if (this.effect().gte(5)) {
+                    return "+"+format(upgradeEffect(this.layer, this.id).times(100))+"% (CAPPED)"
+                }
+                else {
+                    return "+"+format(upgradeEffect(this.layer, this.id).times(100))+"%"
+                }
+            },
+
+            currencyLayer: "F",
+            currencyInternalName: "product",
+            currencyDisplayName() {return player.F.productname},
+            unlocked() {return hasUpgrade("F",22)},
+        },
+        26: {
+            title: "Factory Cutomation",
+            description: "Generate C based on your Product (capped at 250%)",
+            cost: new Decimal(25000),
+            effect() {
+                return player.F.product.add(1).log(5).add(1).min(2.5)
+            },
+            effectDisplay() {
+                if (this.effect().gte(2.5)) {
+                    return "+"+format(upgradeEffect(this.layer, this.id).times(100))+"% (CAPPED)"
+                }
+                else {
+                    return "+"+format(upgradeEffect(this.layer, this.id).times(100))+"%"
+                }
+            },
+
+
+            currencyLayer: "F",
+            currencyInternalName: "product",
+            currencyDisplayName() {return player.F.productname},
+            unlocked() {return hasUpgrade("F",22)},
         },
         
         
