@@ -326,37 +326,67 @@ addLayer("D", {
         41: {
             title: "Dill pickle",
             description: "1e3x LP",
-            cost: new Decimal(500),
+            cost() {
+                let c = new Decimal(500)
+
+                if (hasAchievement("Ach", 65)) c = c.div(5)
+                return c
+            },
             unlocked() {return hasUpgrade("D", 13)},
         },
         42: {
             title: "Dill pickle",
             description: "1e3x LP",
-            cost: new Decimal(500),
+            cost() {
+                let c = new Decimal(500)
+
+                if (hasAchievement("Ach", 65)) c = c.div(5)
+                return c
+            },
             unlocked() {return hasUpgrade("D", 13)},
         },
         43: {
             title: "Dill pickle",
             description: "1e3x LP",
-            cost: new Decimal(500),
+            cost() {
+                let c = new Decimal(500)
+
+                if (hasAchievement("Ach", 65)) c = c.div(5)
+                return c
+            },
             unlocked() {return hasUpgrade("D", 13)},
         },
         44: {
             title: "Dill pickle",
             description: "1e3x LP",
-            cost: new Decimal(500),
+            cost() {
+                let c = new Decimal(500)
+
+                if (hasAchievement("Ach", 65)) c = c.div(5)
+                return c
+            },
             unlocked() {return hasUpgrade("D", 13)},
         },
         45: {
             title: "Dill pickle",
             description: "1e3x LP",
-            cost: new Decimal(500),
+            cost() {
+                let c = new Decimal(500)
+
+                if (hasAchievement("Ach", 65)) c = c.div(5)
+                return c
+            },
             unlocked() {return hasUpgrade("D", 13)},
         },
         46: {
             title: "Dill pickle",
             description: "1e3x LP",
-            cost: new Decimal(500),
+            cost() {
+                let c = new Decimal(500)
+
+                if (hasAchievement("Ach", 65)) c = c.div(5)
+                return c
+            },
             unlocked() {return hasUpgrade("D", 13)},
         },
         51: {

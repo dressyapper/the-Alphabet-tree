@@ -524,9 +524,24 @@ addLayer("Ach", {
         65: {
             name: "Forever Factory",
             done() {
-                return player.F.points.gte(1)
+                return player.F.points.gte(2)
             },
-            tooltip: "Reset for another factory",
+            tooltip() {
+                let desc = "Reset for another factory"
+                if (hasAchievement(this.layer, this.id)) {
+                    let effectdesc = "Row 4 of D is 5x cheaper"
+                    return desc+"<br>Reward: "+effectdesc
+                }
+                else {
+                    return desc
+                }
+            },
+            style() {
+                return {
+                    "border-color": "white",
+                    "border-width": "2px"
+                }
+            }
         },
         
     },
