@@ -143,6 +143,12 @@ addLayer("&", {
             description: "Square both B buyables purchase limit",
             cost: new Decimal("1e400"),
             unlocked() {return true},
+        },
+        81: {
+            title: "Akeep buyable",
+            description: "Keep Ampersand booster",
+            cost: new Decimal("1e520"),
+            unlocked() {return true},
         }
 
     },
@@ -161,7 +167,7 @@ addLayer("&", {
         },
     },
     tabFormat: {
-        "A": {
+        "Automation": {
             content: [
                 "main-display",
                 ["display-text", function() {
@@ -196,7 +202,7 @@ addLayer("&", {
                     }
                 }],
                 "blank",
-                ["upgrades", [7]],
+                ["upgrades", [7,8]],
                 "blank",
                 ["infobox", "format"],
             ],

@@ -543,6 +543,28 @@ addLayer("Ach", {
                 }
             }
         },
+        65: {
+            name: "Free Factories",
+            done() {
+                return player.F.points.gte(3)
+            },
+            tooltip() {
+                let desc = "Get 3 factories"
+                if (hasAchievement(this.layer, this.id)) {
+                    let effectdesc = "Unlock a new tab"
+                    return desc+"<br>Reward: "+effectdesc
+                }
+                else {
+                    return desc
+                }
+            },
+            style() {
+                return {
+                    "border-color": "white",
+                    "border-width": "2px"
+                }
+            }
+        },
         
     },
     pointeff() {

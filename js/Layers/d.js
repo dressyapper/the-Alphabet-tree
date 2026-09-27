@@ -24,6 +24,9 @@ addLayer("D", {
         if (hasUpgrade("D", 25)) mult = mult.times(1.2)
         if (hasUpgrade("D", 26)) mult = mult.times(1.3)
         if (player.E.energizer.d.gte(1)) mult = mult.times(layerE.earnformula.d(player.E.energizer.d))
+        if (hasUpgrade("F", 35)) mult = mult.times(upgradeEffect("F", 35))
+        if (layerF.isTrading("DiverseCorporation")) mult = mult.times(layerF.effect("DiverseCorporation"))
+        if (hasUpgrade("F", 52)) mult = mult.times(10)
         return mult
     },
     directMult() {

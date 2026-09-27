@@ -2,7 +2,7 @@ let modInfo = {
 	name: "The Alphabet Tree",
 	author: "me",
 	pointsName: "Lexiconal Points",
-	modFiles: ["Layers/a.js","Layers/b.js","Layers/c.js","Layers/d.js","Layers/e.js","Layers/f.js","Layers/g.js","Layers/h.js","Layers/i.js","Layers/j.js","Layers/k.js","Layers/l.js","Layers/m.js","Layers/n.js","Layers/o.js","Layers/p.js","Layers/q.js","Layers/r.js","Layers/s.js","Layers/t.js","Layers/u.js","Layers/v.js","Layers/w.js","Layers/x.js","Layers/y.js","Layers/z.js","achievements.js", "tree.js","dev.js","Layers/Sublayers/&.js", "Layers/Sublayers/$.js", "Layers/Sublayers/QM.js", "Layers/Sublayers/^.js", "egg.js"],
+	modFiles: ["Layers/a.js","Layers/b.js","Layers/c.js","Layers/d.js","Layers/e.js","Layers/f.js","Layers/g.js","Layers/h.js","Layers/i.js","Layers/j.js","Layers/k.js","Layers/l.js","Layers/m.js","Layers/n.js","Layers/o.js","Layers/p.js","Layers/q.js","Layers/r.js","Layers/s.js","Layers/t.js","Layers/u.js","Layers/v.js","Layers/w.js","Layers/x.js","Layers/y.js","Layers/z.js","achievements.js", "tree.js","dev.js","Layers/Sublayers/&.js", "Layers/Sublayers/$.js", "Layers/Sublayers/QM.js", "Layers/Sublayers/^.js", "egg.js","sachievements.js"],
 
 	discordName: "",
 	discordLink: "",

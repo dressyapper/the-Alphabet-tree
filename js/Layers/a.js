@@ -82,6 +82,10 @@ addLayer("A", {
         if (hasUpgrade("D", 15) && player.D.mode == "Dawn" && player.offTime) mult = mult.div(player.D.points.add(1))
         if (player.E.energizer.a.gte(1)) mult = mult.times(layerE.earnformula.a(player.E.energizer.a))
         if (hasUpgrade("A", 53)) mult = mult.times(upgradeEffect("A", 53))
+        if (hasUpgrade("F", 35)) mult = mult.times(upgradeEffect("F", 35))
+        if (layerF.isTrading("Aproductions")) mult = mult.times(layerF.effect("Aproductions"))
+        if (hasUpgrade("F", 52)) mult = mult.times(10)
+
         
         return mult
     },
@@ -94,8 +98,13 @@ addLayer("A", {
         if (layers[reset].row <= this.row) return 
 
         let keep = []
+        let ampersandboosterbuyable = player.A.buyables[11]
 
         layerDataReset(this.layer, keep)
+
+        console.log(player.A.buyables[11], ampersandboosterbuyable)
+
+        if (hasUpgrade("&",81)) player.A.buyables[11] = ampersandboosterbuyable
     },
     prestigeButtonText() {
         try {
@@ -533,7 +542,7 @@ addLayer("A", {
             title: "More, MORE!",
             description: "Double the Ampersand Booster cap",
             cost: new Decimal(1e50),
-            unlocked() {return getBuyableAmount("A",11).eq(100) || hasUpgrade("A", 9991)},
+            unlocked() {return getBuyableAmount("A",11).eq(100) || hasUpgrade("A", 9991) || hasUpgrade("&", 81)},
         }
         
     },

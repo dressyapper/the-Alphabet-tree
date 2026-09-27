@@ -33,6 +33,8 @@ addLayer("C", {
         if (hasUpgrade("D", 55)) mult = mult.times(100)
         if (hasUpgrade("D", 15) && player.D.mode == "Dawn" && player.offTime) mult = mult.div(player.D.points.add(1))
         if (player.E.energizer.c.gte(1)) mult = mult.times(layerE.earnformula.c(player.E.energizer.c))
+        if (hasUpgrade("F", 35)) mult = mult.times(upgradeEffect("F", 35))
+        if (hasUpgrade("F", 52)) mult = mult.times(10)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses

@@ -60,6 +60,13 @@ addLayer("B", {
         if (hasUpgrade("F", 25)) pg = pg.add(upgradeEffect("F", 25))
 
 
+
+
+        if (layerF.isTrading("B1GSH0TAUT0S") && tmp.B.resetGain instanceof Decimal && tmp.B.resetGain.gt(0)) {
+            pg = new Decimal(1997).div(tmp.B.resetGain)
+        }
+
+
         if (!cangenerate()) {
             pg = new Decimal(0)
         }
@@ -85,12 +92,15 @@ addLayer("B", {
         if (hasUpgrade("D", 53)) mult = mult.times(100)
         if (hasUpgrade("D", 15) && player.D.mode == "Dawn" && player.offTime) mult = mult.div(player.D.points.add(1))
         if (player.E.energizer.b.gte(1)) mult = mult.times(layerE.earnformula.b(player.E.energizer.b))
+        if (hasUpgrade("F", 35)) mult = mult.times(upgradeEffect("F", 35))
+        if (hasUpgrade("F", 52)) mult = mult.times(10)
 
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
         let exp = new Decimal(1)
         if (inChallenge("C", 15)) exp = new Decimal(0.25)
+        if (layerF.isTrading("BarginTeam")) exp = exp.add(layerF.effect("BarginTeam"))
         
         return exp
     },

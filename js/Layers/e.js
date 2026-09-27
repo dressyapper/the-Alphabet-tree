@@ -22,6 +22,12 @@ addLayer("E", {
             }
             player.E.input = new Decimal(1)
         }
+
+        for (i in player.E.energizer) {
+            if (player.E.energizer[i].gt(tmp.E.energizerCaps[i])) {
+                player.E.energizer[i] = tmp.E.energizerCaps[i]
+            }
+        }
     },
     color: "rgb(0, 255, 255)",
     requires() {
@@ -59,6 +65,10 @@ addLayer("E", {
                 req = req.times(100)
             }
         }
+        if (hasUpgrade("F", 46)) {
+            req = req.times(upgradeEffect("F", 46))
+        }
+        if (hasUpgrade("F", 52)) req = req.times(10)
 
         return req
     },
@@ -92,8 +102,14 @@ addLayer("E", {
         }
     },
     generate() {
-        if (tmp.E.resetGain instanceof Decimal) {
-            let pg = player.E.points.add(1).log(10).div(100).min(10)
+        if (tmp.E.resetGain instanceof Decimal && !player.paused && !layerF.isTrading("CreationPlaza")) {
+            let pg
+            if (player.F.currentTrading.includes("EnergyCo")) {
+                pg = player.E.points.add(1).log(2).div(10).min(100)
+            }
+            else {
+                pg = player.E.points.add(1).log(10).div(100).min(10)
+            }
 
         
 
@@ -133,6 +149,8 @@ addLayer("E", {
         if (hasUpgrade("E", 32)) obj.b = obj.b.add(upgradeEffect("A", 32))
         if (hasUpgrade("E", 32)) obj.c = obj.c.add(upgradeEffect("A", 32))
         if (hasUpgrade("E", 32)) obj.d= obj.d.add(upgradeEffect("A", 32))
+
+        if (layerF.isTrading("BarginTeam")) obj.b = obj.b.times(1.2)
 
 
         for (i in obj) {
@@ -198,7 +216,14 @@ addLayer("E", {
         },
         21: {
             title: "Perpetual Energy",
-            description: "Passively generate energy at a rate based on energy (capped at 1000%)",
+            description() {
+                if (player.F.currentTrading.includes("EnergyCo")) {
+                    return "Passively generate energy at a rate based on energy (capped at 10000%)"
+                }
+                else {
+                    return "Passively generate energy at a rate based on energy (capped at 1000%)"
+                }
+            },
             cost: new Decimal(1),
             unlocked() {return hasUpgrade("E", 12) && hasUpgrade("E", 13) && hasUpgrade("E", 14) && hasUpgrade("E", 15) && hasUpgrade("E", 16)},
         },
