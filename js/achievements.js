@@ -543,7 +543,7 @@ addLayer("Ach", {
                 }
             }
         },
-        65: {
+        66: {
             name: "Free Factories",
             done() {
                 return player.F.points.gte(3)
