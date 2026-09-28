@@ -158,6 +158,14 @@ addLayer("E", {
         }
         return obj
     },
+    autochallenge() {
+        if (hasUpgrade("$", 23)) {
+            if (player.points.gte(new Decimal(10).pow(new Decimal(challengeCompletions("E",11)).add(1).times(3)).times(tmp.E.challenges[11].inChallengeEffect))) {
+                tmp.E.challenges[11].onComplete()
+                player.E.challenges[11] = player.E.challenges[11] + 1
+            }
+        }
+    },
     branches: ["C", "D"],
     row: 4, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
@@ -720,6 +728,9 @@ addLayer("E", {
             },
             onComplete() {
                 addPoints("E", new Decimal(challengeCompletions(this.layer, this.id)))
+            },
+            canEnter() {
+                return false
             }
         },
     },

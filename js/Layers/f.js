@@ -983,7 +983,7 @@ let layerF = {
         DiverseCorporation: {
             pay: new Decimal(2.5e12),
             effect() {
-                return player.A.points.times(player["&"].points).times(player.B.points).times(player.C.points).times(player.D.points).times(player.E.points).times(player.F.points).times(player.F.product).add(1).log(10).div(3)
+                return player.A.points.add(1).times(player["&"].points.add(1)).times(player.B.points.add(1)).times(player.C.points.add(1)).times(player.D.points).times(player.E.points.add(1)).times(player.F.points.add(1)).times(player.F.product.add(1)).add(1).log(10).div(3).max(1)
             },
             description() {
                 return "DiverseCorporation gives you their Diversity Machine which uses a diverse range of currencies to boost D by "+format(this.effect())+"x for only <b>2.5e12 product</b> a second"
