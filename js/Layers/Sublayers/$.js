@@ -99,7 +99,7 @@ addLayer("$", {
         },
         23: {
             title: "Auto Energy Charger",
-            description: "Unlock the Auto Energy Charger which completes Energy Charge if your points is greater than goal * debuff",
+            description: "Unlock the Auto Energy Charger which completes Energy Charge if your points is greater than goal * debuff, Buying this doesnt allow you to enter Energy Charge",
             cost: new Decimal(5),
             unlocked() {return hasAchievement("Ach", 66)},
         },

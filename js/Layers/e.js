@@ -730,7 +730,7 @@ addLayer("E", {
                 addPoints("E", new Decimal(challengeCompletions(this.layer, this.id)))
             },
             canEnter() {
-                return false
+                return !hasUpgrade("$", 66)
             }
         },
     },
